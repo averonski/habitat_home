@@ -1,9 +1,6 @@
 <?php
 
-	// TITLE: Admin System Alerts Controller
-	// FILE: admin/controller/alerts.php
-	// AUTHOR: AUTOGEN
-
+// admin/controller/alerts.php
 
 	switch ($act) {
 
