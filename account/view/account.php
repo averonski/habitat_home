@@ -1,7 +1,9 @@
 <?php
-    //File: admin/view/admin.php
+    //File: account/view/account.php
     //Author: Brandon Willis; bmw5285
 ?>
+
+<!-- css -->
 <style>
 	dd.list
 		{
@@ -29,6 +31,7 @@
 <h2>Your Account</h2>       
 <hr>
 
+<!--list of links-->
 <dl>
     <dt class="list"><a href="index.php?dir=account&sub=info">Personal Information</a></dt>
         <dd class="list">Edit/View your personal info in your Habitat account</dd>
