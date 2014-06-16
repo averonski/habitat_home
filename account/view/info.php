@@ -1,45 +1,40 @@
 <?php
-    // echo $person = $dbio->getPerson($personId);
-    // echo $address = $dbio->getAddress(echo $personId);
-    // echo $contact = $dbio->getContact(echo $personId);
-    
-/*
-    mysql_connect("localhost", "root", "");
-    mysql_select_db("rkcpfk");
-    // $sql = mysql_query("SELECT * FROM tbl_name");
 
-    $query = "SELECT * FROM personalinfo";
-    $allInfo = mysql_query($query);
-    $info = mysql_fetch_array($allInfo);
-*/
- 
-    $title = $person->getTitle();
-    $fName = $person->getFirst_name();
-    $lName = $person->getLast_name();
-    $street1 = $address->getStreet1();
-    $street2 = $address->getStreet2();
-    $city = $address->getCity();
-    $state = $address->getState();
-    $zip = $address->getZip();
-    $phone = $contact->getPhone();
-    $email = $contact->getEmail();
-    $employer = $person->getEmployer();
-    $workPhone = $contact->getPhone2();
-    $workExt = $contact->getExtension();
-    $jobTitle = $person->getJobTitle();
+	//account.view.info.php
+	//displays an accounts info, and allows it to be updated
 
-    if($update)
+	$title = $person->getTitle();
+	$fName = $person->getFirst_name();
+	$lName = $person->getLast_name();
+	$street1 = $address->getStreet1();
+	$street2 = $address->getStreet2();
+	$city = $address->getCity();
+	$state = $address->getState();
+	$zip = $address->getZip();
+	$phone = $contact->getPhone();
+	$email = $contact->getEmail();
+	$employer = $person->getEmployer();
+	$workPhone = $contact->getPhone2();
+	$workExt = $contact->getExtension();
+	$jobTitle = $person->getJobTitle();
+
+	if($update)
 		echo '<div class="alert alert-dismissable alert-success"><button type="button" class="close" data-dismiss="alert">×</button><strong>UPDATED</strong> You successfully updated the information.</div>';
 ?>
+
+<!--css-->
 <style>
-th
-{
-font-size:1.3em;
-}
+	th
+	{
+		font-size:1.3em;
+	}
 </style>
+
+<!--html-->
 <h2>Personal Information</h2>
 
 <hr>
+<!-- input that updates account, person, contact, and address -->
 <form action="index.php" method="GET">
     <input name="dir" type="hidden" value="<?php echo $dir; ?>" >
     <input name="sub" type="hidden" value="<?php echo $sub; ?>" >
