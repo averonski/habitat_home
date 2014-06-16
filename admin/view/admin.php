@@ -1,7 +1,9 @@
 <?php
-    //File: admin/view/admin.php
+    //admin/view/admin.php
     //Author: Brandon Willis; bmw5285
 ?>
+
+<!--css-->
 <style>
 	dd.list
 		{
@@ -27,6 +29,7 @@
 </style>
 <h2>Administration</h2> 
 <hr>
+<!--links to admin sub sections-->
 <dl>
     <dt class="list"><a href="index.php?dir=admin&sub=auth">Authorizations</a></dt>
 	<dd class="list">This is where items are located that an Administrator must authorize. </dd>
