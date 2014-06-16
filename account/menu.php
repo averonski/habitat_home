@@ -1,10 +1,8 @@
 <?php
 
-	// TITLE: Account Menu
-	// FILE: account/menu.php
-	// AUTHOR: AUTOGEN
+//account/menu.php
 
-
+	//creates links to account subsections
 	$subLinks = array();
 
 	$subLinks[] = new Link('Personal Info','info');
