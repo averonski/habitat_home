@@ -1,12 +1,11 @@
 <?php
 
-	// TITLE: Admin Authrorization View
-	// FILE: admin/view/auth.php
-	// AUTHOR: sbkedia & jhp
+	//admin/view/auth.php
+	//AUTHOR: sbkedia & jhp
 
 
 ?>
-
+ <!--css-->
 <style>
 	
 	div.show {display: block;}
@@ -15,6 +14,7 @@
 
 </style>
 
+<!--javascript-->
 <script>
 function swap(divNo) {
     	e=document.getElementById("div"+divNo);
@@ -29,17 +29,18 @@ function swap(divNo) {
 	       eButton.value="Show";
 		}// end if-else
     }// end function
-
 </script>
 
 <h2>Authorization</h2>
 <hr>
+<!--update prompt-->
 <?php if($isAuthorized)
 		echo '<div class="alert alert-dismissable alert-success"><button type="button" class="close" data-dismiss="alert">×</button><strong>UPDATED</strong>Successfully authorized</div>'; ?>
 
-<h4>Work Hours Authorization
-	<input type="button" id="button1" onclick="swap(1);" value="Show"> </h4>
 
+<h4>Work Hours Authorization
+	<!--input that views person and work hours, and allows authorization-->
+	<input type="button" id="button1" onclick="swap(1);" value="Show"> </h4>
 	<div class="hide" id="div1">
 	<form action="index.php" method="GET">
 		<input name="dir" id="dir" type="hidden" value="<?php echo $dir; ?>" >
@@ -79,7 +80,8 @@ function swap(divNo) {
 
 <br>
 
-	<h4>Donations Authorization
+<h4>Donations Authorization
+	<!--input that views and allows donation authorizations-->
 	<input type="button" id="button2" onclick="swap(2);" value="Show"> </h4>
 
 	<div class="hide" id="div2">
