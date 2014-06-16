@@ -1,9 +1,6 @@
 <?php
 
-	// TITLE: Admin Admin Controller
-	// FILE: admin/controller/admin.php
-	// AUTHOR: AUTOGEN
-
+//admin/controller/admin.php
 
 	switch ($act) {
 
