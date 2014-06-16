@@ -1,8 +1,9 @@
 <?php
 
-	// TITLE: Admin Menu
-	// FILE: admin/menu.php
-	// AUTHOR: AUTOGEN
+	//admin/menu.php
+	//contains links to subsections
+	
+
 
 
 	$subLinks = array();
