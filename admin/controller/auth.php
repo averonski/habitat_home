@@ -1,8 +1,8 @@
 <?php
 
-	// TITLE: Admin Authrorization Controller
-	// FILE: admin/controller/auth.php
-	// AUTHOR: AUTOGEN
+//admin/controller/auth.php
+
+	// initializes dbio and sets authorized to false 
 	global $dbio;
 	$isAuthorized = false;
 
@@ -27,9 +27,9 @@
 		case 'delete':
 			// CODE HERE
 			break;
-
+		//allows authoization of donations based on person id and donation id
 		case 'authorizedonation':
-			If(!empty($_GET['authorized'])){
+			if(!empty($_GET['authorized'])){
 
 			foreach(($_GET['authorized']) as $donationId) {
 
@@ -40,10 +40,10 @@
 			$page = $dir . '/view/' . (($sub) ? $sub : $dir) . '.php';
 		}
 			break;
-
+		//allows authorization of work hours by person id 
 		case 'authorizework':	
 
-			If(!empty($_GET['authorize'])){
+			if(!empty($_GET['authorize'])){
 
 			foreach(($_GET['authorize']) as $workId) {
 
