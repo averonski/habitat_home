@@ -6,6 +6,7 @@
 include 'home/model/home.php';
 
 ?>
+<!--style-->
 <style>
     .event {width: 500px;}
     
