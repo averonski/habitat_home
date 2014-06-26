@@ -1,5 +1,7 @@
 <?php
-	//account/model/updateprefs.php
+	// TITLE: Home Home Controller
+	// FILE: account/model/updateprefs.php
+	// AUTHOR: 
 	//updates a persons preferences
 	
 	//initailizes person class
