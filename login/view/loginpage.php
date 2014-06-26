@@ -1,5 +1,9 @@
 <?php
 
+// TITLE: login page view
+// FILE: login/view/loginpage.php
+// AUTHOR: 
+
 global $act;
 global $sub;
 global $dir;
@@ -42,24 +46,25 @@ $act='loginCheck';
 </style>
 
 <script type="text/javascript">
+		//checks if username or password is blank or undefined; if either is it prompts for info enrty; else submits the data
 		function verify()
-            {
-            	if (document.getElementById('userName').value=="" || document.getElementById('userName').value==undefined)
-                {
-                    alert ("Please Enter your 'User Id'");
-                    //return false;
-                }
+        	{
+            		if (document.getElementById('userName').value=="" || document.getElementById('userName').value==undefined)
+                	{
+                    		alert ("Please Enter your 'User Id'");
+                    		//return false;
+                	}
 
-               else if (document.getElementById('password').value=="" || document.getElementById('password').value==undefined)
-                {
-                    alert ("Please Enter your 'Password'");
-                    //return false;
-                }
+               		else if (document.getElementById('password').value=="" || document.getElementById('password').value==undefined)
+               		{
+                    		alert ("Please Enter your 'Password'");
+                    		//return false;
+               		}
 
-                else{
-                	
+               else
+               {
                 	document.getElementById('loginUser').submit();
-                }
+               }
 
             }
 
@@ -70,6 +75,7 @@ $act='loginCheck';
 
 	
 	<div id="loginBox">
+	    <!--form for submitting username and password-->
 	    <form id="loginUser" name="loginUser" action="index.php" method="get">
 	    
 	    <input name="dir" type="hidden" value="<?php echo $dir;?>" >
