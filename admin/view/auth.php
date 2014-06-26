@@ -1,6 +1,7 @@
 <?php
 
-	//admin/view/auth.php
+	// TITLE: admin authorization view
+	// FILE: admin/view/auth.php
 	//AUTHOR: sbkedia & jhp
 
 
