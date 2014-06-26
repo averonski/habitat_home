@@ -1,8 +1,7 @@
 <?php
-	// TITLE: Home Home Controller
+	// TITLE: update account contact prefrences model
 	// FILE: account/model/updateprefs.php
 	// AUTHOR: 
-	//updates a persons preferences
 	
 	//initailizes person class
 	$person = new Person();
