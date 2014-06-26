@@ -1,6 +1,8 @@
 <?php
 
-	//account.view.info.php
+	// TITLE: account personal info view
+	// FILE: account/view/info.php
+	// AUTHOR: 
 	//displays an accounts info, and allows it to be updated
 
 	$title = $person->getTitle();
