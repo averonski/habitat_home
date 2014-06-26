@@ -1,21 +1,22 @@
 <?php
+
+	// TITLE: login controller
+	// FILE: login/controller/login.php
+	// AUTHOR: 
 	
 	
 	global $act;
-    global $msg;
-    global $dir;
-    global $user;
-
-    $act = (isset($_GET['act'])) ? $_GET['act'] : '';
-    $msg = (isset($_GET['msg'])) ? $_GET['msg'] : '';
-
-    //$act = 'viewLoginPage';
-	    	
+    	global $msg;
+    	global $dir;
+    	global $user;
 	
-
+	$act = (isset($_GET['act'])) ? $_GET['act'] : '';
+	$msg = (isset($_GET['msg'])) ? $_GET['msg'] 
+	    
 	switch($act)
 	{
-		case 'loginCheck';
+	    //gets submitted username and password, and checks them against database
+	    case 'loginCheck';
 	    //session_start();
 	    $user=($_GET['userName']);
 	    $pw=($_GET['password']);
@@ -23,7 +24,7 @@
 	    global $personid;
 	    $personid= $dbio->getPersonIdByUserName($user);
 
-	    
+	    //checks results of DB query and either errors or allows login
 	    if($user != $dbCheck)
 	    {
 
@@ -54,6 +55,7 @@
 	    
 	    break;
 
+	    //checks submitted email against db for password resetting
 	    case 'dbcheck';
 
 	    $email=($_GET['email']);
