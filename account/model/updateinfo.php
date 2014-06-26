@@ -1,5 +1,7 @@
 <?php
-	//account/model/updateinfo.php
+	// TITLE: Home Home Controller
+	// FILE: account/model/updateinfo.php
+	// AUTHOR: 
 	//updates a persons perosnal information, contact information, and address
 
 	//initializes the person, contact, and address class
