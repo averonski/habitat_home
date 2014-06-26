@@ -1,15 +1,18 @@
 <?php
 
-//account/view/prefs.php
-//view and update contact preferences
+// TITLE: account contact info view
+// FILE: account/view/prefs.php
+// AUTHOR: 
+// view and update contact preferences
 
-	// gets a person's id from session, and gets the preferential contact preferences
-	$pid = $_SESSION['personid'];
-	$email = $person->getPrefEmail();
-	$mail = $person->getPrefMail();
-	$phone = $person->getPrefPhone();
-	if($update)
-		echo '<div class="alert alert-dismissable alert-success"><button type="button" class="close" data-dismiss="alert">×</button><strong>UPDATED</strong> You successfully updated the information.</div>';
+// gets a person's id from session, and gets the preferential contact preferences
+$pid = $_SESSION['personid'];
+$email = $person->getPrefEmail();
+$mail = $person->getPrefMail();
+$phone = $person->getPrefPhone();
+if($update)
+	echo '<div class="alert alert-dismissable alert-success"><button type="button" class="close" data-dismiss="alert">×</button><strong>UPDATED</strong> You successfully updated the information.</div>';
+	
 ?>
 <h2>Preferences</h2>
 
