@@ -1,6 +1,7 @@
 <?php
-    //File: account/view/account.php
-    //Author: Brandon Willis; bmw5285
+	//TITLE: account main
+ 	//File: account/view/account.php
+    	//Author: Brandon Willis; bmw5285
 ?>
 
 <!-- css -->
