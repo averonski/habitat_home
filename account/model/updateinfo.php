@@ -1,5 +1,5 @@
 <?php
-	// TITLE: Home Home Controller
+	// TITLE: update account personal info
 	// FILE: account/model/updateinfo.php
 	// AUTHOR: 
 	//updates a persons perosnal information, contact information, and address
