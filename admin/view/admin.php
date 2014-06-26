@@ -1,6 +1,7 @@
 <?php
-    //admin/view/admin.php
-    //Author: Brandon Willis; bmw5285
+    	// TITLE: admin home
+	// FILE: admin/view/admin.php
+    	// Author: Brandon Willis; bmw5285
 ?>
 
 <!--css-->
