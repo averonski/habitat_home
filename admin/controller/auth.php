@@ -1,6 +1,8 @@
 <?php
 
-//admin/controller/auth.php
+	// TITLE: admin authorization controller
+	// FILE: admin/controller/auth.php
+	// AUTHOR: 
 
 	// initializes dbio and sets authorized to false 
 	global $dbio;
