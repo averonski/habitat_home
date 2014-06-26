@@ -12,6 +12,7 @@
 	function delete() {}
 	//function list() {}
 
+	// gets person information based on username
 	function getPerson($userName){
 		global $dbio;
 		//$accountId=$dbio->getAccountId($userName);
@@ -21,6 +22,7 @@
 		
 	}
 	
+	// gets personId based on username
 	function getPersonid($userName){
 
 	global $dbio;
