@@ -1,6 +1,7 @@
 <?php
 
-	// admin/model/auth.php
+	// TITLE: admin authorization model
+	// FILE: admin/model/auth.php
 	// AUTHOR: sbkedia
 	
 	//gets all pending hours for work authorizations 
