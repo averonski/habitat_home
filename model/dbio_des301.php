@@ -16,7 +16,7 @@ class DBIO {
 		// METHODS ////////////////////////////////////////////////////////////////////////////////
 		
 		function open() {
-			$hostname="128.118.31.16:3306";
+			$hostname="128.118.31.142:3306";
 			$username="remote";
 			$password="password";
 			$dbname="homes_db";
