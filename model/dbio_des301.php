@@ -17,8 +17,8 @@ class DBIO {
 		
 		function open() {
 			$hostname="128.118.31.142:3306"; //Changed host name as it changed Sept 5th, 2014
-			$username="remote";
-			$password="password";
+			$username="root";
+			$password="newpew";
 			$dbname="homes_db";
 			
 			 global $con;
