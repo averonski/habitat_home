@@ -15,7 +15,10 @@ class DBIO {
 		
 		// METHODS ////////////////////////////////////////////////////////////////////////////////
 		
-		function open() {
+                //This open function is used to connect to the habitat mySQL database.
+                //This is connected to a computer that was running at penn state york
+                //untill that machine is again running. The database will be located on averonski's pc
+		/*function open() {
 			$hostname="128.118.31.16:3306";
 			$username="remote";
 			$password="password";
@@ -24,13 +27,26 @@ class DBIO {
 			 global $con;
 			 $con = mysql_connect($hostname,$username, $password) or die ("no worky");
 			 mysql_select_db($dbname);
-		}// END
+		}// END*/
+                
+                function open() {
+			$hostname="73.52.51.66:3306";
+			$username="root";
+			$password="qwerty321";
+			$dbname="homes_db";
+			
+			 global $con;
+			 $con = mysql_connect($hostname,$username, $password) or die ("no worky");
+			 mysql_select_db($dbname);
+                }// END
 		
 		
 		function close() {
 			global $con;
 			mysql_close($con);
 		}// END
+                
+                
 	
 
 		/*
