@@ -1,17 +1,20 @@
-	    
-	    
 <?php
+
+	// TITLE: schedule Class
+	// FILE: class/schedule.php
+	// AUTHOR: AUTOGEN
+
 	class Schedule {
 
 		// ATTRIBUTES //
 
 		private $id;
-		private $timeStart;
-		private $timeEnd;
-		private $eventId;
+		private $schedule;
+		private $start_time;
+		private $end_time;
 		private $description;
-		private $interestId;
-		private $maxNumPeople;
+		private $interest_id;
+		private $max_num_people;
 
 
 		// CONSTRUCTOR //
@@ -19,23 +22,24 @@
 		public function __construct() {}
 
 
-		// METHOD //
+		// METHODS //
 
 		public function getId() {return $this->id;}
-		public function gettimeStart() {return $this->timeStart;}
-		public function gettimeEnd() {return $this->timeEnd;}
-		public function getEvent_event_id() {return $this->eventId;}
+		public function getSchedule() {return $this->schedule;}
+		public function getStart_time() {return $this->start_time;}
+		public function getEnd_time() {return $this->end_time;}
 		public function getDescription() {return $this->description;}
-		public function getInterest_interest_id() {return $this->interestId;}
-		public function getMaxNumPeople() {return $this->maxNumPeople;}
+		public function getInterest_id() {return $this->interest_id;}
+		public function getMax_num_people() {return $this->max_num_people;}
 
 		public function setId($id) {$this->id = $id;}
-		public function settimeStart($timeStart) {$this->timeStart = $timeStart;}
-		public function settimeEnd($timeEnd) {$this->timeEnd = $timeEnd;}
-		public function setEvent_event_id($eventId) {$this->eventId = $eventId;}
+		public function setSchedule($schedule) {$this->schedule = $schedule;}
+		public function setStart_time($start_time) {$this->start_time = $start_time;}
+		public function setEnd_time($end_time) {$this->end_time = $end_time;}
 		public function setDescription($description) {$this->description = $description;}
-		public function setInterest_interest_id($interestId) {$this->interestId = $interestId;}
-		public function setMaxNumPeople($maxNumPeople) {$this->maxNumPeople = $maxNumPeople;}
+		public function setInterest_id($interest_id) {$this->interest_id = $interest_id;}
+		public function setMax_num_people($max_num_people) {$this->max_num_people = $max_num_people;}
+
 	}// end class
-?>	    
-	
+
+?>

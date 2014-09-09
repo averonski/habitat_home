@@ -11,7 +11,7 @@
     	global $user;
 	
 	$act = (isset($_GET['act'])) ? $_GET['act'] : '';
-	$msg = (isset($_GET['msg'])) ? $_GET['msg'] 
+	$msg = (isset($_GET['msg'])) ? $_GET['msg'] : ''; 
 	    
 	switch($act)
 	{

@@ -4,16 +4,15 @@
 	// FILE: class/tickets.php
 	// AUTHOR: AUTOGEN
 
-
 	class Tickets {
 
 		// ATTRIBUTES //
 
 		private $event;
-		private $ticket_id;
+		private $id;
 		private $ticket_price;
-		private $maxNum;
-		private $currentNum;
+		private $max_num;
+		private $current_num;
 
 
 		// CONSTRUCTOR //
@@ -24,16 +23,16 @@
 		// METHODS //
 
 		public function getEvent() {return $this->event;}
-		public function getTicket_id() {return $this->ticket_id;}
+		public function getId() {return $this->id;}
 		public function getTicket_price() {return $this->ticket_price;}
-		public function getMaxNum() {return $this->maxNum;}
-		public function getCurrentNum() {return $this->currentNum;}
+		public function getMax_num() {return $this->max_num;}
+		public function getCurrent_num() {return $this->current_num;}
 
 		public function setEvent($event) {$this->event = $event;}
-		public function setTicket_id($ticket_id) {$this->ticket_id = $ticket_id;}
+		public function setId($id) {$this->id = $id;}
 		public function setTicket_price($ticket_price) {$this->ticket_price = $ticket_price;}
-		public function setMaxNum($maxNum) {$this->maxNum = $maxNum;}
-		public function setCurrentNum($currentNum) {$this->currentNum = $currentNum;}
+		public function setMax_num($max_num) {$this->max_num = $max_num;}
+		public function setCurrent_num($current_num) {$this->current_num = $current_num;}
 
 	}// end class
 

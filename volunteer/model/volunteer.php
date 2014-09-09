@@ -10,6 +10,6 @@
 	function read() {}
 	function update() {}
 	function delete() {}
-	function list() {}
+	//function list() {}
 
 ?>

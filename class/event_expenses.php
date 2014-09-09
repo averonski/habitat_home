@@ -4,20 +4,19 @@
 	// FILE: class/event_expenses.php
 	// AUTHOR: AUTOGEN
 
-
 	class Event_expenses {
 
 		// ATTRIBUTES //
 
-		private $expense_id;
+		private $id;
+		private $event;
 		private $title;
 		private $description;
 		private $amount;
 		private $when_entered;
+		private $office;
 		private $when_authorized;
-		private $event;
-		private $;
-		private $Person_person;
+		private $admin;
 
 
 		// CONSTRUCTOR //
@@ -27,25 +26,25 @@
 
 		// METHODS //
 
-		public function getExpense_id() {return $this->expense_id;}
+		public function getId() {return $this->id;}
+		public function getEvent() {return $this->event;}
 		public function getTitle() {return $this->title;}
 		public function getDescription() {return $this->description;}
 		public function getAmount() {return $this->amount;}
 		public function getWhen_entered() {return $this->when_entered;}
+		public function getOffice() {return $this->office;}
 		public function getWhen_authorized() {return $this->when_authorized;}
-		public function getEvent() {return $this->event;}
-		public function get() {return $this->;}
-		public function getPerson_person() {return $this->Person_person;}
+		public function getAdmin() {return $this->admin;}
 
-		public function setExpense_id($expense_id) {$this->expense_id = $expense_id;}
+		public function setId($id) {$this->id = $id;}
+		public function setEvent($event) {$this->event = $event;}
 		public function setTitle($title) {$this->title = $title;}
 		public function setDescription($description) {$this->description = $description;}
 		public function setAmount($amount) {$this->amount = $amount;}
 		public function setWhen_entered($when_entered) {$this->when_entered = $when_entered;}
+		public function setOffice($office) {$this->office = $office;}
 		public function setWhen_authorized($when_authorized) {$this->when_authorized = $when_authorized;}
-		public function setEvent($event) {$this->event = $event;}
-		public function set($) {$this-> = $;}
-		public function setPerson_person($Person_person) {$this->Person_person = $Person_person;}
+		public function setAdmin($admin) {$this->admin = $admin;}
 
 	}// end class
 

@@ -4,12 +4,11 @@
 	// FILE: class/admin.php
 	// AUTHOR: AUTOGEN
 
-
 	class Admin {
 
 		// ATTRIBUTES //
 
-		private $idAdmin;
+		private $id;
 		private $person;
 
 
@@ -20,10 +19,10 @@
 
 		// METHODS //
 
-		public function getIdAdmin() {return $this->idAdmin;}
+		public function getId() {return $this->id;}
 		public function getPerson() {return $this->person;}
 
-		public function setIdAdmin($idAdmin) {$this->idAdmin = $idAdmin;}
+		public function setId($id) {$this->id = $id;}
 		public function setPerson($person) {$this->person = $person;}
 
 	}// end class

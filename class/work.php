@@ -4,18 +4,19 @@
 	// FILE: class/work.php
 	// AUTHOR: AUTOGEN
 
-
 	class Work {
 
 		// ATTRIBUTES //
 
-		private $idWork;
-		private $amount;
-		private $Person_person;
+		private $id;
+		private $volunteer;
 		private $date;
-		private $enteredById;
-		private $adminId;
 		private $event;
+		private $when_entered;
+		private $office;
+		private $when_authorized;
+		private $admin;
+		private $hours_worked;
 
 
 		// CONSTRUCTOR //
@@ -25,21 +26,25 @@
 
 		// METHODS //
 
-		public function getIdWork() {return $this->idWork;}
-		public function getAmount() {return $this->amount;}
-		public function getPerson_person() {return $this->Person_person;}
+		public function getId() {return $this->id;}
+		public function getVolunteer() {return $this->volunteer;}
 		public function getDate() {return $this->date;}
-		public function getEnteredById() {return $this->enteredById;}
-		public function getAdminId() {return $this->adminId;}
 		public function getEvent() {return $this->event;}
+		public function getWhen_entered() {return $this->when_entered;}
+		public function getOffice() {return $this->office;}
+		public function getWhen_authorized() {return $this->when_authorized;}
+		public function getAdmin() {return $this->admin;}
+		public function getHours_worked() {return $this->hours_worked;}
 
-		public function setIdWork($idWork) {$this->idWork = $idWork;}
-		public function setAmount($amount) {$this->amount = $amount;}
-		public function setPerson_person($Person_person) {$this->Person_person = $Person_person;}
+		public function setId($id) {$this->id = $id;}
+		public function setVolunteer($volunteer) {$this->volunteer = $volunteer;}
 		public function setDate($date) {$this->date = $date;}
-		public function setEnteredById($enteredById) {$this->enteredById = $enteredById;}
-		public function setAdminId($adminId) {$this->adminId = $adminId;}
 		public function setEvent($event) {$this->event = $event;}
+		public function setWhen_entered($when_entered) {$this->when_entered = $when_entered;}
+		public function setOffice($office) {$this->office = $office;}
+		public function setWhen_authorized($when_authorized) {$this->when_authorized = $when_authorized;}
+		public function setAdmin($admin) {$this->admin = $admin;}
+		public function setHours_worked($hours_worked) {$this->hours_worked = $hours_worked;}
 
 	}// end class
 

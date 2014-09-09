@@ -1,11 +1,15 @@
 <?php
-class Auction {
+
+	// TITLE: auction Class
+	// FILE: class/auction.php
+	// AUTHOR: AUTOGEN
+
+	class Auction {
 
 		// ATTRIBUTES //
 
 		private $id;
-		private $eventId;
-		private $time;
+		private $event;
 
 
 		// CONSTRUCTOR //
@@ -13,15 +17,14 @@ class Auction {
 		public function __construct() {}
 
 
-		// METHOD //
+		// METHODS //
 
 		public function getId() {return $this->id;}
-		public function getEventId() {return $this->eventId;}
-		public function getTime() {return $this->time;}
+		public function getEvent() {return $this->event;}
 
 		public function setId($id) {$this->id = $id;}
-		public function setEventId($eventId) {$this->eventId = $eventId;}
-		public function setTime($time) {$this->time = $time;}
+		public function setEvent($event) {$this->event = $event;}
 
 	}// end class
-?>	
+
+?>

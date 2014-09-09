@@ -4,12 +4,11 @@
 	// FILE: class/interest_type.php
 	// AUTHOR: AUTOGEN
 
-
 	class Interest_type {
 
 		// ATTRIBUTES //
 
-		private $type_id;
+		private $id;
 		private $title;
 		private $description;
 
@@ -21,11 +20,11 @@
 
 		// METHODS //
 
-		public function getType_id() {return $this->type_id;}
+		public function getId() {return $this->id;}
 		public function getTitle() {return $this->title;}
 		public function getDescription() {return $this->description;}
 
-		public function setType_id($type_id) {$this->type_id = $type_id;}
+		public function setId($id) {$this->id = $id;}
 		public function setTitle($title) {$this->title = $title;}
 		public function setDescription($description) {$this->description = $description;}
 

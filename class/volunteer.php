@@ -4,27 +4,23 @@
 	// FILE: class/volunteer.php
 	// AUTHOR: AUTOGEN
 
-
 	class Volunteer {
 
 		// ATTRIBUTES //
 
 		private $id;
-        private $consentAge;
-		private $consentVideo;
-		private $consentWaiver;
-		private $consentPhoto;
-		private $availDay;
-		private $availEve;
-		private $availWend;
 		private $person;
-		private $isBoardMember;
-		private $consentMinor;
-		private $consentSafety;
-		private $emergencyName;
-		private $emergencyPhone;
-		private $churchAmbassador;
-		private $affiliation;
+		private $consent_age;
+		private $consent_video;
+		private $consent_waiver;
+		private $consent_photo;
+		private $consent_minor;
+		private $consent_safety;
+		private $avail_day;
+		private $avail_eve;
+		private $avail_wkend;
+		private $emergency_name;
+		private $emergency_phone;
 
 
 		// CONSTRUCTOR //
@@ -34,39 +30,33 @@
 
 		// METHODS //
 
-                //public function getId() {return $this->id;}
-                public function getConsentAge() {return $this->consentAge;}
-		public function getConsentVideo() {return $this->consentVideo;}
-		public function getConsentWaiver() {return $this->consentWaiver;}
-		public function getConsentPhoto() {return $this->consentPhoto;}
-		public function getAvailDay() {return $this->availDay;}
-		public function getAvailEve() {return $this->availEve;}
-		public function getAvailWend() {return $this->availWend;}
+		public function getId() {return $this->id;}
 		public function getPerson() {return $this->person;}
-		public function getIsBoardMember() {return $this->isBoardMember;}
-		public function getConsentMinor() {return $this->consentMinor;}
-		public function getConsentSafety() {return $this->consentSafety;}
-		public function getEmergencyName() {return $this->emergencyName;}
-		public function getEmergencyPhone() {return $this->emergencyPhone;}
-		public function getChurchAmbassador() {return $this->churchAmbassador;}
-		public function getAffiliation() {return $this->affiliation;}
+		public function getConsent_age() {return $this->consent_age;}
+		public function getConsent_video() {return $this->consent_video;}
+		public function getConsent_waiver() {return $this->consent_waiver;}
+		public function getConsent_photo() {return $this->consent_photo;}
+		public function getConsent_minor() {return $this->consent_minor;}
+		public function getConsent_safety() {return $this->consent_safety;}
+		public function getAvail_day() {return $this->avail_day;}
+		public function getAvail_eve() {return $this->avail_eve;}
+		public function getAvail_wkend() {return $this->avail_wkend;}
+		public function getEmergency_name() {return $this->emergency_name;}
+		public function getEmergency_phone() {return $this->emergency_phone;}
 
-                //public function setId($id) {$this->id = $id;}
-                public function setConsentAge($consentAge) {$this->consentAge = $consentAge;}
-		public function setConsentVideo($consentVideo) {$this->consentVideo = $consentVideo;}
-		public function setConsentWaiver($consentWaiver) {$this->consentWaiver = $consentWaiver;}
-		public function setConsentPhoto($consentPhoto) {$this->consentPhoto = $consentPhoto;}
-		public function setAvailDay($availDay) {$this->availDay = $availDay;}
-		public function setAvailEve($availEve) {$this->availEve = $availEve;}
-		public function setAvailWend($availWend) {$this->availWend = $availWend;}
+		public function setId($id) {$this->id = $id;}
 		public function setPerson($person) {$this->person = $person;}
-		public function setIsBoardMember($isBoardMember) {$this->isBoardMember = $isBoardMember;}
-		public function setConsentMinor($consentMinor) {$this->consentMinor = $consentMinor;}
-		public function setConsentSafety($consentSafety) {$this->consentSafety = $consentSafety;}
-		public function setEmergencyName($emergencyName) {$this->emergencyName = $emergencyName;}
-		public function setEmergencyPhone($emergencyPhone) {$this->emergencyPhone = $emergencyPhone;}
-		public function setChurchAmbassador($churchAmbassador) {$this->churchAmbassador = $churchAmbassador;}
-		public function setAffiliation($affiliation) {$this->affiliation = $affiliation;}
+		public function setConsent_age($consent_age) {$this->consent_age = $consent_age;}
+		public function setConsent_video($consent_video) {$this->consent_video = $consent_video;}
+		public function setConsent_waiver($consent_waiver) {$this->consent_waiver = $consent_waiver;}
+		public function setConsent_photo($consent_photo) {$this->consent_photo = $consent_photo;}
+		public function setConsent_minor($consent_minor) {$this->consent_minor = $consent_minor;}
+		public function setConsent_safety($consent_safety) {$this->consent_safety = $consent_safety;}
+		public function setAvail_day($avail_day) {$this->avail_day = $avail_day;}
+		public function setAvail_eve($avail_eve) {$this->avail_eve = $avail_eve;}
+		public function setAvail_wkend($avail_wkend) {$this->avail_wkend = $avail_wkend;}
+		public function setEmergency_name($emergency_name) {$this->emergency_name = $emergency_name;}
+		public function setEmergency_phone($emergency_phone) {$this->emergency_phone = $emergency_phone;}
 
 	}// end class
 

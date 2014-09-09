@@ -4,20 +4,20 @@
 	// FILE: class/donation.php
 	// AUTHOR: AUTOGEN
 
-
 	class Donation {
 
 		// ATTRIBUTES //
 
-		private $donation_id;
+		private $id;
 		private $date;
 		private $time;
 		private $details;
 		private $when_entered;
-		private $value;
-		private $event;
-		private $donor;
-		private $donationType;
+		private $donor_id;
+		private $office;
+		private $donation_type;
+		private $pledge;
+		private $admin;
 
 
 		// CONSTRUCTOR //
@@ -27,27 +27,27 @@
 
 		// METHODS //
 
-		public function getDonation_id() {return $this->donation_id;}
+		public function getId() {return $this->id;}
 		public function getDate() {return $this->date;}
 		public function getTime() {return $this->time;}
 		public function getDetails() {return $this->details;}
-		public function getType() {return $this->donationType;}
-		
-		public function getValue() {return $this->value;}
-		public function getEvent() {return $this->event;}
-		
-		public function getDonor() {return $this->donor;}
+		public function getWhen_entered() {return $this->when_entered;}
+		public function getDonor_id() {return $this->donor_id;}
+		public function getOffice() {return $this->office;}
+		public function getDonation_type() {return $this->donation_type;}
+		public function getPledge() {return $this->pledge;}
+		public function getAdmin() {return $this->admin;}
 
-		public function setDonation_id($donation_id) {$this->donation_id = $donation_id;}
+		public function setId($id) {$this->id = $id;}
 		public function setDate($date) {$this->date = $date;}
 		public function setTime($time) {$this->time = $time;}
 		public function setDetails($details) {$this->details = $details;}
-		public function setType($donationType) {$this->donationType = $donationType;}
-		
-		public function setValue($value) {$this->value = $value;}
-		public function setEvent($event) {$this->event = $event;}
-		
-		public function setDonor($donor) {$this->donor = $donor;}
+		public function setWhen_entered($when_entered) {$this->when_entered = $when_entered;}
+		public function setDonor_id($donor_id) {$this->donor_id = $donor_id;}
+		public function setOffice($office) {$this->office = $office;}
+		public function setDonation_type($donation_type) {$this->donation_type = $donation_type;}
+		public function setPledge($pledge) {$this->pledge = $pledge;}
+		public function setAdmin($admin) {$this->admin = $admin;}
 
 	}// end class
 

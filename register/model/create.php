@@ -13,7 +13,7 @@
 	include ('../class/account->php');
 
 	//instantaited account object
-	Account $account = new Account();
+	$account = new Account();
 
 	$account->fname = $_GET['fname'];
 	$account->lname = $_GET['lname'];
@@ -31,5 +31,5 @@
 
 	$dbio->addAccount($account);
 
-	?>
+?>
 

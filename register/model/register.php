@@ -45,7 +45,7 @@
 	$date = $_GET['date'];
 
 	// STORE THE DATA
-	$dbio->saveVolunteerApplication
+	$dbio->saveVolunteerApplication;
 	
 	$msg = 'Your info has been saved and will be reviewed by an administrator. You will be notified by email upon approval.';
 ?>

@@ -4,12 +4,11 @@
 	// FILE: class/organization.php
 	// AUTHOR: AUTOGEN
 
-
 	class Organization {
 
 		// ATTRIBUTES //
 
-		private $organization_id;
+		private $id;
 		private $name;
 		private $contact;
 
@@ -21,11 +20,11 @@
 
 		// METHODS //
 
-		public function getOrganization_id() {return $this->organization_id;}
+		public function getId() {return $this->id;}
 		public function getName() {return $this->name;}
 		public function getContact() {return $this->contact;}
 
-		public function setOrganization_id($organization_id) {$this->organization_id = $organization_id;}
+		public function setId($id) {$this->id = $id;}
 		public function setName($name) {$this->name = $name;}
 		public function setContact($contact) {$this->contact = $contact;}
 
