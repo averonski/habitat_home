@@ -10,7 +10,7 @@
 	
 
 	// REQUIRES/INCLUDES
-	require_once('class/accnt.php');
+	/*require_once('class/accnt.php');
 	require_once('class/donationtype.php');
 	require_once('class/organization.php');
 	require_once('class/foh.php');
@@ -40,7 +40,72 @@
 	require_once('class/workHistory.php');
 	//require_once('model/databaseio.php');
 	//require_once('model/urlio.php');
-	//require_once('model/sessionio.php');
+	//require_once('model/sessionio.php');*/
+        
+        require_once ('model/dbio_des301_9-13-2014.php');
+        
+        require_once('class/account_recovery.php');
+        require_once('class/account_status.php');
+        require_once('class/address.php');
+        require_once('class/admin.php');
+        require_once('class/ambassador.php');
+        require_once('class/auction.php');
+        require_once('class/auction_item.php');
+        require_once('class/board_member.php');
+        require_once('class/city.php');
+        require_once('class/committee.php');
+        require_once('class/committee_attendance.php');
+        require_once('class/contact.php');
+        require_once('class/demographic_type.php');
+        require_once('class/donation.php');
+        require_once('class/donation_type.php');
+        require_once('class/email.php');
+        require_once('class/event.php');
+        require_once('class/event_expenses.php');
+        require_once('class/event_sponsor.php');
+        require_once('class/event_type.php');
+        require_once('class/expense_type.php');
+        require_once('class/foh.php');
+        require_once('class/guest_list.php');
+        require_once('class/habitat_employee.php');
+        require_once('class/ho_asset.php');
+        require_once('class/ho_debt.php');
+        require_once('class/ho_group.php');
+        require_once('class/ho_income.php');
+        require_once('class/ho_requirement.php');
+        require_once('class/ho_status.php');
+        require_once('class/home_owner.php');
+        require_once('class/interest.php');
+        require_once('class/interest_type.php');
+        require_once('class/interested_in.php');
+        require_once('class/labor.php');
+        require_once('class/marital_status.php');
+        require_once('class/material.php');
+        require_once('class/money.php');
+        require_once('class/mortgage.php');
+        require_once('class/municipality.php');
+        require_once('class/office.php');
+        require_once('class/organization.php');
+        require_once('class/organization_contact.php');
+        require_once('class/organization_donation.php');
+        require_once('class/payment.php');
+        require_once('class/person.php');
+        require_once('class/personal_donation.php');
+        require_once('class/photo_id.php');
+        require_once('class/project.php');
+        require_once('class/project_donation.php');
+        require_once('class/project_event.php');
+        require_once('class/project_expenses.php');
+        require_once('class/project_status.php');
+        require_once('class/recovery_log.php');
+        require_once('class/requirement.php');
+        require_once('class/schedule.php');
+        require_once('class/serves_on.php');
+        require_once('class/state.php');
+        require_once('class/status_change.php');
+        require_once('class/tickets.php');
+        require_once('class/volunteer.php');
+        require_once('class/work.php');
 	
 	$dbio = new DBIO();
 	
