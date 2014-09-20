@@ -75,7 +75,7 @@
         }// end function
         
         // login // ---------------------
-        
+        //This section likely will need to be comepletly be redone. there are all kind of issues with the logic.
         public function getLogin($user,$pw){
             $this->open();
             global $con;
@@ -98,12 +98,17 @@
             }
         }
         
-        public function getPersonIdByUserName($userName){
+        public function getPersonIdByUserName($user){
 
             global $con;
-
-            $sql='SELECT person_id FROM Account WHERE email="'. $userName .'"';
             $this->open();
+            
+            $sql='SELECT id, email FROM email where email ="'.$user.'"';
+            $result=mysql_query($sql,$con);
+            $hold=mysql_fetch_row($result);
+            $id=$hold[0];
+            
+            $sql='SELECT person_id FROM Account WHERE email="'. $id .'"';
             $result=mysql_query($sql,$con);
             while($row = mysql_fetch_array($result)) {
                     $pid = $row[0];
@@ -120,26 +125,27 @@
         public function getAccountType($person_id){
 
             global $con;
-            $sql1='SELECT * FROM admin WHERE person_id="' .$person_id . '"';
-            $sql2='SELECT * FROM office WHERE person_id="' .$person_id . '"';
+            $sql1='SELECT COUNT(*) FROM admin WHERE person_id="' .$person_id . '"';
+            $sql2='SELECT COUNT(*) FROM office WHERE person_id="' .$person_id . '"';
             //$sql3='SELECT isVolunteer FROM Account WHERE person_id=' .$personId;
 
             $this->open();
             $results1 = mysql_query($sql1,$con);
+                $row1 = mysql_fetch_array($results1);
             $results2= mysql_query($sql2,$con);
+                $row2 = mysql_fetch_array($results2);
             $this->close();
 
-            if(mysql_num_rows($results1) > 0){
+            if ($row1[0] > 0) {
                     return '1';
-            }
-            else{
-                if(mysql_num_rows($results2) > 0){
+            
+            }else{
+                if($row2[0] > 0){
                 //var_dump($rows[0]);
                 //if($rows[0]=='1'){
-                        return '2';
-                }    
-                else {
-                        return '3';
+                    return '2';                
+                }else{
+                    return '3';
                 }
             }
         }
@@ -151,8 +157,8 @@
 		global $con;
 		$sql = "INSERT INTO account (id, email, password, created, status_id, person_id) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -161,9 +167,9 @@
 		global $con;
 		$sql = 'SELECT * FROM account WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$accounts = array();
 			while($result = mysql_fetch_array($results)) {
 				$account = new Account();
@@ -185,27 +191,27 @@
 		global $con;
 		$sql = 'UPDATE account SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteAccount($id) {
 		global $con;
 		$sql = 'DELETE FROM account WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listAccount() {
 		global $con;
 		$sql = 'SELECT * FROM account';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$accounts = array();
 			while($result = mysql_fetch_array($results)) {
 				$account = new Account();
@@ -229,8 +235,8 @@
 		global $con;
 		$sql = "INSERT INTO account_recovery (account_id, code, date, time) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -239,9 +245,9 @@
 		global $con;
 		$sql = 'SELECT * FROM account_recovery WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$account_recoverys = array();
 			while($result = mysql_fetch_array($results)) {
 				$account_recovery = new Account_recovery();
@@ -261,27 +267,27 @@
 		global $con;
 		$sql = 'UPDATE account_recovery SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteAccount_recovery($id) {
 		global $con;
 		$sql = 'DELETE FROM account_recovery WHERE account_id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listAccount_recovery() {
 		global $con;
 		$sql = 'SELECT * FROM account_recovery';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$account_recoverys = array();
 			while($result = mysql_fetch_array($results)) {
 				$account_recovery = new Account_recovery();
@@ -303,8 +309,8 @@
 		global $con;
 		$sql = "INSERT INTO account_status (id, title, description) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -313,9 +319,9 @@
 		global $con;
 		$sql = 'SELECT * FROM account_status WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$account_statuss = array();
 			while($result = mysql_fetch_array($results)) {
 				$account_status = new Account_status();
@@ -334,27 +340,27 @@
 		global $con;
 		$sql = 'UPDATE account_status SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteAccount_status($id) {
 		global $con;
 		$sql = 'DELETE FROM account_status WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listAccount_status() {
 		global $con;
 		$sql = 'SELECT * FROM account_status';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$account_statuss = array();
 			while($result = mysql_fetch_array($results)) {
 				$account_status = new Account_status();
@@ -375,8 +381,8 @@
 		global $con;
 		$sql = "INSERT INTO address (id, street1, street2, city, state_id, zip) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -385,9 +391,9 @@
 		global $con;
 		$sql = 'SELECT * FROM address WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$addresss = array();
 			while($result = mysql_fetch_array($results)) {
 				$address = new Address();
@@ -409,27 +415,27 @@
 		global $con;
 		$sql = 'UPDATE address SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteAddress($id) {
 		global $con;
 		$sql = 'DELETE FROM address WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listAddress() {
 		global $con;
 		$sql = 'SELECT * FROM address';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$addresss = array();
 			while($result = mysql_fetch_array($results)) {
 				$address = new Address();
@@ -453,8 +459,8 @@
 		global $con;
 		$sql = "INSERT INTO admin (id, person_id) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -463,9 +469,9 @@
 		global $con;
 		$sql = 'SELECT * FROM admin WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$admins = array();
 			while($result = mysql_fetch_array($results)) {
 				$admin = new Admin();
@@ -483,27 +489,27 @@
 		global $con;
 		$sql = 'UPDATE admin SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteAdmin($id) {
 		global $con;
 		$sql = 'DELETE FROM admin WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listAdmin() {
 		global $con;
 		$sql = 'SELECT * FROM admin';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$admins = array();
 			while($result = mysql_fetch_array($results)) {
 				$admin = new Admin();
@@ -523,8 +529,8 @@
 		global $con;
 		$sql = "INSERT INTO ambassador (volunteer_id, organization_id, church_ambassador, affiliation) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -533,9 +539,9 @@
 		global $con;
 		$sql = 'SELECT * FROM ambassador WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$ambassadors = array();
 			while($result = mysql_fetch_array($results)) {
 				$ambassador = new Ambassador();
@@ -555,27 +561,27 @@
 		global $con;
 		$sql = 'UPDATE ambassador SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteAmbassador($id) {
 		global $con;
 		$sql = 'DELETE FROM ambassador WHERE volunteer_id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listAmbassador() {
 		global $con;
 		$sql = 'SELECT * FROM ambassador';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$ambassadors = array();
 			while($result = mysql_fetch_array($results)) {
 				$ambassador = new Ambassador();
@@ -597,8 +603,8 @@
 		global $con;
 		$sql = "INSERT INTO auction (id, event_id) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -607,9 +613,9 @@
 		global $con;
 		$sql = 'SELECT * FROM auction WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$auctions = array();
 			while($result = mysql_fetch_array($results)) {
 				$auction = new Auction();
@@ -627,27 +633,27 @@
 		global $con;
 		$sql = 'UPDATE auction SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteAuction($id) {
 		global $con;
 		$sql = 'DELETE FROM auction WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listAuction() {
 		global $con;
 		$sql = 'SELECT * FROM auction';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$auctions = array();
 			while($result = mysql_fetch_array($results)) {
 				$auction = new Auction();
@@ -667,8 +673,8 @@
 		global $con;
 		$sql = "INSERT INTO auction_item (id, auction_id, item_num, title, description, value, price, person_id, donation_id) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -677,9 +683,9 @@
 		global $con;
 		$sql = 'SELECT * FROM auction_item WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$auction_items = array();
 			while($result = mysql_fetch_array($results)) {
 				$auction_item = new Auction_item();
@@ -704,27 +710,27 @@
 		global $con;
 		$sql = 'UPDATE auction_item SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteAuction_item($id) {
 		global $con;
 		$sql = 'DELETE FROM auction_item WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listAuction_item() {
 		global $con;
 		$sql = 'SELECT * FROM auction_item';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$auction_items = array();
 			while($result = mysql_fetch_array($results)) {
 				$auction_item = new Auction_item();
@@ -751,8 +757,8 @@
 		global $con;
 		$sql = "INSERT INTO board_member (volunteer_id, is_board_member) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -761,9 +767,9 @@
 		global $con;
 		$sql = 'SELECT * FROM board_member WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$board_members = array();
 			while($result = mysql_fetch_array($results)) {
 				$board_member = new Board_member();
@@ -781,27 +787,27 @@
 		global $con;
 		$sql = 'UPDATE board_member SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteBoard_member($id) {
 		global $con;
 		$sql = 'DELETE FROM board_member WHERE volunteer_id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listBoard_member() {
 		global $con;
 		$sql = 'SELECT * FROM board_member';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$board_members = array();
 			while($result = mysql_fetch_array($results)) {
 				$board_member = new Board_member();
@@ -821,8 +827,8 @@
 		global $con;
 		$sql = "INSERT INTO city (id, title, state_id) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -831,9 +837,9 @@
 		global $con;
 		$sql = 'SELECT * FROM city WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$citys = array();
 			while($result = mysql_fetch_array($results)) {
 				$city = new City();
@@ -852,27 +858,27 @@
 		global $con;
 		$sql = 'UPDATE city SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteCity($id) {
 		global $con;
 		$sql = 'DELETE FROM city WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listCity() {
 		global $con;
 		$sql = 'SELECT * FROM city';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$citys = array();
 			while($result = mysql_fetch_array($results)) {
 				$city = new City();
@@ -893,8 +899,8 @@
 		global $con;
 		$sql = "INSERT INTO committee (id, title) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -903,9 +909,9 @@
 		global $con;
 		$sql = 'SELECT * FROM committee WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$committees = array();
 			while($result = mysql_fetch_array($results)) {
 				$committee = new Committee();
@@ -923,27 +929,27 @@
 		global $con;
 		$sql = 'UPDATE committee SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteCommittee($id) {
 		global $con;
 		$sql = 'DELETE FROM committee WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listCommittee() {
 		global $con;
 		$sql = 'SELECT * FROM committee';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$committees = array();
 			while($result = mysql_fetch_array($results)) {
 				$committee = new Committee();
@@ -963,8 +969,8 @@
 		global $con;
 		$sql = "INSERT INTO committee_attendance (attendance_id, committee_id, volunteer_id, status) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -973,9 +979,9 @@
 		global $con;
 		$sql = 'SELECT * FROM committee_attendance WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$committee_attendances = array();
 			while($result = mysql_fetch_array($results)) {
 				$committee_attendance = new Committee_attendance();
@@ -995,27 +1001,27 @@
 		global $con;
 		$sql = 'UPDATE committee_attendance SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteCommittee_attendance($id) {
 		global $con;
 		$sql = 'DELETE FROM committee_attendance WHERE attendance_id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listCommittee_attendance() {
 		global $con;
 		$sql = 'SELECT * FROM committee_attendance';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$committee_attendances = array();
 			while($result = mysql_fetch_array($results)) {
 				$committee_attendance = new Committee_attendance();
@@ -1037,8 +1043,8 @@
 		global $con;
 		$sql = "INSERT INTO contact (id, address_id, phone, phone2, email) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -1047,9 +1053,9 @@
 		global $con;
 		$sql = 'SELECT * FROM contact WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$contacts = array();
 			while($result = mysql_fetch_array($results)) {
 				$contact = new Contact();
@@ -1070,27 +1076,27 @@
 		global $con;
 		$sql = 'UPDATE contact SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteContact($id) {
 		global $con;
 		$sql = 'DELETE FROM contact WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listContact() {
 		global $con;
 		$sql = 'SELECT * FROM contact';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$contacts = array();
 			while($result = mysql_fetch_array($results)) {
 				$contact = new Contact();
@@ -1113,8 +1119,8 @@
 		global $con;
 		$sql = "INSERT INTO demographic_type (id, title, description) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -1123,9 +1129,9 @@
 		global $con;
 		$sql = 'SELECT * FROM demographic_type WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$demographic_types = array();
 			while($result = mysql_fetch_array($results)) {
 				$demographic_type = new Demographic_type();
@@ -1144,27 +1150,27 @@
 		global $con;
 		$sql = 'UPDATE demographic_type SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteDemographic_type($id) {
 		global $con;
 		$sql = 'DELETE FROM demographic_type WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listDemographic_type() {
 		global $con;
 		$sql = 'SELECT * FROM demographic_type';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$demographic_types = array();
 			while($result = mysql_fetch_array($results)) {
 				$demographic_type = new Demographic_type();
@@ -1185,8 +1191,8 @@
 		global $con;
 		$sql = "INSERT INTO donation (id, date, time, details, when_entered, donor_id, office_id, donation_type_id, pledge, admin_id) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -1195,9 +1201,9 @@
 		global $con;
 		$sql = 'SELECT * FROM donation WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$donations = array();
 			while($result = mysql_fetch_array($results)) {
 				$donation = new Donation();
@@ -1223,27 +1229,27 @@
 		global $con;
 		$sql = 'UPDATE donation SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteDonation($id) {
 		global $con;
 		$sql = 'DELETE FROM donation WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listDonation() {
 		global $con;
 		$sql = 'SELECT * FROM donation';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$donations = array();
 			while($result = mysql_fetch_array($results)) {
 				$donation = new Donation();
@@ -1271,8 +1277,8 @@
 		global $con;
 		$sql = "INSERT INTO donation_type (id, title, description) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -1281,9 +1287,9 @@
 		global $con;
 		$sql = 'SELECT * FROM donation_type WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$donation_types = array();
 			while($result = mysql_fetch_array($results)) {
 				$donation_type = new Donation_type();
@@ -1302,27 +1308,27 @@
 		global $con;
 		$sql = 'UPDATE donation_type SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteDonation_type($id) {
 		global $con;
 		$sql = 'DELETE FROM donation_type WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listDonation_type() {
 		global $con;
 		$sql = 'SELECT * FROM donation_type';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$donation_types = array();
 			while($result = mysql_fetch_array($results)) {
 				$donation_type = new Donation_type();
@@ -1343,8 +1349,8 @@
 		global $con;
 		$sql = "INSERT INTO email (id, email, person_id) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -1353,9 +1359,9 @@
 		global $con;
 		$sql = 'SELECT * FROM email WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$emails = array();
 			while($result = mysql_fetch_array($results)) {
 				$email = new Email();
@@ -1374,27 +1380,27 @@
 		global $con;
 		$sql = 'UPDATE email SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteEmail($id) {
 		global $con;
 		$sql = 'DELETE FROM email WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listEmail() {
 		global $con;
 		$sql = 'SELECT * FROM email';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$emails = array();
 			while($result = mysql_fetch_array($results)) {
 				$email = new Email();
@@ -1415,8 +1421,8 @@
 		global $con;
 		$sql = "INSERT INTO event (id, title, date, start_time, end_time, address_id, type_id, max_num_guests, committee_id, sponsored_id) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -1425,9 +1431,9 @@
 		global $con;
 		$sql = 'SELECT * FROM event WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$events = array();
 			while($result = mysql_fetch_array($results)) {
 				$event = new Event();
@@ -1453,27 +1459,27 @@
 		global $con;
 		$sql = 'UPDATE event SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteEvent($id) {
 		global $con;
 		$sql = 'DELETE FROM event WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listEvent() {
 		global $con;
 		$sql = 'SELECT * FROM event';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$events = array();
 			while($result = mysql_fetch_array($results)) {
 				$event = new Event();
@@ -1501,8 +1507,8 @@
 		global $con;
 		$sql = "INSERT INTO event_expenses (id, event_id, title, description, amount, when_entered, office_id, when_authorized, admin_id) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -1511,9 +1517,9 @@
 		global $con;
 		$sql = 'SELECT * FROM event_expenses WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$event_expensess = array();
 			while($result = mysql_fetch_array($results)) {
 				$event_expenses = new Event_expenses();
@@ -1538,27 +1544,27 @@
 		global $con;
 		$sql = 'UPDATE event_expenses SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteEvent_expenses($id) {
 		global $con;
 		$sql = 'DELETE FROM event_expenses WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listEvent_expenses() {
 		global $con;
 		$sql = 'SELECT * FROM event_expenses';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$event_expensess = array();
 			while($result = mysql_fetch_array($results)) {
 				$event_expenses = new Event_expenses();
@@ -1585,8 +1591,8 @@
 		global $con;
 		$sql = "INSERT INTO event_sponsor (id, event_id, person_id, organization_id) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -1595,9 +1601,9 @@
 		global $con;
 		$sql = 'SELECT * FROM event_sponsor WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$event_sponsors = array();
 			while($result = mysql_fetch_array($results)) {
 				$event_sponsor = new Event_sponsor();
@@ -1617,27 +1623,27 @@
 		global $con;
 		$sql = 'UPDATE event_sponsor SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteEvent_sponsor($id) {
 		global $con;
 		$sql = 'DELETE FROM event_sponsor WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listEvent_sponsor() {
 		global $con;
 		$sql = 'SELECT * FROM event_sponsor';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$event_sponsors = array();
 			while($result = mysql_fetch_array($results)) {
 				$event_sponsor = new Event_sponsor();
@@ -1659,8 +1665,8 @@
 		global $con;
 		$sql = "INSERT INTO event_type (id, title, description) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -1669,9 +1675,9 @@
 		global $con;
 		$sql = 'SELECT * FROM event_type WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$event_types = array();
 			while($result = mysql_fetch_array($results)) {
 				$event_type = new Event_type();
@@ -1690,27 +1696,27 @@
 		global $con;
 		$sql = 'UPDATE event_type SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteEvent_type($id) {
 		global $con;
 		$sql = 'DELETE FROM event_type WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listEvent_type() {
 		global $con;
 		$sql = 'SELECT * FROM event_type';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$event_types = array();
 			while($result = mysql_fetch_array($results)) {
 				$event_type = new Event_type();
@@ -1731,8 +1737,8 @@
 		global $con;
 		$sql = "INSERT INTO expense_type (id, title, description) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -1741,9 +1747,9 @@
 		global $con;
 		$sql = 'SELECT * FROM expense_type WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$expense_types = array();
 			while($result = mysql_fetch_array($results)) {
 				$expense_type = new Expense_type();
@@ -1762,27 +1768,27 @@
 		global $con;
 		$sql = 'UPDATE expense_type SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteExpense_type($id) {
 		global $con;
 		$sql = 'DELETE FROM expense_type WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listExpense_type() {
 		global $con;
 		$sql = 'SELECT * FROM expense_type';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$expense_types = array();
 			while($result = mysql_fetch_array($results)) {
 				$expense_type = new Expense_type();
@@ -1803,8 +1809,8 @@
 		global $con;
 		$sql = "INSERT INTO foh (event_id, person_id) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -1813,9 +1819,9 @@
 		global $con;
 		$sql = 'SELECT * FROM foh WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$fohs = array();
 			while($result = mysql_fetch_array($results)) {
 				$foh = new Foh();
@@ -1833,27 +1839,27 @@
 		global $con;
 		$sql = 'UPDATE foh SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteFoh($id) {
 		global $con;
 		$sql = 'DELETE FROM foh WHERE event_id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listFoh() {
 		global $con;
 		$sql = 'SELECT * FROM foh';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$fohs = array();
 			while($result = mysql_fetch_array($results)) {
 				$foh = new Foh();
@@ -1873,8 +1879,8 @@
 		global $con;
 		$sql = "INSERT INTO guest_list (event_id, person_id, attended) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -1883,9 +1889,9 @@
 		global $con;
 		$sql = 'SELECT * FROM guest_list WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$guest_lists = array();
 			while($result = mysql_fetch_array($results)) {
 				$guest_list = new Guest_list();
@@ -1904,27 +1910,27 @@
 		global $con;
 		$sql = 'UPDATE guest_list SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteGuest_list($id) {
 		global $con;
 		$sql = 'DELETE FROM guest_list WHERE event_id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listGuest_list() {
 		global $con;
 		$sql = 'SELECT * FROM guest_list';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$guest_lists = array();
 			while($result = mysql_fetch_array($results)) {
 				$guest_list = new Guest_list();
@@ -1945,8 +1951,8 @@
 		global $con;
 		$sql = "INSERT INTO habitat_employee (id, person_id, start_date, end_date) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -1955,9 +1961,9 @@
 		global $con;
 		$sql = 'SELECT * FROM habitat_employee WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$habitat_employees = array();
 			while($result = mysql_fetch_array($results)) {
 				$habitat_employee = new Habitat_employee();
@@ -1977,27 +1983,27 @@
 		global $con;
 		$sql = 'UPDATE habitat_employee SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteHabitat_employee($id) {
 		global $con;
 		$sql = 'DELETE FROM habitat_employee WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listHabitat_employee() {
 		global $con;
 		$sql = 'SELECT * FROM habitat_employee';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$habitat_employees = array();
 			while($result = mysql_fetch_array($results)) {
 				$habitat_employee = new Habitat_employee();
@@ -2019,8 +2025,8 @@
 		global $con;
 		$sql = "INSERT INTO ho_asset (id, person_id, title, description, value) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -2029,9 +2035,9 @@
 		global $con;
 		$sql = 'SELECT * FROM ho_asset WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$ho_assets = array();
 			while($result = mysql_fetch_array($results)) {
 				$ho_asset = new Ho_asset();
@@ -2052,27 +2058,27 @@
 		global $con;
 		$sql = 'UPDATE ho_asset SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteHo_asset($id) {
 		global $con;
 		$sql = 'DELETE FROM ho_asset WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listHo_asset() {
 		global $con;
 		$sql = 'SELECT * FROM ho_asset';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$ho_assets = array();
 			while($result = mysql_fetch_array($results)) {
 				$ho_asset = new Ho_asset();
@@ -2095,8 +2101,8 @@
 		global $con;
 		$sql = "INSERT INTO ho_debt (id, person_id, monthly_payment, balance) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -2105,9 +2111,9 @@
 		global $con;
 		$sql = 'SELECT * FROM ho_debt WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$ho_debts = array();
 			while($result = mysql_fetch_array($results)) {
 				$ho_debt = new Ho_debt();
@@ -2127,27 +2133,27 @@
 		global $con;
 		$sql = 'UPDATE ho_debt SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteHo_debt($id) {
 		global $con;
 		$sql = 'DELETE FROM ho_debt WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listHo_debt() {
 		global $con;
 		$sql = 'SELECT * FROM ho_debt';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$ho_debts = array();
 			while($result = mysql_fetch_array($results)) {
 				$ho_debt = new Ho_debt();
@@ -2169,8 +2175,8 @@
 		global $con;
 		$sql = "INSERT INTO ho_group (person_id, ho_id, demographic_id, primary_ho) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -2179,9 +2185,9 @@
 		global $con;
 		$sql = 'SELECT * FROM ho_group WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$ho_groups = array();
 			while($result = mysql_fetch_array($results)) {
 				$ho_group = new Ho_group();
@@ -2201,27 +2207,27 @@
 		global $con;
 		$sql = 'UPDATE ho_group SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteHo_group($id) {
 		global $con;
 		$sql = 'DELETE FROM ho_group WHERE person_id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listHo_group() {
 		global $con;
 		$sql = 'SELECT * FROM ho_group';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$ho_groups = array();
 			while($result = mysql_fetch_array($results)) {
 				$ho_group = new Ho_group();
@@ -2243,8 +2249,8 @@
 		global $con;
 		$sql = "INSERT INTO ho_income (id, person_id, gross, child_support, disability, unemployment) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -2253,9 +2259,9 @@
 		global $con;
 		$sql = 'SELECT * FROM ho_income WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$ho_incomes = array();
 			while($result = mysql_fetch_array($results)) {
 				$ho_income = new Ho_income();
@@ -2277,27 +2283,27 @@
 		global $con;
 		$sql = 'UPDATE ho_income SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteHo_income($id) {
 		global $con;
 		$sql = 'DELETE FROM ho_income WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listHo_income() {
 		global $con;
 		$sql = 'SELECT * FROM ho_income';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$ho_incomes = array();
 			while($result = mysql_fetch_array($results)) {
 				$ho_income = new Ho_income();
@@ -2321,8 +2327,8 @@
 		global $con;
 		$sql = "INSERT INTO ho_requirement (person_id, requirement_id, when_entered, when_completed, office_id, when_authorized, admin_id) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -2331,9 +2337,9 @@
 		global $con;
 		$sql = 'SELECT * FROM ho_requirement WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$ho_requirements = array();
 			while($result = mysql_fetch_array($results)) {
 				$ho_requirement = new Ho_requirement();
@@ -2356,27 +2362,27 @@
 		global $con;
 		$sql = 'UPDATE ho_requirement SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteHo_requirement($id) {
 		global $con;
 		$sql = 'DELETE FROM ho_requirement WHERE person_id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listHo_requirement() {
 		global $con;
 		$sql = 'SELECT * FROM ho_requirement';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$ho_requirements = array();
 			while($result = mysql_fetch_array($results)) {
 				$ho_requirement = new Ho_requirement();
@@ -2401,8 +2407,8 @@
 		global $con;
 		$sql = "INSERT INTO ho_status (id, title, code, description) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -2411,9 +2417,9 @@
 		global $con;
 		$sql = 'SELECT * FROM ho_status WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$ho_statuss = array();
 			while($result = mysql_fetch_array($results)) {
 				$ho_status = new Ho_status();
@@ -2433,27 +2439,27 @@
 		global $con;
 		$sql = 'UPDATE ho_status SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteHo_status($id) {
 		global $con;
 		$sql = 'DELETE FROM ho_status WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listHo_status() {
 		global $con;
 		$sql = 'SELECT * FROM ho_status';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$ho_statuss = array();
 			while($result = mysql_fetch_array($results)) {
 				$ho_status = new Ho_status();
@@ -2475,8 +2481,8 @@
 		global $con;
 		$sql = "INSERT INTO home_owner (person_id, status_id, bank_id, social_security) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -2485,9 +2491,9 @@
 		global $con;
 		$sql = 'SELECT * FROM home_owner WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$home_owners = array();
 			while($result = mysql_fetch_array($results)) {
 				$home_owner = new Home_owner();
@@ -2507,27 +2513,27 @@
 		global $con;
 		$sql = 'UPDATE home_owner SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteHome_owner($id) {
 		global $con;
 		$sql = 'DELETE FROM home_owner WHERE person_id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listHome_owner() {
 		global $con;
 		$sql = 'SELECT * FROM home_owner';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$home_owners = array();
 			while($result = mysql_fetch_array($results)) {
 				$home_owner = new Home_owner();
@@ -2549,8 +2555,8 @@
 		global $con;
 		$sql = "INSERT INTO interest (id, type_id, title, description) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -2559,9 +2565,9 @@
 		global $con;
 		$sql = 'SELECT * FROM interest WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$interests = array();
 			while($result = mysql_fetch_array($results)) {
 				$interest = new Interest();
@@ -2581,27 +2587,27 @@
 		global $con;
 		$sql = 'UPDATE interest SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteInterest($id) {
 		global $con;
 		$sql = 'DELETE FROM interest WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listInterest() {
 		global $con;
 		$sql = 'SELECT * FROM interest';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$interests = array();
 			while($result = mysql_fetch_array($results)) {
 				$interest = new Interest();
@@ -2623,8 +2629,8 @@
 		global $con;
 		$sql = "INSERT INTO interest_type (id, title, description) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -2633,9 +2639,9 @@
 		global $con;
 		$sql = 'SELECT * FROM interest_type WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$interest_types = array();
 			while($result = mysql_fetch_array($results)) {
 				$interest_type = new Interest_type();
@@ -2654,27 +2660,27 @@
 		global $con;
 		$sql = 'UPDATE interest_type SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteInterest_type($id) {
 		global $con;
 		$sql = 'DELETE FROM interest_type WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listInterest_type() {
 		global $con;
 		$sql = 'SELECT * FROM interest_type';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$interest_types = array();
 			while($result = mysql_fetch_array($results)) {
 				$interest_type = new Interest_type();
@@ -2695,8 +2701,8 @@
 		global $con;
 		$sql = "INSERT INTO interested_in (volunteer_id, interest_id) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -2705,9 +2711,9 @@
 		global $con;
 		$sql = 'SELECT * FROM interested_in WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$interested_ins = array();
 			while($result = mysql_fetch_array($results)) {
 				$interested_in = new Interested_in();
@@ -2725,27 +2731,27 @@
 		global $con;
 		$sql = 'UPDATE interested_in SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteInterested_in($id) {
 		global $con;
 		$sql = 'DELETE FROM interested_in WHERE volunteer_id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listInterested_in() {
 		global $con;
 		$sql = 'SELECT * FROM interested_in';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$interested_ins = array();
 			while($result = mysql_fetch_array($results)) {
 				$interested_in = new Interested_in();
@@ -2765,8 +2771,8 @@
 		global $con;
 		$sql = "INSERT INTO labor (donation_id, amount, method, project_id) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -2775,9 +2781,9 @@
 		global $con;
 		$sql = 'SELECT * FROM labor WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$labors = array();
 			while($result = mysql_fetch_array($results)) {
 				$labor = new Labor();
@@ -2797,27 +2803,27 @@
 		global $con;
 		$sql = 'UPDATE labor SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteLabor($id) {
 		global $con;
 		$sql = 'DELETE FROM labor WHERE donation_id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listLabor() {
 		global $con;
 		$sql = 'SELECT * FROM labor';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$labors = array();
 			while($result = mysql_fetch_array($results)) {
 				$labor = new Labor();
@@ -2839,8 +2845,8 @@
 		global $con;
 		$sql = "INSERT INTO marital_status (id, title, description) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -2849,9 +2855,9 @@
 		global $con;
 		$sql = 'SELECT * FROM marital_status WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$marital_statuss = array();
 			while($result = mysql_fetch_array($results)) {
 				$marital_status = new Marital_status();
@@ -2870,27 +2876,27 @@
 		global $con;
 		$sql = 'UPDATE marital_status SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteMarital_status($id) {
 		global $con;
 		$sql = 'DELETE FROM marital_status WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listMarital_status() {
 		global $con;
 		$sql = 'SELECT * FROM marital_status';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$marital_statuss = array();
 			while($result = mysql_fetch_array($results)) {
 				$marital_status = new Marital_status();
@@ -2911,8 +2917,8 @@
 		global $con;
 		$sql = "INSERT INTO material (donation_id, value, description) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -2921,9 +2927,9 @@
 		global $con;
 		$sql = 'SELECT * FROM material WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$materials = array();
 			while($result = mysql_fetch_array($results)) {
 				$material = new Material();
@@ -2942,27 +2948,27 @@
 		global $con;
 		$sql = 'UPDATE material SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteMaterial($id) {
 		global $con;
 		$sql = 'DELETE FROM material WHERE donation_id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listMaterial() {
 		global $con;
 		$sql = 'SELECT * FROM material';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$materials = array();
 			while($result = mysql_fetch_array($results)) {
 				$material = new Material();
@@ -2983,8 +2989,8 @@
 		global $con;
 		$sql = "INSERT INTO money (donation_id, amount, method) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -2993,9 +2999,9 @@
 		global $con;
 		$sql = 'SELECT * FROM money WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$moneys = array();
 			while($result = mysql_fetch_array($results)) {
 				$money = new Money();
@@ -3014,27 +3020,27 @@
 		global $con;
 		$sql = 'UPDATE money SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteMoney($id) {
 		global $con;
 		$sql = 'DELETE FROM money WHERE donation_id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listMoney() {
 		global $con;
 		$sql = 'SELECT * FROM money';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$moneys = array();
 			while($result = mysql_fetch_array($results)) {
 				$money = new Money();
@@ -3055,8 +3061,8 @@
 		global $con;
 		$sql = "INSERT INTO mortgage (id, person_id, amount, status, project_id, bank_id) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -3065,9 +3071,9 @@
 		global $con;
 		$sql = 'SELECT * FROM mortgage WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$mortgages = array();
 			while($result = mysql_fetch_array($results)) {
 				$mortgage = new Mortgage();
@@ -3089,27 +3095,27 @@
 		global $con;
 		$sql = 'UPDATE mortgage SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteMortgage($id) {
 		global $con;
 		$sql = 'DELETE FROM mortgage WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listMortgage() {
 		global $con;
 		$sql = 'SELECT * FROM mortgage';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$mortgages = array();
 			while($result = mysql_fetch_array($results)) {
 				$mortgage = new Mortgage();
@@ -3133,8 +3139,8 @@
 		global $con;
 		$sql = "INSERT INTO municipality (id, title) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -3143,9 +3149,9 @@
 		global $con;
 		$sql = 'SELECT * FROM municipality WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$municipalitys = array();
 			while($result = mysql_fetch_array($results)) {
 				$municipality = new Municipality();
@@ -3163,27 +3169,27 @@
 		global $con;
 		$sql = 'UPDATE municipality SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteMunicipality($id) {
 		global $con;
 		$sql = 'DELETE FROM municipality WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listMunicipality() {
 		global $con;
 		$sql = 'SELECT * FROM municipality';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$municipalitys = array();
 			while($result = mysql_fetch_array($results)) {
 				$municipality = new Municipality();
@@ -3203,8 +3209,8 @@
 		global $con;
 		$sql = "INSERT INTO office (id, person_id) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -3213,9 +3219,9 @@
 		global $con;
 		$sql = 'SELECT * FROM office WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$offices = array();
 			while($result = mysql_fetch_array($results)) {
 				$office = new Office();
@@ -3233,27 +3239,27 @@
 		global $con;
 		$sql = 'UPDATE office SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteOffice($id) {
 		global $con;
 		$sql = 'DELETE FROM office WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listOffice() {
 		global $con;
 		$sql = 'SELECT * FROM office';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$offices = array();
 			while($result = mysql_fetch_array($results)) {
 				$office = new Office();
@@ -3273,8 +3279,8 @@
 		global $con;
 		$sql = "INSERT INTO organization (id, name, contact_id) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -3283,9 +3289,9 @@
 		global $con;
 		$sql = 'SELECT * FROM organization WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$organizations = array();
 			while($result = mysql_fetch_array($results)) {
 				$organization = new Organization();
@@ -3304,27 +3310,27 @@
 		global $con;
 		$sql = 'UPDATE organization SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteOrganization($id) {
 		global $con;
 		$sql = 'DELETE FROM organization WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listOrganization() {
 		global $con;
 		$sql = 'SELECT * FROM organization';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$organizations = array();
 			while($result = mysql_fetch_array($results)) {
 				$organization = new Organization();
@@ -3345,8 +3351,8 @@
 		global $con;
 		$sql = "INSERT INTO organization_contact (organization_id, person_id, phone, ext, fax) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -3355,9 +3361,9 @@
 		global $con;
 		$sql = 'SELECT * FROM organization_contact WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$organization_contacts = array();
 			while($result = mysql_fetch_array($results)) {
 				$organization_contact = new Organization_contact();
@@ -3378,27 +3384,27 @@
 		global $con;
 		$sql = 'UPDATE organization_contact SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteOrganization_contact($id) {
 		global $con;
 		$sql = 'DELETE FROM organization_contact WHERE organization_id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listOrganization_contact() {
 		global $con;
 		$sql = 'SELECT * FROM organization_contact';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$organization_contacts = array();
 			while($result = mysql_fetch_array($results)) {
 				$organization_contact = new Organization_contact();
@@ -3421,8 +3427,8 @@
 		global $con;
 		$sql = "INSERT INTO organization_donation (id, donation_id, organization_id) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -3431,9 +3437,9 @@
 		global $con;
 		$sql = 'SELECT * FROM organization_donation WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$organization_donations = array();
 			while($result = mysql_fetch_array($results)) {
 				$organization_donation = new Organization_donation();
@@ -3452,27 +3458,27 @@
 		global $con;
 		$sql = 'UPDATE organization_donation SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteOrganization_donation($id) {
 		global $con;
 		$sql = 'DELETE FROM organization_donation WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listOrganization_donation() {
 		global $con;
 		$sql = 'SELECT * FROM organization_donation';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$organization_donations = array();
 			while($result = mysql_fetch_array($results)) {
 				$organization_donation = new Organization_donation();
@@ -3493,8 +3499,8 @@
 		global $con;
 		$sql = "INSERT INTO payment (id, person_id, mortgage_id, amount, date, time, office_id, when_authorized, admin_id) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -3503,9 +3509,9 @@
 		global $con;
 		$sql = 'SELECT * FROM payment WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$payments = array();
 			while($result = mysql_fetch_array($results)) {
 				$payment = new Payment();
@@ -3530,27 +3536,27 @@
 		global $con;
 		$sql = 'UPDATE payment SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deletePayment($id) {
 		global $con;
 		$sql = 'DELETE FROM payment WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listPayment() {
 		global $con;
 		$sql = 'SELECT * FROM payment';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$payments = array();
 			while($result = mysql_fetch_array($results)) {
 				$payment = new Payment();
@@ -3577,8 +3583,8 @@
 		global $con;
 		$sql = "INSERT INTO person (id, title, first_name, last_name, gender, dob, marital_status_id, contact_id) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -3587,9 +3593,9 @@
 		global $con;
 		$sql = 'SELECT * FROM person WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$persons = array();
 			while($result = mysql_fetch_array($results)) {
 				$person = new Person();
@@ -3599,8 +3605,8 @@
 				$person->setLast_name($result[3]);
 				$person->setGender($result[4]);
 				$person->setDob($result[5]);
-				$person->setMarital_status(readMarital_status($result[6]));
-				$person->setContact(readContact($result[7]));
+				$person->setMarital_status($this->readMarital_status($result[6]));
+				$person->setContact($this->readContact($result[7]));
 				$persons[] = $person;
 			}// end while
 		} else {
@@ -3613,27 +3619,27 @@
 		global $con;
 		$sql = 'UPDATE person SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deletePerson($id) {
 		global $con;
 		$sql = 'DELETE FROM person WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listPerson() {
 		global $con;
 		$sql = 'SELECT * FROM person';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$persons = array();
 			while($result = mysql_fetch_array($results)) {
 				$person = new Person();
@@ -3659,8 +3665,8 @@
 		global $con;
 		$sql = "INSERT INTO personal_donation (id, donation_id, person_id) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -3669,9 +3675,9 @@
 		global $con;
 		$sql = 'SELECT * FROM personal_donation WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$personal_donations = array();
 			while($result = mysql_fetch_array($results)) {
 				$personal_donation = new Personal_donation();
@@ -3690,27 +3696,27 @@
 		global $con;
 		$sql = 'UPDATE personal_donation SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deletePersonal_donation($id) {
 		global $con;
 		$sql = 'DELETE FROM personal_donation WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listPersonal_donation() {
 		global $con;
 		$sql = 'SELECT * FROM personal_donation';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$personal_donations = array();
 			while($result = mysql_fetch_array($results)) {
 				$personal_donation = new Personal_donation();
@@ -3731,8 +3737,8 @@
 		global $con;
 		$sql = "INSERT INTO photo_id (person_id, photo_id) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -3741,9 +3747,9 @@
 		global $con;
 		$sql = 'SELECT * FROM photo_id WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$photo_ids = array();
 			while($result = mysql_fetch_array($results)) {
 				$photo_id = new Photo_id();
@@ -3761,27 +3767,27 @@
 		global $con;
 		$sql = 'UPDATE photo_id SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deletePhoto_id($id) {
 		global $con;
 		$sql = 'DELETE FROM photo_id WHERE person_id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listPhoto_id() {
 		global $con;
 		$sql = 'SELECT * FROM photo_id';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$photo_ids = array();
 			while($result = mysql_fetch_array($results)) {
 				$photo_id = new Photo_id();
@@ -3801,8 +3807,8 @@
 		global $con;
 		$sql = "INSERT INTO project (id, is_active, municipality_id, sponsor_id, date_of_origin, start_date, estimated_completion_date, actual_completion_date, description, extimated_valutation, estimated_purchase, estimated_rehab, estimated_Pre-Acq, actual_pre_acq, estimated_sponser_value, estimated_donation_value, estimated_sell_price, estimated_volunteer_hours, estimated_purchase_cost, actual_purchase_cost, materials_budger, labor_budget, subContract_budget, indirectAllocation_budget, buyer_hours_required, estimated_selling_price, actual_appraisal_value, actual_sell_price) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -3811,9 +3817,9 @@
 		global $con;
 		$sql = 'SELECT * FROM project WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$projects = array();
 			while($result = mysql_fetch_array($results)) {
 				$project = new Project();
@@ -3857,27 +3863,27 @@
 		global $con;
 		$sql = 'UPDATE project SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteProject($id) {
 		global $con;
 		$sql = 'DELETE FROM project WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listProject() {
 		global $con;
 		$sql = 'SELECT * FROM project';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$projects = array();
 			while($result = mysql_fetch_array($results)) {
 				$project = new Project();
@@ -3923,8 +3929,8 @@
 		global $con;
 		$sql = "INSERT INTO project_donation (id, project_id, donation_id) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -3933,9 +3939,9 @@
 		global $con;
 		$sql = 'SELECT * FROM project_donation WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$project_donations = array();
 			while($result = mysql_fetch_array($results)) {
 				$project_donation = new Project_donation();
@@ -3954,27 +3960,27 @@
 		global $con;
 		$sql = 'UPDATE project_donation SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteProject_donation($id) {
 		global $con;
 		$sql = 'DELETE FROM project_donation WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listProject_donation() {
 		global $con;
 		$sql = 'SELECT * FROM project_donation';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$project_donations = array();
 			while($result = mysql_fetch_array($results)) {
 				$project_donation = new Project_donation();
@@ -3995,8 +4001,8 @@
 		global $con;
 		$sql = "INSERT INTO project_event (event_id, project_id) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -4005,9 +4011,9 @@
 		global $con;
 		$sql = 'SELECT * FROM project_event WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$project_events = array();
 			while($result = mysql_fetch_array($results)) {
 				$project_event = new Project_event();
@@ -4025,27 +4031,27 @@
 		global $con;
 		$sql = 'UPDATE project_event SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteProject_event($id) {
 		global $con;
 		$sql = 'DELETE FROM project_event WHERE event_id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listProject_event() {
 		global $con;
 		$sql = 'SELECT * FROM project_event';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$project_events = array();
 			while($result = mysql_fetch_array($results)) {
 				$project_event = new Project_event();
@@ -4065,8 +4071,8 @@
 		global $con;
 		$sql = "INSERT INTO project_expenses (id, title, description, project_id, type_id, amount, when_entered, office_id, when_authorized, admin_id) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -4075,9 +4081,9 @@
 		global $con;
 		$sql = 'SELECT * FROM project_expenses WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$project_expensess = array();
 			while($result = mysql_fetch_array($results)) {
 				$project_expenses = new Project_expenses();
@@ -4103,27 +4109,27 @@
 		global $con;
 		$sql = 'UPDATE project_expenses SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteProject_expenses($id) {
 		global $con;
 		$sql = 'DELETE FROM project_expenses WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listProject_expenses() {
 		global $con;
 		$sql = 'SELECT * FROM project_expenses';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$project_expensess = array();
 			while($result = mysql_fetch_array($results)) {
 				$project_expenses = new Project_expenses();
@@ -4151,8 +4157,8 @@
 		global $con;
 		$sql = "INSERT INTO project_status (id, title, description, abbreviation) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -4161,9 +4167,9 @@
 		global $con;
 		$sql = 'SELECT * FROM project_status WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$project_statuss = array();
 			while($result = mysql_fetch_array($results)) {
 				$project_status = new Project_status();
@@ -4183,27 +4189,27 @@
 		global $con;
 		$sql = 'UPDATE project_status SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteProject_status($id) {
 		global $con;
 		$sql = 'DELETE FROM project_status WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listProject_status() {
 		global $con;
 		$sql = 'SELECT * FROM project_status';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$project_statuss = array();
 			while($result = mysql_fetch_array($results)) {
 				$project_status = new Project_status();
@@ -4225,8 +4231,8 @@
 		global $con;
 		$sql = "INSERT INTO recovery_log (account_id, date, time) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -4235,9 +4241,9 @@
 		global $con;
 		$sql = 'SELECT * FROM recovery_log WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$recovery_logs = array();
 			while($result = mysql_fetch_array($results)) {
 				$recovery_log = new Recovery_log();
@@ -4256,27 +4262,27 @@
 		global $con;
 		$sql = 'UPDATE recovery_log SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteRecovery_log($id) {
 		global $con;
 		$sql = 'DELETE FROM recovery_log WHERE account_id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listRecovery_log() {
 		global $con;
 		$sql = 'SELECT * FROM recovery_log';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$recovery_logs = array();
 			while($result = mysql_fetch_array($results)) {
 				$recovery_log = new Recovery_log();
@@ -4297,8 +4303,8 @@
 		global $con;
 		$sql = "INSERT INTO requirement (id, title, description) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -4307,9 +4313,9 @@
 		global $con;
 		$sql = 'SELECT * FROM requirement WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$requirements = array();
 			while($result = mysql_fetch_array($results)) {
 				$requirement = new Requirement();
@@ -4328,27 +4334,27 @@
 		global $con;
 		$sql = 'UPDATE requirement SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteRequirement($id) {
 		global $con;
 		$sql = 'DELETE FROM requirement WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listRequirement() {
 		global $con;
 		$sql = 'SELECT * FROM requirement';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$requirements = array();
 			while($result = mysql_fetch_array($results)) {
 				$requirement = new Requirement();
@@ -4369,8 +4375,8 @@
 		global $con;
 		$sql = "INSERT INTO schedule (id, schedule_id, start_time, end_time, description, interest_id, max_num_people) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -4379,9 +4385,9 @@
 		global $con;
 		$sql = 'SELECT * FROM schedule WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$schedules = array();
 			while($result = mysql_fetch_array($results)) {
 				$schedule = new Schedule();
@@ -4404,27 +4410,27 @@
 		global $con;
 		$sql = 'UPDATE schedule SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteSchedule($id) {
 		global $con;
 		$sql = 'DELETE FROM schedule WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listSchedule() {
 		global $con;
 		$sql = 'SELECT * FROM schedule';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$schedules = array();
 			while($result = mysql_fetch_array($results)) {
 				$schedule = new Schedule();
@@ -4449,8 +4455,8 @@
 		global $con;
 		$sql = "INSERT INTO serves_on (volunteer_id, committee_id, is_officer) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -4459,9 +4465,9 @@
 		global $con;
 		$sql = 'SELECT * FROM serves_on WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$serves_ons = array();
 			while($result = mysql_fetch_array($results)) {
 				$serves_on = new Serves_on();
@@ -4480,27 +4486,27 @@
 		global $con;
 		$sql = 'UPDATE serves_on SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteServes_on($id) {
 		global $con;
 		$sql = 'DELETE FROM serves_on WHERE volunteer_id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listServes_on() {
 		global $con;
 		$sql = 'SELECT * FROM serves_on';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$serves_ons = array();
 			while($result = mysql_fetch_array($results)) {
 				$serves_on = new Serves_on();
@@ -4521,8 +4527,8 @@
 		global $con;
 		$sql = "INSERT INTO state (id, abbreviation, title) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -4531,9 +4537,9 @@
 		global $con;
 		$sql = 'SELECT * FROM state WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$states = array();
 			while($result = mysql_fetch_array($results)) {
 				$state = new State();
@@ -4552,27 +4558,27 @@
 		global $con;
 		$sql = 'UPDATE state SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteState($id) {
 		global $con;
 		$sql = 'DELETE FROM state WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listState() {
 		global $con;
 		$sql = 'SELECT * FROM state';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$states = array();
 			while($result = mysql_fetch_array($results)) {
 				$state = new State();
@@ -4593,8 +4599,8 @@
 		global $con;
 		$sql = "INSERT INTO status_change (project_id, status_id, when_changed) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -4603,9 +4609,9 @@
 		global $con;
 		$sql = 'SELECT * FROM status_change WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$status_changes = array();
 			while($result = mysql_fetch_array($results)) {
 				$status_change = new Status_change();
@@ -4624,27 +4630,27 @@
 		global $con;
 		$sql = 'UPDATE status_change SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteStatus_change($id) {
 		global $con;
 		$sql = 'DELETE FROM status_change WHERE project_id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listStatus_change() {
 		global $con;
 		$sql = 'SELECT * FROM status_change';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$status_changes = array();
 			while($result = mysql_fetch_array($results)) {
 				$status_change = new Status_change();
@@ -4665,8 +4671,8 @@
 		global $con;
 		$sql = "INSERT INTO tickets (event_id, id, ticket_price, max_num, current_num) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -4675,9 +4681,9 @@
 		global $con;
 		$sql = 'SELECT * FROM tickets WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$ticketss = array();
 			while($result = mysql_fetch_array($results)) {
 				$tickets = new Tickets();
@@ -4698,27 +4704,27 @@
 		global $con;
 		$sql = 'UPDATE tickets SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteTickets($id) {
 		global $con;
 		$sql = 'DELETE FROM tickets WHERE event_id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listTickets() {
 		global $con;
 		$sql = 'SELECT * FROM tickets';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$ticketss = array();
 			while($result = mysql_fetch_array($results)) {
 				$tickets = new Tickets();
@@ -4741,8 +4747,8 @@
 		global $con;
 		$sql = "INSERT INTO volunteer (id, person_id, consent_age, consent_video, consent_waiver, consent_photo, consent_minor, consent_safety, avail_day, avail_eve, avail_wkend, emergency_name, emergency_phone) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -4751,9 +4757,9 @@
 		global $con;
 		$sql = 'SELECT * FROM volunteer WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$volunteers = array();
 			while($result = mysql_fetch_array($results)) {
 				$volunteer = new Volunteer();
@@ -4782,27 +4788,27 @@
 		global $con;
 		$sql = 'UPDATE volunteer SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteVolunteer($id) {
 		global $con;
 		$sql = 'DELETE FROM volunteer WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listVolunteer() {
 		global $con;
 		$sql = 'SELECT * FROM volunteer';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$volunteers = array();
 			while($result = mysql_fetch_array($results)) {
 				$volunteer = new Volunteer();
@@ -4833,8 +4839,8 @@
 		global $con;
 		$sql = "INSERT INTO work (id, volunteer_id, date, event_id, when_entered, office_id, when_authorized, admin_id, hours_worked) VALUES ({$array})";
 		$this->open();
-		$result = mysql_query($sql, $con);
-		$id = ($result) ? mysql_insert_id() : $result;
+		$results = mysql_query($sql, $con);
+		$id = ($results) ? mysql_insert_id() : $results;
 		$this->close();
 		return $id;
 	}// end function
@@ -4843,9 +4849,9 @@
 		global $con;
 		$sql = 'SELECT * FROM work WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$works = array();
 			while($result = mysql_fetch_array($results)) {
 				$work = new Work();
@@ -4870,27 +4876,27 @@
 		global $con;
 		$sql = 'UPDATE work SET ($array) WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function deleteWork($id) {
 		global $con;
 		$sql = 'DELETE FROM work WHERE id = WHERE id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		return $result;
+		return $results;
 	}// end function
 
 	public function listWork() {
 		global $con;
 		$sql = 'SELECT * FROM work';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
 			$works = array();
 			while($result = mysql_fetch_array($results)) {
 				$work = new Work();
