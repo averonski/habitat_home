@@ -34,13 +34,13 @@
         }// END*/
 
         function open() {
-                $hostname="73.52.51.66:3306";
+                $hostname="73.52.51.66";
                 $username="root";
                 $password="qwerty321";
                 $dbname="homes_db";
 
                  global $con;
-                 $con = mysql_connect($hostname,$username, $password) or die ("no worky");
+                 $con = mysql_connect($hostname,$username,$password) or die ("no worky");
                  mysql_select_db($dbname);
         }// END
 
@@ -73,7 +73,78 @@
                 }
                 return $itemString;
         }// end function
+        
+        // login // ---------------------
+        
+        public function getLogin($user,$pw){
+            $this->open();
+            global $con;
+            $sql='SELECT id, email FROM email where email ="'.$user.'"';
+            $result=mysql_query($sql,$con);
+            $hold=mysql_fetch_row($result);
+            $id=$hold[0];
+            $email=$hold[1];
+            
+            $sql2='SELECT email,password FROM account WHERE email="'.$id.'" AND password="'.$pw.'"';
+            $results=mysql_query($sql2,$con);
+            $final=mysql_fetch_row($results);
+            $status=$final[0];
+            $this->close();
+            
+            if (empty($status)){
+                return null;
+            }else{
+                return $email;
+            }
+        }
+        
+        public function getPersonIdByUserName($userName){
 
+            global $con;
+
+            $sql='SELECT person_id FROM Account WHERE email="'. $userName .'"';
+            $this->open();
+            $result=mysql_query($sql,$con);
+            while($row = mysql_fetch_array($result)) {
+                    $pid = $row[0];
+            }
+            if (empty($pid)) {
+                $error = mysql_error();
+                return $error;
+            }
+            $this->close();
+            return $pid;
+            
+        }
+        
+        public function getAccountType($person_id){
+
+            global $con;
+            $sql1='SELECT * FROM admin WHERE person_id="' .$person_id . '"';
+            $sql2='SELECT * FROM office WHERE person_id="' .$person_id . '"';
+            //$sql3='SELECT isVolunteer FROM Account WHERE person_id=' .$personId;
+
+            $this->open();
+            $results1 = mysql_query($sql1,$con);
+            $results2= mysql_query($sql2,$con);
+            $this->close();
+
+            if(mysql_num_rows($results1) > 0){
+                    return '1';
+            }
+            else{
+                if(mysql_num_rows($results2) > 0){
+                //var_dump($rows[0]);
+                //if($rows[0]=='1'){
+                        return '2';
+                }    
+                else {
+                        return '3';
+                }
+            }
+        }
+
+        
         // account // --------------------
 
 	public function createAccount($account, $array) {

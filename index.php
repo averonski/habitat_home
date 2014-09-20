@@ -167,44 +167,43 @@
 			<div id="body">
 			<div id="mainnav">
 			<div id="mainNav">
-				<?php 
-				if ($dir!='login') {
+                            <?php 
+                            if ($dir!='login') {
 
-					$isAdmin = false;
-					$isOffice = false;
-					$isVolunteer = true;
-	
-					$clearance= $dbio->getAccountType($_SESSION['personid']); //Getting clearance value
+                                $isAdmin = false;
+                                $isOffice = false;
+                                $isVolunteer = true;
 
-					switch ($clearance) { //Setting clearance for person
-						case '1':
-							$isAdmin = true;
-							$isOffice = true;
-							break;
+                                $clearance= $dbio->getAccountType($_SESSION['personid']); //Getting clearance value
 
-						case '2':
-							$isOffice = true;
-							$isVolunteer= true;
-							break;
+                                switch ($clearance) { //Setting clearance for person
+                                        case '1':
+                                                $isAdmin = true;
+                                                $isOffice = true;
+                                                break;
 
-						case '3':	
-							$isVolunteer = true;
-							break;
+                                        case '2':
+                                                $isOffice = true;
+                                                $isVolunteer= true;
+                                                break;
 
-						default:
-							var_dump('Invalid clearance');
-							break;
-					}
-					
-					include 'root/nav.php';
-				} ?>
-				</div>
-				</div>
+                                        case '3':	
+                                                $isVolunteer = true;
+                                                break;
+
+                                        default:
+                                                var_dump('Invalid clearance');
+                                                break;
+                                }	
+                                    include 'root/nav.php';
+                            } 
+                            ?>
+                        </div>
+                        </div>
 				<?php //if (file_exists($dir . '/menu.php')) {include 'root/subNav.php';} ?>
 				<div id="content">
-							<a id="printpage" href="#" onclick="print_preview(); return false;">Print this page</a>
-
-					<?php include $page; // view call ?>
+                                    <!--<a id="printpage" href="#" onclick="print_preview(); return false;">Print this page</a>-->
+                                    <?php include $page; // view call ?>
 				</div>
 			</div>
 		</div>

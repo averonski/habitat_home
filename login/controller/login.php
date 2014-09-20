@@ -17,36 +17,33 @@
 	{
 	    //gets submitted username and password, and checks them against database
 	    case 'loginCheck';
-	    //session_start();
-	    $user=($_GET['userName']);
-	    $pw=($_GET['password']);
-	    $dbCheck=$dbio->getLogin($user,$pw);
-	    global $personid;
-	    $personid= $dbio->getPersonIdByUserName($user);
+            
+                //session_start();
+                $user=($_GET['userName']);
+                $pw=($_GET['password']);
+                $dbCheck=$dbio->getLogin($user,$pw);
+                //gets personid from username
+                global $personid;
+                $personid= $dbio->getPersonIdByUserName($user);
 
-	    //checks results of DB query and either errors or allows login
-	    if($user != $dbCheck)
-	    {
+                //checks results of DB query and either errors or allows login
+                if($user != $dbCheck)
+                {
+                    //include ('view/loginpage.php');
+                    $page = $dir . '/view/loginpage.php';
+                    print '<script type="text/javascript">'; 
+                            print 'alert("Not a valid Username or Password")'; 
+                            print '</script>';
+                }
+                else
+                {	
+                    $dir='home';
 
-	    	//include ('view/loginpage.php');
-	    	$page = $dir . '/view/loginpage.php';
-	    	print '<script type="text/javascript">'; 
-			print 'alert("Not a valid Username or Password")'; 
-			print '</script>';
-	    }
-
-	    else
-	    {	
-	    	$dir='home';
-	    	
-	    	$_SESSION['personid']=$personid;
-	    	$_SESSION['userName'] = (isset($_GET['userName'])) ? $_GET['userName'] : '';
-	    	$page = $dir . '/view/home.php';
-	    }
-
-
-	    
-	    break;
+                    $_SESSION['personid']=$personid;
+                    $_SESSION['userName'] = (isset($_GET['userName'])) ? $_GET['userName'] : '';
+                    $page = $dir . '/view/home.php';
+                }
+            break;
 
 	    case 'checkEmail';
 	    $page = $dir . '/view/checkEmail.php';
