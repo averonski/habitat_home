@@ -6,14 +6,14 @@
 
 
 ?>
- <!--css-->
+ <!--css
 <style>
 	
 	div.show {display: block;}
 	div.hide {display: none;}
 	h4+div{border: 1px solid black;}
 
-</style>
+</style>-->
 
 <!--javascript-->
 <script>

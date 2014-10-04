@@ -2,7 +2,7 @@
     //File: volunteer view
     //Author: Brandon Willis; bmw5285
 ?>
-<style>
+<!--<style>
 	dd.list
 		{
 		border-collapse:collapse;
@@ -20,7 +20,7 @@
 		padding:5px;
 		padding-left:20px;
 		}
-</style>
+</style>-->
 
 <h2>Volunteer</h2>
 <hr>

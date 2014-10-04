@@ -4,7 +4,7 @@
     	//Author: Brandon Willis; bmw5285
 ?>
 
-<!-- css -->
+<!-- css 
 <style>
 	dd.list
 		{
@@ -27,7 +27,7 @@
 		{
 
 		}
-</style>
+</style>-->
 
 <h2>Your Account</h2>       
 <hr>

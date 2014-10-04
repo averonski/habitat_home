@@ -9,7 +9,7 @@
 	global $total;
 
 ?>
-<style>
+<!--<style>
 
 
 
@@ -57,7 +57,8 @@
     {
         margin-bottom: 8px;
     }
-    </style>
+    </style> -->
+
 	<h4>Personal Information</h4>
         <br/>
 	<?php include 'progress.php'; ?>

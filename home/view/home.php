@@ -6,7 +6,7 @@
 include 'home/model/home.php';
 
 ?>
-<!--style-->
+<!--style
 <style>
     .event {width: 500px;}
     
@@ -26,7 +26,7 @@ include 'home/model/home.php';
     }
     
     .cItem dd {border: 1px solid #000;}
-</style>
+</style>-->
 
 <?php
 	

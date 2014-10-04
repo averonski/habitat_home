@@ -26,7 +26,7 @@
 	}
 </script>
 
-<style>
+<!-- <style>
     input.signedUp {
         background: #cc0000;
         color: white;
@@ -68,7 +68,8 @@
     table.VolSchedule tr:nth-child(2n+3) td {background-color: lavender;}
     
 
-</style>
+</style> -->
+
 <h2>Volunteer Schedule</h2>
 <hr>
 

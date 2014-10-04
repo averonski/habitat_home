@@ -11,7 +11,7 @@
 	$email = isset($_SESSION['email']) ? $_SESSION['email'] : 'null';
 
 ?>
-<style>
+<!-- <style>
     /*label
     {
         padding-left: 10px;
@@ -50,7 +50,7 @@
 	    padding-top: 3px;
 	    padding-bottom: 3px;
 	}
-    </style>
+    </style> -->
 	<h4>Registration</h4>
         <br/>
 	<?php include 'progress.php'; ?>

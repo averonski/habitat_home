@@ -24,13 +24,13 @@
 		echo '<div class="alert alert-dismissable alert-success"><button type="button" class="close" data-dismiss="alert">×</button><strong>UPDATED</strong> You successfully updated the information.</div>';
 ?>
 
-<!--css-->
+<!--css
 <style>
 	th
 	{
 		font-size:1.3em;
 	}
-</style>
+</style>-->
 
 <!--html-->
 <h2>Personal Information</h2>

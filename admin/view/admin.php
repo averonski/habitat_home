@@ -4,7 +4,7 @@
     	// Author: Brandon Willis; bmw5285
 ?>
 
-<!--css-->
+<!--css
 <style>
 	dd.list
 		{
@@ -27,7 +27,8 @@
 		{
 
 		}
-</style>
+</style>-->
+
 <h2>Administration</h2> 
 <hr>
 <!--links to admin sub sections-->

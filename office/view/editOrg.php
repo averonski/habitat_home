@@ -1,7 +1,7 @@
 <?php
    
  
- 	  $org = $orginfo[0];
+    $org = $orginfo[0];
     $contact = $orginfo[1];
     $address = $orginfo[2];
     $orgname = $org[0]->getName();

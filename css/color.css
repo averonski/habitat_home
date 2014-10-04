@@ -7,4 +7,6 @@
 
 .brand {color: white;}
 
-.ackronymLetter {color: lime;}
+.ackronymLetter {color: #00A300;
+                font-weight: bolder;
+                }

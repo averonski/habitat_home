@@ -14,9 +14,9 @@
 */
  
  
- 	  $person = $tableinfo[0];
- 	  $contact = $tableinfo[1];
- 	  $address = $tableinfo[2];
+    $person = $tableinfo[0];
+    $contact = $tableinfo[1];
+    $address = $tableinfo[2];
     $event = $tableinfo[3];
     $isVol = $tableinfo[4];
     $title = $person->getTitle();

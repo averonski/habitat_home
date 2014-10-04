@@ -13,7 +13,7 @@
     
 
 ?>
-<style>
+<!--<style>
     /*label
     {
         padding-left: 10px;
@@ -52,7 +52,7 @@
         padding-top: 3px;
         padding-bottom: 3px;
     }
-    </style>
+    </style>-->
 
 
     <script type="text/javascript">

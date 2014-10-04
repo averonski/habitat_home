@@ -13,10 +13,10 @@
     $info = mysql_fetch_array($allInfo);
 */
  
- 	  $account = $tableinfo[0];
- 	  $person = $tableinfo[1];
- 	  $contact = $tableinfo[2];
- 	  $address = $tableinfo[3];
+    $account = $tableinfo[0];
+    $person = $tableinfo[1];
+    $contact = $tableinfo[2];
+    $address = $tableinfo[3];
     $uname = $account->getUsername();
     $title = $person->getTitle();
     $fName = $person->getFirst_name();
