@@ -18,7 +18,7 @@
 	
 	
 ?>
-<!-- <style>
+<style>
 	.bold {font-weight: bold;}
 	.note {font-size: 10pt; color: grey;}
 	.mandatory {color: crimson;}
@@ -48,7 +48,7 @@
 	    padding-bottom: 3px;
 	}
 
-</style> -->
+</style>
 <script>
     function swap(e) {
 	if (e.className === "hide") {
