@@ -183,19 +183,6 @@
         <br><tr><td>Date:</td><td><input type="text" value="<?php echo $date ?>" disabled="disabled"></td></tr>
     </table>
 
-
-
-    
-
-
-        
-
-
-    
-
-
-
-
     <br>
     <input class="btn btn-success" name="submit" type="submit" value="submit" >
     <br>

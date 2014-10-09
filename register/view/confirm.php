@@ -59,13 +59,12 @@
     	$consentAge=1;
     	$consentMinor=0;
     }
-    
 
     $flag=$dbio->createNewPerson($street1,$street2,$city,$state,$zip,$phone,$email,$phone2,$extension,$title,$fname,$lname,$gender,$dob,$maritial,$checkEmail,$checkMail,$checkPhone);
     
 
     if($flag){
-        $flag2=$dbio->createNewAccount($consentAge, $consentVideo , $consentWaiver, $consentPhoto , $availDay , $availEve, $availWend, $consentMinor, $consentSafety, $emergencyName, $emergencyPhone, $churchAmbassador, $affiliation,$interestIds, $userName, $password);
+        $flag2=$dbio->createNewAccount($consentAge, $consentVideo , $consentWaiver, $consentPhoto , $availDay , $availEve, $availWend, $consentMinor, $consentSafety, $emergencyName, $emergencyPhone, $churchAmbassador, $affiliation,$interestIds, $email, $password);
     }
 
     $dbio->createNewOrganization($organization);

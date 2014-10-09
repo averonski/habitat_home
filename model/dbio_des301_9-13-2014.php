@@ -35,8 +35,8 @@
 
         function open() {
                 $hostname="73.52.51.66";
-                $username="root";
-                $password="qwerty321";
+                $username="habitat";
+                $password="habitat";
                 $dbname="homes_db";
 
                  global $con;

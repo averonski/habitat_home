@@ -19,9 +19,9 @@ class DBIO {
 		// METHODS ////////////////////////////////////////////////////////////////////////////////
 		
 		function open() {
-			$hostname="128.118.31.16:3306";
-			$username="remote";
-			$password="password";
+			$hostname="73.52.51.66";
+			$username="habitat";
+			$password="habitat";
 			$dbname="homes_db";
 			
 			 global $con;
@@ -63,7 +63,7 @@ class DBIO {
 		
 		public function getMaritialStatus($maritial){
 			global $con;
-			$sql='SELECT title from Marital_Status where marital_status_id IN ('. $maritial .')';
+			$sql='SELECT title from marital_status where id IN ('. $maritial .')';
 			$this->open();
 			$results=mysql_query($sql, $con);
 			$final=mysql_fetch_row($results);
@@ -75,7 +75,7 @@ class DBIO {
 		public function getUsername($use)
 		{
 			global $con;
-			$sql='SELECT email FROM Contact WHERE email IN ("'.$use.'")';
+			$sql='SELECT email FROM email WHERE email IN ("'.$use.'")';
 			$this->open();
 			$results=mysql_query($sql,$con);
 			$final=mysql_fetch_row($results);
@@ -104,7 +104,7 @@ class DBIO {
 
 	   public function getAllInterestTypes() {
 		  global $con;
-		  $sql = 'SELECT type_id, title FROM Interest_Type';
+		  $sql = 'SELECT id, title FROM interest_type';
 		  $types = array();
 		  $this->open();		
 		  $results = mysql_query($sql, $con);
@@ -140,7 +140,7 @@ class DBIO {
 
 	public function getInterestsOfType($type_id) {
 		global $con;
-		$sql = 'SELECT * FROM Interest Where type_id='.$type_id;
+		$sql = 'SELECT * FROM interest Where type_id='.$type_id;
 		$this->open();
 		$results = mysql_query($sql, $con);
 
@@ -159,7 +159,7 @@ class DBIO {
     
 	public function getInterestsByIds($ids) {
 		global $con;
-		$sql = "SELECT * FROM Interest Where interest_id IN (". $ids .");";
+		$sql = "SELECT * FROM interest Where id IN (". $ids .");";
 		$this->open();
 		$results = mysql_query($sql, $con);
 			$interests = array();
@@ -180,53 +180,143 @@ class DBIO {
     public function createNewPerson($street1,$street2,$city,$state,$zip,$phone,$email,$phone2,$extension,$title,$fName,$lName,$gender,$dob,$maritialStatusId,$prefEmail,$prefMail,$prefPhone){
 		global $con;
 		$this->open();
+                
+                //insert data into address
+                $sql = "SELECT id
+                        FROM STATE
+                        WHERE title = '" .$state. "';";
+                        $result = mysql_query($sql, $con);
+                        while($row = mysql_fetch_array($result)) {
+                            $state_id = $row[0];
+                        }
+                    //echo mysql_errno($con) . ": " . mysql_error($con). "\n";
 
 		$sql =	"INSERT INTO Address
-				(street1,street2,city,state,zip)
+				(street1,street2,city,state_id,zip)
 				VALUES
-				('" .$street1. "','" .$street2. "','" .$city. "','" .$state. "','" .$zip. "');";
+				('" .$street1. "','" .$street2. "','" .$city. "','" .$state_id. "','" .$zip. "');";
 		mysql_query($sql, $con);
-
+                    //echo mysql_errno($con) . ": " . mysql_error($con). "\n";
+                
+                //insert data into person
+                $sql = "SELECT MAX(id)
+                        FROM address;";
+                        $result = mysql_query($sql, $con);
+                        while($row = mysql_fetch_array($result)) {
+                            $address_id = $row[0];
+                        }
+                    //echo mysql_errno($con) . ": " . mysql_error($con). "\n";
+                
+                $sql= "SELECT max(id) FROM contact;";
+                    $result = mysql_query($sql, $con);
+                    while($row = mysql_fetch_array($result)) {
+                        $contact_idH = $row[0];
+                        $contact_id = $contact_idH++;
+                    }
+                    //echo mysql_errno($con) . ": " . mysql_error($con). "\n";
+                    
+                //$sql= "SELECT id FROM marital_status WHERE "
+                
+		$sql=	"INSERT INTO person
+				(title,first_name,last_name,gender,dob,marital_status_id,contact_id)
+				VALUES ('" .$title. "','" .$fName. "','" .$lName. "','" .$gender. "','" .$dob. "','" .$maritialStatusId. "','" .$contact_id. "');";
+		mysql_query($sql, $con); 
+                    //echo mysql_errno($con) . ": " . mysql_error($con). "\n";
+                       
+                //insert data into email
+                $sql = "SELECT max(id) FROM person;";
+                    $result = mysql_query($sql, $con);
+                    while($row = mysql_fetch_array($result)) {
+                        $person_id = $row[0];
+                    }
+                    //echo mysql_errno($con) . ": " . mysql_error($con). "\n";
+                    
+                $sql = "INSERT INTO email (email,person_id)
+                        VALUES ('" .$email. "','" .$person_id. "');";
+                mysql_query($sql, $con);
+                    //echo mysql_errno($con) . ": " . mysql_error($con). "\n";
+                    //echo $email . "," . $person_id;
+                
+                //insert data into contact
+                $sql = "SELECT max(id) FROM email";
+                    $result = mysql_query($sql, $con);
+                    while($row = mysql_fetch_array($result)) {
+                        $email_id = $row[0];
+                    }
+                    //echo mysql_errno($con) . ": " . mysql_error($con). "\n";
+                
+                $sql= "SELECT max(id) FROM ADDRESS;";
+                    $result = mysql_query($sql, $con);
+                    while($row = mysql_fetch_array($result)) {
+                        $address_id = $row[0];
+                    }
+                    //echo mysql_errno($con) . ": " . mysql_error($con). "\n";
+           
 		$sql=	"INSERT INTO Contact
-				(address_id,phone,email,phone2,extension)
-				Select Max(address_id),'" .$phone. "','" .$email. "','" .$phone2. "','" .$extension. "' From homes_db.Address;";
+				(address_id,phone,phone2,email_id)
+                                VALUES
+				('" .$address_id. "','" .$phone. "','" .$phone2. "','" .$email_id. "');";
 		mysql_query($sql, $con);
-	
-		$sql=	"INSERT INTO Person
-				(title,first_name,last_name,gender,dob,Marital_Status_marital_status_id,Contact_contact_id,isActive,lastActive,prefEmail,prefMail,prefPhone)
-				Select '" .$title. "','" .$fName. "','" .$lName. "','" .$gender. "','" .$dob. "'," .$maritialStatusId. ",Max(contact_id), 1, Null,". $prefEmail. "," .$prefMail. "," .$prefPhone." From Contact;";
-		mysql_query($sql, $con);			
+                    //echo mysql_errno($con) . ": " . mysql_error($con). "\n";
 		
+                //isActive,lastActive,prefEmail,prefMail,prefPhone  , 1, Null,". $prefEmail. "," .$prefMail. "," .$prefPhone." From Contact;"
 		$this->close();
-
+                
 		return True;
 	}//end function
 
 
-public function createNewAccount($consentAge, $consentVideo , $consentWaiver, $consentPhoto , $availDay , $availEve, $availWend, $consentMinor, $consentSafety, $emergencyName, $emergencyPhone, $churchAmbassador, $affiliation,$interestIds, $username, $password){
+public function createNewAccount($consentAge, $consentVideo , $consentWaiver, $consentPhoto , $availDay , $availEve, $availWend, $consentMinor, $consentSafety, $emergencyName, $emergencyPhone, $churchAmbassador, $affiliation,$interestIds, $email, $password){
 		global $con;
 		$this->open();
-
-		$sql =	"INSERT INTO Volunteer
-				(consentAge, consentVideo, consentWaiver , consentPhoto, availDay, availEve, availWend, Person_person_id,
-				 isBoardMember, consentMinor, consentSafety, emergencyName, emergencyPhone, churchAmbassador, affiliation)
-				SELECT " .$consentAge. "," .$consentVideo. " , " .$consentWaiver. ", " .$consentPhoto. " , " .$availDay. " , " .$availEve. ", " .$availWend. ",
-				MAX(person_id), 0, " .$consentMinor. ", " .$consentSafety. ", '" .$emergencyName. "', '" .$emergencyPhone. "', " .$churchAmbassador. ", '" .$affiliation. "' FROM Person;";
+                
+                // create volunteer
+                $sql = "SELECT max(id) FROM person;";
+                    $result = mysql_query($sql, $con);
+                    while($row = mysql_fetch_array($result)) {
+                        $person_id = $row[0];
+                    }
+                    //echo mysql_errno($con) . ": " . mysql_error($con). "\n";
+                
+                    //', " .$churchAmbassador. ", '" .$affiliation. "' FROM Person;"
+		$sql =	"INSERT INTO volunteer
+				(consent_age, consent_video, consent_waiver , consent_photo, avail_day, avail_eve, avail_wkend, person_id,
+				 consent_minor, consent_safety, emergency_name, emergency_phone)
+				VALUES ('" .$consentAge. "','" .$consentVideo. "','" .$consentWaiver. "','" .$consentPhoto. "','" .$availDay. "','" .$availEve. "','" .$availWend. "',
+				'" .$person_id. "','" .$consentMinor. "','" .$consentSafety. "','" .$emergencyName. "','" .$emergencyPhone. "');";
 		mysql_query($sql, $con);
+                    //echo mysql_errno($con) . ": " . mysql_error($con). "\n";
 		
-
+                //create volunteer interests
+                $sql = "SELECT max(id) FROM volunteer;";
+                    $result = mysql_query($sql, $con);
+                    while($row = mysql_fetch_array($result)) {
+                        $volunteer_id = $row[0];
+                    }
+                    //echo mysql_errno($con) . ": " . mysql_error($con). "\n";
+                    
 		foreach ($interestIds as $interestId) {
-		$sql=	"INSERT INTO Volunteer_has_Interest
-			  	(Volunteer_Person_person_id,Interest_interest_id)
-			  	SELECT MAX(person_id)," .$interestId." FROM Person;";
-
+		$sql=	"INSERT INTO interested_in
+                            (volunteer_id,interest_id)
+                            VALUES ('" .$volunteer_id. "','" .$interestId."');";
 		mysql_query($sql, $con);
-		}	  	
+		}
+                    //echo mysql_errno($con) . ": " . mysql_error($con). "\n";
 		
-		$sql =	"INSERT INTO Account
-				(username, password, date, status, isOffice, isVolunteer,person_id)
-				SELECT '" .$username."','" .$password."', now(), 'Active', 0, 1, MAX(person_id) From Person;";
+                //create account      
+                $sql = "SELECT id FROM email WHERE email = '"  .$email. "';";
+                    $result = mysql_query($sql, $con);
+                    while($row = mysql_fetch_array($result)) {
+                        $email_id = $row[0];
+                    }
+                    //echo mysql_errno($con) . ": " . mysql_error($con). "\n";
+                    //echo $username . ", " . $email_id;
+                    
+		$sql =	"INSERT INTO account
+				(email, password, created, person_id)
+				VALUES ('" .$email_id. "','" .$password. "', now(),'" . $person_id . "');";
 		mysql_query($sql, $con);
+                    //echo mysql_errno($con) . ": " . mysql_error($con). "\n";
 		
 
 		$this->close();

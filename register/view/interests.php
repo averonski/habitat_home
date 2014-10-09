@@ -85,7 +85,7 @@
 <form  name="interestForm" action="index.php" method="get">
 	<input name="act" type="hidden" value="<?php echo $act; ?>" >
 	<br>
-	<!-- <input name="id" value="off" type="hidden"> -->Construction Site Host/Hostess
+	<!-- <input name="id" value="off" type="hidden"> Construction Site Host/Hostess-->
 
 	<?php
 	$interestTypes = $dbio->getAllInterestTypes();
