@@ -30,7 +30,8 @@ $act='loginCheck';
            text-align: right;
     }
     
-    
+   //These below can probably be moved to the CSS file
+   
     #loginBox {
 	margin: 25px auto;
 	border: 3px solid #73b41c;
@@ -42,7 +43,7 @@ $act='loginCheck';
 	padding: 0px 20px;
     }
     
-    #registerBox {
+    #registerBox { //to make the register link stand out like a button
         margin: 10px auto;
         border: 1px solid darkblue;
         border-radius: 200px;
@@ -54,6 +55,7 @@ $act='loginCheck';
     
     .center {text-align: center;}
     .aForgot {font-size: 10pt; color: tomato;}
+    
 </style>
 
 <script type="text/javascript">
