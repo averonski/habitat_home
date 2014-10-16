@@ -26,8 +26,6 @@ $act='loginCheck';
            padding-right: 20px;
            padding-top: 10px;
            display: inline-block;
-           //float: left;
-           //clear: right;
            width: 100px;
            text-align: right;
     }
@@ -42,6 +40,16 @@ $act='loginCheck';
         height: auto;
 	text-align: left;
 	padding: 0px 20px;
+    }
+    
+    #registerBox {
+        margin: 10px auto;
+        border: 1px solid darkblue;
+        border-radius: 200px;
+	box-shadow: 1px 2px #555555;
+	width: auto;
+        height: auto;
+	text-align: center;
     }
     
     .center {text-align: center;}
@@ -93,9 +101,13 @@ $act='loginCheck';
                 <div class ="center">
 		<input type="submit" value="submit" onclick="verify();"> &nbsp &nbsp <a href="index.php?act=checkEmail" class="aForgot">Forgot Password?</a><br>
 		
-                <br><br>
                 
-                    <a href="../index.php">York Habitat Website</a><br><br>
+                
+                <div id="registerBox">    
+                    <a href="../habitat_home/register">New? Register Here</a>
+                </div>
+                
+                <br><a href="../index.php">York Habitat Website</a><br><br>
 		</div>
 	    </form>
 	</div>
