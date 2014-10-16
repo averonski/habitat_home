@@ -14,11 +14,11 @@
 	$state = $address->getState();
 	$zip = $address->getZip();
 	$phone = $contact->getPhone();
-	$email = $contact->getEmail();
-	$employer = $person->getEmployer();
+	$email = $contact->getEmail()->getemail();
+	//$employer = $person->getEmployer();
 	$workPhone = $contact->getPhone2();
-	$workExt = $contact->getExtension();
-	$jobTitle = $person->getJobTitle();
+	//$workExt = $contact->getExtension();
+	//$jobTitle = $person->getJobTitle();
 
 	if($update)
 		echo '<div class="alert alert-dismissable alert-success"><button type="button" class="close" data-dismiss="alert">×</button><strong>UPDATED</strong> You successfully updated the information.</div>';
@@ -93,13 +93,13 @@
 		<input name="email" type="text" placeholder="email" value="<?php echo $email; ?>" >
 		<span class="required">*</span>
 		<br>
-		<input name="employer" type="text" placeholder="employer" value="<?php echo $employer; ?>" >
+<!--		<input name="employer" type="text" placeholder="employer" value="<?php //echo $employer; ?>" >-->
 		<br>
 		<input name="workPhone" type="text" placeholder="work phone" value="<?php echo $workPhone; ?>" >
 		<br>
-		<input name="workExt" type="text" placeholder="ext" value="<?php echo $workExt; ?>" >
+<!--		<input name="workExt" type="text" placeholder="ext" value="<?php //echo $workExt; ?>" >
 		<br>
-		<input name="jobTitle" type="text" placeholder="job title" value="<?php echo $jobTitle; ?>" >
+		<input name="jobTitle" type="text" placeholder="job title" value="<?php //echo $jobTitle; ?>" >-->
 	    </td>
 	</tr>
     </table>

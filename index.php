@@ -43,7 +43,7 @@
 	//require_once('model/sessionio.php');*/
         
         require_once ('model/dbio_des301_9-13-2014.php');
-        
+        require_once('class/account.php');
         require_once('class/account_recovery.php');
         require_once('class/account_status.php');
         require_once('class/address.php');
@@ -79,6 +79,7 @@
         require_once('class/interest_type.php');
         require_once('class/interested_in.php');
         require_once('class/labor.php');
+        require_once('class/link.php');
         require_once('class/marital_status.php');
         require_once('class/material.php');
         require_once('class/money.php');

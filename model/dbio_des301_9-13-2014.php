@@ -165,7 +165,7 @@
 
 	public function readAccount($id) {
 		global $con;
-		$sql = 'SELECT * FROM account WHERE id = ' . $id . '';
+		$sql = 'SELECT * FROM account WHERE person_id = ' . $id . '';
 		$this->open();
 		$results = mysql_query($sql, $con);
 		$this->close();
@@ -177,8 +177,8 @@
 				$account->setEmail($result[1]);
 				$account->setPassword($result[2]);
 				$account->setCreated($result[3]);
-				$account->setStatus(readStatus($result[4]));
-				$account->setPerson(readPerson($result[5]));
+				$account->setStatus($this->readStatus_change($result[4]));
+				$account->setPerson($this->readPerson($result[5]));
 				$accounts[] = $account;
 			}// end while
 		} else {
@@ -219,7 +219,7 @@
 				$account->setEmail($result[1]);
 				$account->setPassword($result[2]);
 				$account->setCreated($result[3]);
-				$account->setStatus(readStatus($result[4]));
+				$account->setStatus($this->readStatus_change($result[4]));
 				$account->setPerson(readPerson($result[5]));
 				$accounts[] = $account;
 			}// end while
@@ -401,7 +401,7 @@
 				$address->setStreet1($result[1]);
 				$address->setStreet2($result[2]);
 				$address->setCity($result[3]);
-				$address->setState(readState($result[4]));
+				$address->setState($this->readState($result[4]));
 				$address->setZip($result[5]);
 				$addresss[] = $address;
 			}// end while
@@ -1060,10 +1060,10 @@
 			while($result = mysql_fetch_array($results)) {
 				$contact = new Contact();
 				$contact->setId($result[0]);
-				$contact->setAddress(readAddress($result[1]));
+				$contact->setAddress($this->readAddress($result[1]));
 				$contact->setPhone($result[2]);
 				$contact->setPhone2($result[3]);
-				$contact->setEmail($result[4]);
+				$contact->setEmail($this->readEmail($result[4]));
 				$contacts[] = $contact;
 			}// end while
 		} else {
@@ -1367,7 +1367,7 @@
 				$email = new Email();
 				$email->setId($result[0]);
 				$email->setEmail($result[1]);
-				$email->setPerson(readPerson($result[2]));
+				//$email->setPerson($this->readPerson($result[2]));
 				$emails[] = $email;
 			}// end while
 		} else {
@@ -2498,7 +2498,7 @@
 			while($result = mysql_fetch_array($results)) {
 				$home_owner = new Home_owner();
 				$home_owner->setPerson(readPerson($result[0]));
-				$home_owner->setStatus(readStatus($result[1]));
+				$home_owner->setStatus($this->readStatus_change($result[1]));
 				$home_owner->setBank(readBank($result[2]));
 				$home_owner->setSocial_security($result[3]);
 				$home_owners[] = $home_owner;
@@ -2538,7 +2538,7 @@
 			while($result = mysql_fetch_array($results)) {
 				$home_owner = new Home_owner();
 				$home_owner->setPerson(readPerson($result[0]));
-				$home_owner->setStatus(readStatus($result[1]));
+				$home_owner->setStatus($this->readStatus_change($result[1]));
 				$home_owner->setBank(readBank($result[2]));
 				$home_owner->setSocial_security($result[3]);
 				$home_owners[] = $home_owner;
@@ -3591,7 +3591,7 @@
 
 	public function readPerson($id) {
 		global $con;
-		$sql = 'SELECT * FROM person WHERE id = ' . $id . '';
+		$sql = "SELECT * FROM person WHERE id = '" . $id . "';";
 		$this->open();
 		$results = mysql_query($sql, $con);
 		$this->close();
@@ -4616,7 +4616,7 @@
 			while($result = mysql_fetch_array($results)) {
 				$status_change = new Status_change();
 				$status_change->setProject(readProject($result[0]));
-				$status_change->setStatus(readStatus($result[1]));
+				$status_change->setStatus($this->readStatus_change($result[1]));
 				$status_change->setWhen_changed($result[2]);
 				$status_changes[] = $status_change;
 			}// end while
@@ -4655,7 +4655,7 @@
 			while($result = mysql_fetch_array($results)) {
 				$status_change = new Status_change();
 				$status_change->setProject(readProject($result[0]));
-				$status_change->setStatus(readStatus($result[1]));
+				$status_change->setStatus($this->readStatus_change($result[1]));
 				$status_change->setWhen_changed($result[2]);
 				$status_changes[] = $status_change;
 			}// end while
