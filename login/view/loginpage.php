@@ -29,10 +29,8 @@ $act='loginCheck';
            width: 100px;
            text-align: right;
     }
-    
-   //These below can probably be moved to the CSS file
-   
-    #loginBox {
+   /*possibly move below items to CSS page */
+    #loginBox { 
 	margin: 25px auto;
 	border: 3px solid #73b41c;
 	border-radius: 20px;
@@ -43,10 +41,10 @@ $act='loginCheck';
 	padding: 0px 20px;
     }
     
-    #registerBox { //to make the register link stand out like a button
+    #registerBox { /*to make the register link stand out like a button*/
         margin: 10px auto;
-        border: 1px solid darkblue;
-        border-radius: 200px;
+        border: 2px solid darkblue;
+        border-radius: 20px;
 	box-shadow: 1px 2px #555555;
 	width: auto;
         height: auto;
@@ -104,7 +102,7 @@ $act='loginCheck';
 		<input type="submit" value="submit" onclick="verify();"> &nbsp &nbsp <a href="index.php?act=checkEmail" class="aForgot">Forgot Password?</a><br>
 		
                 
-                
+                <br>
                 <div id="registerBox">    
                     <a href="../habitat_home/register">New? Register Here</a>
                 </div>
