@@ -7,9 +7,9 @@
 
 // gets a person's id from session, and gets the preferential contact preferences
 $pid = $_SESSION['personid'];
-$email = $person->getPrefEmail();
-$mail = $person->getPrefMail();
-$phone = $person->getPrefPhone();
+//$email = $person->getPrefEmail();
+//$mail = $person->getPrefMail();
+//$phone = $person->getPrefPhone();
 if($update)
 	echo '<div class="alert alert-dismissable alert-success"><button type="button" class="close" data-dismiss="alert">×</button><strong>UPDATED</strong> You successfully updated the information.</div>';
 	
@@ -24,7 +24,7 @@ if($update)
 	<input name="sub" type="hidden" value="<?php echo $sub; ?>" >
 	<input name="act" type="hidden" value="update" >
 	<input name="pid" type="hidden" value="<?php echo $pid; ?>" >
-	<dl>
+<!--	<dl>
 	    <dt>Receive Email?</dt>
 		<dd><input type="radio" name="mail"id="yes" value="1" <?php echo $email ? 'checked' : ''; ?>><label>Yes</label></dd>
 		<dd><input type="radio" name="mail"id="no" value="0" <?php echo !$email ? 'checked' : ''; ?>><label>No</label></dd>
@@ -34,7 +34,7 @@ if($update)
 	    <dt>Receive Calls?</dt>
 		<dd><input type="radio" name="calls"id="yes" value="1" <?php echo $phone ? 'checked' : ''; ?>><label>Yes</label></dd>
 		<dd><input type="radio" name="calls"id="no" value="0" <?php echo !$phone ? 'checked' : ''; ?>><label>No</label></dd>
-	</dl>
+	</dl>-->
 	<input type="submit" value="Update">
 </form>
 <hr>

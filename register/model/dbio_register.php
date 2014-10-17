@@ -210,9 +210,10 @@ class DBIO {
                 $sql= "SELECT max(id) FROM contact;";
                     $result = mysql_query($sql, $con);
                     while($row = mysql_fetch_array($result)) {
-                        $contact_idH = $row[0];
-                        $contact_id = $contact_idH++;
+                        $contact_id = $row[0];
                     }
+                    $contact_id = (int)$contact_id + 1;
+                    //print_r ($contact_id);
                     //echo mysql_errno($con) . ": " . mysql_error($con). "\n";
                     
                 //$sql= "SELECT id FROM marital_status WHERE "
@@ -266,7 +267,7 @@ class DBIO {
 	}//end function
 
 
-public function createNewAccount($consentAge, $consentVideo , $consentWaiver, $consentPhoto , $availDay , $availEve, $availWend, $consentMinor, $consentSafety, $emergencyName, $emergencyPhone, $churchAmbassador, $affiliation,$interestIds, $email, $password){
+    public function createNewAccount($consentAge, $consentVideo , $consentWaiver, $consentPhoto , $availDay , $availEve, $availWend, $consentMinor, $consentSafety, $emergencyName, $emergencyPhone, $churchAmbassador, $affiliation,$interestIds, $email, $password){
 		global $con;
 		$this->open();
                 
