@@ -1,6 +1,37 @@
-#apptitlehover a:hover {
-        color: #33D633;
-} //Change the hovor color (green) of the application title through the use of ID
+/*Default CSS
+In Alphabetical order*/
+
+a {
+    color: dodgerblue;
+    text-decoration: none;
+}
+
+.ackronymLetter {
+    color: #00A300;
+    font-weight: bolder;
+}
+
+.aForgot {
+    font-size: 10pt;
+    color: tomato;
+}
+
+a[href]:hover { /* For som reason ths one is not working */
+    color: crimson;
+}
+
+.alert {
+    color: crimson;
+}
+   
+#align {
+    margin-right:30%;
+    width:900px;
+}
+
+#apptitlehover a:hover { /* Change the hovor color (green) of the application title through the use of ID*/
+    color: #33D633;
+} 
 
 body {
 	font-family: arial, "Times New Roman", sans-serif;
@@ -10,77 +41,99 @@ body {
         border-color:white;
 }
 
-#align {
-        margin-right:30%;
-	width:900px;
+#body {
+    margin-top: 20px;
+    margin-left:20px;
+    width:95%;
+    float:left;
+    border-style:solid;
+    border-width:5px;
+    border-color:white;
 }
-	
-#printpage {
-        position:relative;
-        float:right;
+
+.bold {
+    font-weight: bold;
 }
+
+.brand {
+    color: white;
+}
+
+.center {
+    text-align: center;
+}
+
+#content {
+    display: inline;
+    float: left;
+    position: relative;
+    width:65%;
+    border-style:solid;
+    border-width:5px;
+    border-color:white;
+    /*width: 800px;*/
+}
+
+/* habitat palette */
+.habitatGreen {
+    color: rgb(115, 180, 28);/* #73b41c */
+} 
+.habitatBlue {
+    color: rgb(2, 71, 138); /* #02478a */
+}
+/* --------------- */
 
 h1 {
-	background-color: black;
-	color: white;
-	margin: 0px;
-	padding: 0 10px;
+    background-color: black;
+    color: white;
+    margin: 0px;
+    padding: 0 10px;
 }
 
-  a {
-	color: dodgerblue;
-	text-decoration: none;
-    }
-  
-  a:hover {
-            color: crimson;
-          } 
-   
-/* ----- */
-
-#body {margin-top: 20px;
-margin-left:20px;
-width:95%;
-float:left;
-border-style:solid;
-	border-width:5px;
-border-color:white;
-}
-
-#mainNav
-{
-	display: inline;
-	float:left;
-	left: 20px;
-	top: 120px;
-	width:250px;
-	
-border-style:solid;
-	border-width:5px;
-border-color:white;
-}
-
-#content 
-{
-	display: inline;
-	float: left;
-	position: relative;
-	width:65%;
-border-style:solid;
-	border-width:5px;
-border-color:white;
-}
-
-/*
-
-
-#content {width: 800px;}*/
-
-/* ----- */
-
+#loginBox { 
+    margin: 25px auto;
+    border: 3px solid #73b41c;
+    border-radius: 20px;
+    box-shadow: 3px 4px #555555;
+    width: 300px;
+    height: auto;
+    text-align: left;
+    padding: 0px 20px;
+} 
+    
 .logout {
     color: white;
     background-color: crimson;
     border-radius: 10px;
     padding: 0px 5px;
+}
+
+#mainNav {
+    display: inline;
+    float:left;
+    left: 20px;
+    top: 120px;
+    width:250px;
+    border-style:solid;
+    border-width:5px;
+    border-color:white;
+}
+
+.mandatory {
+    color: crimson;
+}
+
+.note {
+    font-size: 10pt; color: grey;
+}
+
+/* #page {
+    width: 800px; 
+    text-align: left; 
+    margin: auto;
+}*/
+
+#printpage {
+    position:relative;
+    float:right;
 }
