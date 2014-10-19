@@ -8,32 +8,42 @@
     //global $event_id;
 
     $person_id=$_SESSION['personid'];
-
+    $volIdH = $dbio->readVolunteerByPid($person_id);
+    $volId = $volIdH->getId();
+    $event_idh=$dbio->readWorkByVid($volId);
+    $event_id= $event_idh[0]->getEvent()->getId();
+    
     function getEventId(){
-        $person_id=$_SESSION['personid'];
+        global $volId;
         global $dbio;
-    	$event_id=$dbio->getEventId($person_id);
+    	$event_id=$dbio->readWorkByVid($volId);
     	return $event_id;
     }
 
     function getEvents(){
         global $dbio;
-        $person_id=$_SESSION['personid'];
-        $event_id=$dbio->getEventId($person_id);
-        $dbevent= $dbio-> getEvent($event_id);
+        //global $volId;
+        global $event_id;
+        //$event_idh=$dbio->readWorkByVid($volId);
+        //print_r($event_id[0]->getEvent()->getId());
+        $dbevent= $dbio->readEvent($event_id);
         return $dbevent;
     }
 
     function getDates(){
         global $dbio;
-        $dbdate= $dbio->getDate(getEventId());
-        return $dbdate;
+        global $event_id;
+        $dbdate= $dbio->readEvent($event_id);
+        //print_r($dbdate->getDate());
+        return $dbdate->getDate();
     }
 
     function getHours(){
         global $dbio;
-        $dbHours= $dbio->getHours(getEventId());
-        return $dbHours;
+        global $volId;
+        $dbHours= $dbio->readWorkByVid($volId);
+        //print_r($dbHours[0]->getHours_worked());
+        return $dbHours[0]->getHours_worked();
     }
 
     

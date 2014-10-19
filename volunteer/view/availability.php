@@ -20,9 +20,9 @@
 
          $avail=getAvailability();
 
-        $dbDay=$avail->getDay();
-        $dbEve=$avail->getEve();
-        $dbWend=$avail->getWend();
+        $dbDay=$avail->getAvail_day();
+        $dbEve=$avail->getAvail_eve();
+        $dbWend=$avail->getAvail_wkend();
 
         
 

@@ -22,9 +22,9 @@
         $dbdate = getDates();
         
 
-        $dbHours = getHours();
+        $result = getHours();
         //$person_id='8';
-        $result=$dbio->getWorkHistory($person_id);
+        //$result=$dbio->getWorkHistory($person_id);
         //var_dump($result);
         
         
@@ -103,7 +103,7 @@
       foreach ($result as $workHistory) {
             echo "<tr>";
             echo "<td>" . $workHistory->getEvent() . "</td>";
-            echo "<td>" . $workHistory->getDateW() . "</td>";
+            echo "<td>" . $workHistory->getDate() . "</td>";
             echo "<td>" . $workHistory->getTime() . "</td>";
             echo "<tr>";
         }

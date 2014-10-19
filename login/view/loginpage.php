@@ -97,6 +97,7 @@ $act='loginCheck';
 		</div>
 	    </form>
 	</div>
+    <button onclick="location.href='./register/'">Create New Account</button>
 </div>
 <!-- Hosting24 Analytics Code -->
 <!--<script type="text/javascript" src="http://stats.hosting24.com/count.php"></script> -->

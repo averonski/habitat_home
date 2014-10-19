@@ -9,15 +9,19 @@
     global $act;
     global $msg;
     global $dbio;
+    $pid = $_SESSION['personid'];
+    //print_r($pid);
 
     $columnCount = 3;
 
-    //global $interestTypes;
-    //global $interests;
-    $interestTypes = $dbio->getInterestTypes();
-    $interests = $dbio->getVolunteerInterests($personId);
+    $interestTypes = $dbio->listInterest_type();
+    $volId = $dbio->readVolunteerByPid($pid);
+    $volInterestedIn = $dbio->readInterested_in($volId->getId());
+    print_r($volInterestedIn[1]->getInterest()[0]->getId());
+    //$interests = $dbio->readInterest($volInterestedIn->getInterest());
+    //print_r($interests);
 
-    if($updated)
+    if(isset($updated))
 		echo '<div class="alert alert-dismissable alert-success"><button type="button" class="close" data-dismiss="alert">×</button><strong>UPDATED</strong> You successfully updated the information.</div>';
 ?>
     <h2>Your Volunteer Interests</h2>
@@ -37,9 +41,10 @@
 	echo '<div>';
 
 	$typeInts = array();
-	foreach ($interests as $int) {
-	    if ($int->getTypeId() == $it->getId()) {
+	foreach ($volInterestedIn as $int) {
+	    if ($int->getInterest()[0]->getId() == $it->getId()) {
 		$typeInts[] = $int;
+                //print_r($typeInts);
 	    }
 	}
 
@@ -54,9 +59,9 @@
 
 	    for ($j = 0; $j < $columnCount; $j++) {
 		$n = $columnCount * $i + $j;
-		$id = $typeInts[$n]->getId();
-		$title = $typeInts[$n]->getTitle();
-		$checked = ($typeInts[$n]->getIsInterest()) ? 'checked="checked"' : '';
+		$id = $typeInts[$n]->getInterest()[0]->getId();
+		$title = $typeInts[$n]->getInterest()[0]->getTitle();
+		$checked = ($typeInts[$n]->getInterest()[0]->getTitle()) ? 'checked="checked"' : '';
 		echo '<td><input type="checkbox" name="interestVol[]" value="' . $id . '" ' . $checked . ' /><label>' . $title . '</label></td>';
 	    }// end for
 
@@ -70,9 +75,9 @@
 
 	for ($i = $max - $remainder; $i < $max; $i++) {
 
-	    $id = $typeInts[$i]->getId();
-	    $title = $typeInts[$i]->getTitle();
-	    $checked = ($typeInts[$i]->getIsInterest()) ? 'checked="checked"' : '';
+	    $id = $typeInts[$i]->getInterest()[0]->getId();
+	    $title = $typeInts[$i]->getInterest()[0]->getTitle();
+	    $checked = ($typeInts[$i]->getInterest()[0]->getTitle()) ? 'checked="checked"' : '';
 
 	    echo '<td><input type="checkbox" name="interestVol[]" value="' . $id . '" ' . $checked . ' /><label>' . $title . '</label></td>';
 

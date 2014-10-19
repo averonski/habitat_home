@@ -23,14 +23,14 @@
         $act='updateConsent';
 
         $dbconsent=getVolunteerConsent();
-        $dbMinor=$dbconsent->getMinor();
-        $dbMajor=$dbconsent->getMajor();
-        $dbPhoto=$dbconsent->getPhoto();
-        $dbSafety=$dbconsent->getSafety();
-        $dbVideo=$dbconsent->getVideo();
-        $dbWaiver=$dbconsent->getWaiver();
-        $dbName=$dbconsent->getName();
-        $dbPhone=$dbconsent->getPhone();
+        $dbMinor=$dbconsent->getConsent_Minor();
+        $dbMajor=$dbconsent->getConsent_age();
+        $dbPhoto=$dbconsent->getConsent_Photo();
+        $dbSafety=$dbconsent->getConsent_Safety();
+        $dbVideo=$dbconsent->getConsent_Video();
+        $dbWaiver=$dbconsent->getConsent_Waiver();
+        $dbName=$dbconsent->getEmergency_name();
+        $dbPhone=$dbconsent->getEmergency_phone();
         
         if($dbMinor=="1"){
             $less18='Yes';

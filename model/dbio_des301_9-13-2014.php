@@ -406,9 +406,9 @@
 				$addresss[] = $address;
 			}// end while
 		} else {
-			$address = false;
+			$addresss = false;
 		}
-		return $address;
+		return $addresss;
 	}// end function
 
 	public function updateAddress($address) {
@@ -476,7 +476,7 @@
 			while($result = mysql_fetch_array($results)) {
 				$admin = new Admin();
 				$admin->setId($result[0]);
-				$admin->setPerson(readPerson($result[1]));
+				$admin->setPerson($this->readPerson($result[1]));
 				$admins[] = $admin;
 			}// end while
 		} else {
@@ -1074,7 +1074,7 @@
 
 	public function updateContact($contact) {
 		global $con;
-		$sql = 'UPDATE contact SET ($array) WHERE id = ' . $id . '';
+		$sql = 'UPDATE contact SET  WHERE id = ' . $id . '';
 		$this->open();
 		$results = mysql_query($sql, $con);
 		$this->close();
@@ -1378,7 +1378,7 @@
 
 	public function updateEmail($email) {
 		global $con;
-		$sql = 'UPDATE email SET ($array) WHERE id = ' . $id . '';
+		$sql = "UPDATE email SET email= '{$email}' WHERE id = '{$email}'";
 		$this->open();
 		$results = mysql_query($sql, $con);
 		$this->close();
@@ -1442,11 +1442,11 @@
 				$event->setDate($result[2]);
 				$event->setStart_time($result[3]);
 				$event->setEnd_time($result[4]);
-				$event->setAddress(readAddress($result[5]));
-				$event->setType(readType($result[6]));
+				$event->setAddress_id($this->readAddress($result[5]));
+				$event->setType($this->readInterest_type($result[6]));
 				$event->setMax_num_guests($result[7]);
-				$event->setCommittee(readCommittee($result[8]));
-				$event->setSponsored(readSponsored($result[9]));
+				$event->setCommittee($this->readCommittee($result[8]));
+				$event->setSponsored_id($this->readCommittee($result[9]));
 				$events[] = $event;
 			}// end while
 		} else {
@@ -1489,7 +1489,7 @@
 				$event->setStart_time($result[3]);
 				$event->setEnd_time($result[4]);
 				$event->setAddress(readAddress($result[5]));
-				$event->setType(readType($result[6]));
+				$event->setType($this->readInterest_type($result[6]));
 				$event->setMax_num_guests($result[7]);
 				$event->setCommittee(readCommittee($result[8]));
 				$event->setSponsored(readSponsored($result[9]));
@@ -2572,15 +2572,15 @@
 			while($result = mysql_fetch_array($results)) {
 				$interest = new Interest();
 				$interest->setId($result[0]);
-				$interest->setType(readType($result[1]));
+				$interest->setType($this->readInterest_type($result[1]));
 				$interest->setTitle($result[2]);
 				$interest->setDescription($result[3]);
 				$interests[] = $interest;
 			}// end while
 		} else {
-			$interest = false;
+			$interests = false;
 		}
-		return $interest;
+		return $interests;
 	}// end function
 
 	public function updateInterest($interest) {
@@ -2612,7 +2612,7 @@
 			while($result = mysql_fetch_array($results)) {
 				$interest = new Interest();
 				$interest->setId($result[0]);
-				$interest->setType(readType($result[1]));
+				$interest->setType($this->readInterest_type($result[1]));
 				$interest->setTitle($result[2]);
 				$interest->setDescription($result[3]);
 				$interests[] = $interest;
@@ -2692,7 +2692,7 @@
 		} else {
 			$interest_type = false;
 		}
-		return $interest_type;
+		return $interest_types;
 	}// end function
 
 	// interested_in // --------------------
@@ -2709,7 +2709,7 @@
 
 	public function readInterested_in($id) {
 		global $con;
-		$sql = 'SELECT * FROM interested_in WHERE id = ' . $id . '';
+		$sql = 'SELECT * FROM interested_in WHERE volunteer_id = ' . $id . '';
 		$this->open();
 		$results = mysql_query($sql, $con);
 		$this->close();
@@ -2717,14 +2717,14 @@
 			$interested_ins = array();
 			while($result = mysql_fetch_array($results)) {
 				$interested_in = new Interested_in();
-				$interested_in->setVolunteer(readVolunteer($result[0]));
-				$interested_in->setInterest(readInterest($result[1]));
+				$interested_in->setVolunteer($this->readVolunteer($result[0]));
+				$interested_in->setInterest($this->readInterest($result[1]));
 				$interested_ins[] = $interested_in;
 			}// end while
 		} else {
-			$interested_in = false;
+			$interested_ins = false;
 		}
-		return $interested_in;
+		return $interested_ins;
 	}// end function
 
 	public function updateInterested_in($interested_in) {
@@ -3226,7 +3226,7 @@
 			while($result = mysql_fetch_array($results)) {
 				$office = new Office();
 				$office->setId($result[0]);
-				$office->setPerson(readPerson($result[1]));
+				$office->setPerson($this->readPerson($result[1]));
 				$offices[] = $office;
 			}// end while
 		} else {
@@ -3615,9 +3615,13 @@
 		return $person;
 	}// end function
 
-	public function updatePerson($person) {
+	public function updatePerson($pid, $person) {
 		global $con;
-		$sql = 'UPDATE person SET ($array) WHERE id = ' . $id . '';
+		//$array = implode(",",$person);
+		$title = $person->getTitle();
+		$fName = $person->getFirst_name();
+		$lName = $person->getLast_name();
+		$sql = "UPDATE person SET title='{$title}', first_name='{$fName}', last_name='{$lName}' WHERE id = '" . $pid . "'";
 		$this->open();
 		$results = mysql_query($sql, $con);
 		$this->close();
@@ -4091,7 +4095,7 @@
 				$project_expenses->setTitle($result[1]);
 				$project_expenses->setDescription($result[2]);
 				$project_expenses->setProject(readProject($result[3]));
-				$project_expenses->setType(readType($result[4]));
+				$project_expenses->setType($this->readInterest_type($result[4]));
 				$project_expenses->setAmount($result[5]);
 				$project_expenses->setWhen_entered($result[6]);
 				$project_expenses->setOffice(readOffice($result[7]));
@@ -4137,7 +4141,7 @@
 				$project_expenses->setTitle($result[1]);
 				$project_expenses->setDescription($result[2]);
 				$project_expenses->setProject(readProject($result[3]));
-				$project_expenses->setType(readType($result[4]));
+				$project_expenses->setType($this->readInterest_type($result[4]));
 				$project_expenses->setAmount($result[5]);
 				$project_expenses->setWhen_entered($result[6]);
 				$project_expenses->setOffice(readOffice($result[7]));
@@ -4764,7 +4768,38 @@
 			while($result = mysql_fetch_array($results)) {
 				$volunteer = new Volunteer();
 				$volunteer->setId($result[0]);
-				$volunteer->setPerson(readPerson($result[1]));
+				$volunteer->setPerson($this->readPerson($result[1]));
+				$volunteer->setConsent_age($result[2]);
+				$volunteer->setConsent_video($result[3]);
+				$volunteer->setConsent_waiver($result[4]);
+				$volunteer->setConsent_photo($result[5]);
+				$volunteer->setConsent_minor($result[6]);
+				$volunteer->setConsent_safety($result[7]);
+				$volunteer->setAvail_day($result[8]);
+				$volunteer->setAvail_eve($result[9]);
+				$volunteer->setAvail_wkend($result[10]);
+				$volunteer->setEmergency_name($result[11]);
+				$volunteer->setEmergency_phone($result[12]);
+				$volunteers[] = $volunteer;
+			}// end while
+		} else {
+			$volunteer = false;
+		}
+		return $volunteer;
+	}// end function
+        
+        public function readVolunteerByPid($pid) {
+		global $con;
+		$sql = 'SELECT * FROM volunteer WHERE person_id= ' . $pid . '';
+		$this->open();
+		$results = mysql_query($sql, $con);
+		$this->close();
+		if ($results) {
+			$volunteers = array();
+			while($result = mysql_fetch_array($results)) {
+				$volunteer = new Volunteer();
+				$volunteer->setId($result[0]);
+				$volunteer->setPerson($this->readPerson($result[1]));
 				$volunteer->setConsent_age($result[2]);
 				$volunteer->setConsent_video($result[3]);
 				$volunteer->setConsent_waiver($result[4]);
@@ -4813,7 +4848,7 @@
 			while($result = mysql_fetch_array($results)) {
 				$volunteer = new Volunteer();
 				$volunteer->setId($result[0]);
-				$volunteer->setPerson(readPerson($result[1]));
+				$volunteer->setPerson($this->readPerson($result[1]));
 				$volunteer->setConsent_age($result[2]);
 				$volunteer->setConsent_video($result[3]);
 				$volunteer->setConsent_waiver($result[4]);
@@ -4870,6 +4905,33 @@
 			$work = false;
 		}
 		return $work;
+	}// end function
+        
+        public function readWorkByVid($vid) {
+		global $con;
+		$sql = 'SELECT * FROM work WHERE volunteer_id = ' . $vid . '';
+		$this->open();
+		$results = mysql_query($sql, $con);
+		$this->close();
+		if ($results) {
+			$works = array();
+			while($result = mysql_fetch_array($results)) {
+				$work = new Work();
+				$work->setId($result[0]);
+				$work->setVolunteer($this->readVolunteer($result[1]));
+				$work->setDate($result[2]);
+				$work->setEvent($this->readEvent($result[3]));
+				$work->setWhen_entered($result[4]);
+				$work->setOffice($this->readOffice($result[5]));
+				$work->setWhen_authorized($result[6]);
+				$work->setAdmin($this->readAdmin($result[7]));
+				$work->setHours_worked($result[8]);
+				$works[] = $work;
+			}// end while
+		} else {
+			$works = false;
+		}
+		return $works;
 	}// end function
 
 	public function updateWork($work) {

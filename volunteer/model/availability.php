@@ -8,17 +8,14 @@
     $pid = $_SESSION['personid'];
 
     function setVolunteerAvailability($vid, $day, $eve, $wend) {
-    
-   
         $dbio->setVolunteerAvailability($vid, $day, $eve, $wend);
-
     }
 
     function getAvailability() {
     	global $dbio;
         $pid = $_SESSION['personid'];
-        $ppid=$pid;
-        $dbAvailability = $dbio->getVolunteerAvailability($ppid);
+        //$ppid=$pid;
+        $dbAvailability = $dbio->readVolunteerByPid($pid);
         return $dbAvailability;
 
 
