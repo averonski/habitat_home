@@ -41,16 +41,6 @@ $act='loginCheck';
 	padding: 0px 20px;
     }
     
-    #registerBox { /*to make the register link stand out like a button*/
-        margin: 10px auto;
-        border: 2px solid darkblue;
-        border-radius: 20px;
-	box-shadow: 1px 2px #555555;
-	width: auto;
-        height: auto;
-	text-align: center;
-    }
-    
     .center {text-align: center;}
     .aForgot {font-size: 10pt; color: tomato;}
     
