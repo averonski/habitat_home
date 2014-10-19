@@ -131,7 +131,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<link rel="stylesheet" href="css/default.css" media="screen">
+                <link rel="stylesheet" href="css/default.css" media="screen">
 		<link rel="stylesheet" href="css/nav.css" >
 		<link rel="stylesheet" href="css/color.css" >
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.css"> 
@@ -162,7 +162,7 @@
 	<body>
 		<div id="page">
 			<header>
-				<h1><?php echo APP_TITLE; ?></h1>
+				<h1 id = "apptitlehover"><?php echo APP_TITLE; ?></h1>
 				
 			</header>
 			<div id="body">
@@ -175,7 +175,7 @@
                                 $isOffice = false;
                                 $isVolunteer = true;
 
-                                $clearance= $dbio->getAccountType($_SESSION['personid']); //Getting clearance value
+                                $clearance = $dbio->getAccountType($_SESSION['personid']); //Getting clearance value
 
                                 switch ($clearance) { //Setting clearance for person
                                         case '1':

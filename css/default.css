@@ -1,21 +1,23 @@
-body {
-	font-family: arial;
-	width:100%;
-border-style:solid;
-	border-width:5px;
-border-color:white;
-	}
-	#align
-	{
-margin-right:30%;
-	width:900px;
-	}
-	
-#printpage
-{
-position:relative;
-float:right;
+#apptitlehover a:hover {
+        color: #33D633;
+} //Change the hovor color (green) of the application title through the use of ID
 
+body {
+	font-family: arial, "Times New Roman", sans-serif;
+	width:100%;
+        border-style:solid;
+	border-width:5px;
+        border-color:white;
+}
+
+#align {
+        margin-right:30%;
+	width:900px;
+}
+	
+#printpage {
+        position:relative;
+        float:right;
 }
 
 h1 {
@@ -25,8 +27,15 @@ h1 {
 	padding: 0 10px;
 }
 
-a {text-decoration: none;}
-
+  a {
+	color: dodgerblue;
+	text-decoration: none;
+    }
+  
+  a:hover {
+            color: crimson;
+          } 
+   
 /* ----- */
 
 #body {margin-top: 20px;

@@ -14,16 +14,6 @@ $act='loginCheck';
 ?>
 
 <style>
-    
-    a {
-	color: dodgerblue;
-	text-decoration: none;
-    }
-    
-    a:hover {color: #33D633}
-    .habitatGreen {color: rgb(115, 180, 28);}
-    .habitatBlue {color: rgb(2, 71, 138);}
-    
     div.body {
         margin-left: auto;
         margin-right: auto; 
@@ -33,20 +23,37 @@ $act='loginCheck';
     }
 
     label {font-weight: bold;
-           padding-left: 5px;}
-    
-    #loginBox {
+           padding-right: 20px;
+           padding-top: 10px;
+           display: inline-block;
+           width: 100px;
+           text-align: right;
+    }
+   /*possibly move below items to CSS page */
+    #loginBox { 
 	margin: 25px auto;
-	border: 1px solid #73b41c;
-	border-radius: 15px;
+	border: 3px solid #73b41c;
+	border-radius: 20px;
 	box-shadow: 3px 4px #555555;
-	width: 250px;
+	width: 300px;
         height: auto;
 	text-align: left;
 	padding: 0px 20px;
     }
+    
+    #registerBox { /*to make the register link stand out like a button*/
+        margin: 10px auto;
+        border: 2px solid darkblue;
+        border-radius: 20px;
+	box-shadow: 1px 2px #555555;
+	width: auto;
+        height: auto;
+	text-align: center;
+    }
+    
     .center {text-align: center;}
-    .aForgot {font-size: 10pt; color: indianred;}
+    .aForgot {font-size: 10pt; color: tomato;}
+    
 </style>
 
 <script type="text/javascript">
@@ -80,20 +87,27 @@ $act='loginCheck';
 	
 	<div id="loginBox">
 	    <!--form for submitting username and password-->
-	    <form id="loginUser" name="loginUser" action="index.php" method="get">
+	    
+            <form id="loginUser" name="loginUser" action="index.php" method="get">
 	    
 	    <input name="dir" type="hidden" value="<?php echo $dir;?>" >
 	    <input name="act" type="hidden" value="<?php echo $act;?>" >
-		<h2 class="center habitatBlue">Login</h2>
-                <input id="userName" name="userName" type="text"><label>User Id</label><br><br>
-		<input id="password" name="password" type="password"><label>Password</label><br>
-		<br>
-
+            <h2 class="center habitatBlue">Login</h2><br>
+                
+                
+                <label>User Id:</label><input id="userName" name="userName" type="text"><br><br>
+		<label>Password:</label><input id="password" name="password" type="password"><br><br>
+                   
+                <div class ="center">
 		<input type="submit" value="submit" onclick="verify();"> &nbsp &nbsp <a href="index.php?act=checkEmail" class="aForgot">Forgot Password?</a><br>
-		<br>
-		<br>
-		<div class="center">
-                    <a href="../index.php">York Habitat Website</a><br><br>
+		
+                
+                <br>
+                <div id="registerBox">    
+                    <a href="../habitat_home/register">New? Register Here</a>
+                </div>
+                
+                <br><a href="../index.php">York Habitat Website</a><br><br>
 		</div>
 	    </form>
 	</div>
