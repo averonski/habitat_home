@@ -61,22 +61,20 @@ $act='loginCheck';
                     		alert ("Please Enter your 'Password'");
                     		//return false;
                		}
-
                else
                {
                 	document.getElementById('loginUser').submit();
                }
 
             }
-
-		</script>
+</script>
 
 	<div class="body">
 	<img src="img/habitat_logo.jpg" alt="Habitat for Humanity Logo" height="198px" width="600px" />
 
 	
 	<div id="loginBox">
-	    <!--form for submitting username and password-->
+	    <!--form for submitting username and password, going to registration, and recovering passwords-->
 	    
             <form id="loginUser" name="loginUser" action="index.php" method="get">
 	    
@@ -85,23 +83,20 @@ $act='loginCheck';
             <h2 class="center habitatBlue">Login</h2><br>
                 
                 
-                <label>User Id:</label><input id="userName" name="userName" type="text"><br><br>
-		<label>Password:</label><input id="password" name="password" type="password"><br><br>
+                <label>User Id:</label><input id="userName" name="userName" type="text" placeholder="example@ex.com"><br><br>
+		<label>Password:</label><input id="password" name="password" type="password" placeholder="**********"><br><br>
                    
                 <div class ="center">
-		<input type="submit" value="submit" onclick="verify();"> &nbsp &nbsp <a href="index.php?act=checkEmail" class="aForgot">Forgot Password?</a><br>
-		
-                
-                <br>
-                
-                <button onclick="location.href='./register/'">New? Register Here</button>
-               
-                
-                <br><br><a href="http://www.yorkhabitat.org" target="_blank">York Habitat Website</a><br><br>
+                    <input type="submit" value="submit" onclick="verify();"> &nbsp; &nbsp; <a href="index.php?act=checkEmail" class="aForgot">Forgot Password?</a><br>
+		<br>
+             
+                    <button onclick="location.href='./register/'">New? Register Here</button>
+                <br><br>
+                    <a href="http://www.yorkhabitat.org" target="_blank">York Habitat Website</a>
+                <br><br>
 		</div>
-	    </form>
-	</div>
-    
+            </form>  
+        </div>
 </div>
 <!-- Hosting24 Analytics Code -->
 <!--<script type="text/javascript" src="http://stats.hosting24.com/count.php"></script> -->
