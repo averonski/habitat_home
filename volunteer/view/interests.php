@@ -98,6 +98,6 @@
     <input type="submit" value="Update">
 </form>
 <hr>
-<h5>
+<span class="note">
     Check the box next to the type of work you are interested in performing for Habitat York
-</h5>
+</span>

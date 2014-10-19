@@ -66,7 +66,7 @@
     <button>Save Changes</button>
 </form>
 <hr>
-<h5>
-    Here is where your availabilities is displayed.<br>
+<span class="note">
+    Here is where your availabilities are displayed.<br><br>
     You can also make changes to your availabilities here.
-</h5>
+</span>

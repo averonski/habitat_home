@@ -133,8 +133,8 @@
 		<meta charset="UTF-8">
                 <link rel="stylesheet" href="css/default.css" media="screen">
 		<link rel="stylesheet" href="css/nav.css" >
-		<link rel="stylesheet" href="css/color.css" >
-		<link rel="stylesheet" type="text/css" href="css/bootstrap.css"> 
+		<!--<link rel="stylesheet" href="css/color.css" >-->
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 		<link rel="stylesheet" href="css/defaultprintcss.css" media="print">
 		<link rel="alternative stylesheet" href="css/defaultprintingcss-preview.css" media="screen" title="Print Preview">
 		<link rel="stylesheet" type="text/css" href="css/print.css" media="print">

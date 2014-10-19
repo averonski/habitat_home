@@ -2,16 +2,13 @@
     //File: volunteer view
     //Author: Brandon Willis; bmw5285
 ?>
-<!--<style>
+<style>
 	dd.list
 		{
 		border-collapse:collapse;
 		border-bottom-style:dotted;
 		border-width: 1px;
 		border-color:lightgrey;
-		}
-	dd.list
-		{
 		padding:0px;
 		padding-left:60px;
 		}
@@ -20,7 +17,7 @@
 		padding:5px;
 		padding-left:20px;
 		}
-</style>-->
+</style>
 
 <h2>Volunteer</h2>
 <hr>

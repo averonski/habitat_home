@@ -103,10 +103,12 @@
     <input type="checkbox" name="liability" value="6" <?php echo $checkLiability; ?> <?php if ($checkLiability == 'checked="checked"') ?> disabled/> I accept the terms of <a href="http://www.yorkhabitat.org/TDE_CMS/database/userfiles/file/waiverform20120711.pdf">Liability Waiver Form</a><br><br>
     
     <h5><strong>Emergency Contact Information: </strong></h5>
-    <table>
-    <tr><td> Emergency Name: </td><td> <input type="text" name="emergencyName" value="<?php echo $dbName; ?>"></td></tr><br>
+    <form>
+    <!--<table>
+    <tr><td>--><label>Emergency Name:</label><!--</td><td>--><input type="text" name="emergencyName" value="<?php echo $dbName; ?>"><!--</td></tr>--><br><br>
     
-    <tr><td>Phone Number: </td><td> <input type="text" name="phone" value="<?php echo $dbPhone; ?>"></td><tr></table><br><br>
+    <!--<tr><td>--><label>Phone Number:</label><!--</td><td>--><input type="text" name="phone" value="<?php echo $dbPhone; ?>"><!--</td></tr></table>--><br><br>
+    </form>
     <script type="text/javascript">
     function check(){
         if (document.getElementById('emergencyName').value==""
@@ -138,8 +140,8 @@
     <button value="submit" onclick="return check();">Save Changes</button>
 </form>
 <hr>
-<h5>
-    <br>You can not un-check items that have been already completed.<br>
+<span class="note">
+    You can not un-check items that have been already completed.<br>
     <br>You must be over the age of 16 and have completed all consent requirements to be available for construction work.<br>
     <br>Emergency contact information must be enter to be available for construction work.
-</h5>
+</span>

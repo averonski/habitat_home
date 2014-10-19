@@ -13,24 +13,6 @@ $act='loginCheck';
 
 ?>
 
-<style>
-    div.body {
-        margin-left: auto;
-        margin-right: auto; 
-	text-align: center;
-	font-family: arial, "Times New Roman";
-	background-color: rgb(253, 253, 253);
-    }
-
-    label {font-weight: bold;
-           padding-right: 20px;
-           padding-top: 10px;
-           display: inline-block;
-           width: 100px;
-           text-align: right;
-    } 
-</style>
-
 <script type="text/javascript">
 		//checks if username or password is blank or undefined; if either is it prompts for info enrty; else submits the data
 		function verify()

@@ -16,7 +16,7 @@ a {
     color: tomato;
 }
 
-a[href]:hover { /* For som reason ths one is not working */
+a[href]:hover { 
     color: crimson;
 }
 
@@ -74,6 +74,14 @@ body {
     /*width: 800px;*/
 }
 
+div.body {
+    margin-left: auto;
+    margin-right: auto; 
+    text-align: center;
+    font-family: arial, "Times New Roman";
+    background-color: rgb(253, 253, 253);
+}
+    
 /* habitat palette */
 .habitatGreen {
     color: rgb(115, 180, 28);/* #73b41c */
@@ -90,6 +98,15 @@ h1 {
     padding: 0 10px;
 }
 
+label {
+    font-weight: bold;
+    padding-right: 20px;
+    padding-top: 10px;
+    display: inline-block;
+    width: 125px;
+    text-align: right;
+} 
+    
 #loginBox { 
     margin: 25px auto;
     border: 3px solid #73b41c;
@@ -97,8 +114,9 @@ h1 {
     box-shadow: 3px 4px #555555;
     width: 300px;
     height: auto;
-    text-align: left;
-    padding: 0px 20px;
+    text-align: justify;
+  
+    /*padding: 0px 20px;*/
 } 
     
 .logout {
@@ -136,4 +154,8 @@ h1 {
 #printpage {
     position:relative;
     float:right;
+}
+
+td {
+    padding: 15px;
 }
