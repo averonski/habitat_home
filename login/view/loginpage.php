@@ -68,14 +68,14 @@ $act='loginCheck';
             <h2 class="center habitatBlue">Login</h2><br>
                 
                 
-                <label>User Id:</label><input id="userName" name="userName" type="text" placeholder="example@ex.com"><br><br>
+                <label>User Id:</label><input id="userName" name="userName" type="text" placeholder="example@provider.com"><br><br>
 		<label>Password:</label><input id="password" name="password" type="password" placeholder="**********"><br><br>
                    
                 <div class ="center">
                     <input type="submit" value="submit" onclick="verify();"> &nbsp; &nbsp; <a href="index.php?act=checkEmail" class="aForgot">Forgot Password?</a><br>
 		<br>
              
-                    <button onclick="location.href='./register/'">New? Register Here</button>
+                <input type = button onclick="location.href='./register/'" value="New? Register here">
                 <br><br>
                     <a href="http://www.yorkhabitat.org" target="_blank">York Habitat Website</a>
                 <br><br>
