@@ -28,22 +28,7 @@ $act='loginCheck';
            display: inline-block;
            width: 100px;
            text-align: right;
-    }
-   /*possibly move below items to CSS page */
-    #loginBox { 
-	margin: 25px auto;
-	border: 3px solid #73b41c;
-	border-radius: 20px;
-	box-shadow: 3px 4px #555555;
-	width: 300px;
-        height: auto;
-	text-align: left;
-	padding: 0px 20px;
-    }
-    
-    .center {text-align: center;}
-    .aForgot {font-size: 10pt; color: tomato;}
-    
+    } 
 </style>
 
 <script type="text/javascript">

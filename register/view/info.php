@@ -10,16 +10,11 @@
 
 ?>
 <!--<style>
-
-
-
-	.bold {font-weight: bold;}
-	.note {font-size: 10pt; color: grey;}
-	.mandatory {color: crimson;}
-	/*
+        /*
 	h4.show, h4.hide {width: 742px;}
 	div {width: 750px;}
 	*/
+
 	label {margin-left: 5px;}
 	h4.show + div {display: block;}
 	h4.hide + div {display: none;}
@@ -32,7 +27,8 @@
 	    background-color: #02478a;
 	    padding-left: 10px;
 	}
-	#page {width: 800px; text-align: left; margin: auto;}
+	
+       
 
 	h4.show, h4.hide {
 	    border-top-left-radius: 10px;

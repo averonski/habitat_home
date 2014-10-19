@@ -33,7 +33,7 @@
  
 </style>
 <div id="progressBar" style="width: <?php echo $width; ?>px;">
-	<label class="bold">Progress</label>
+	<label class="bold">Progress:</label>
 	<?php
 		for ($i = 1; $i <= $total; $i++) {
 			$class = ($i <= $progress ) ? 'barCom' : 'barYet';
