@@ -22,18 +22,22 @@
                 $user=($_GET['userName']);
                 $pw=($_GET['password']);
                 $dbCheck=$dbio->getLogin($user,$pw);
+                
                 //gets personid from username
                 global $personid;
                 $personid= $dbio->getPersonIdByUserName($user);
 
                 //checks results of DB query and either errors or allows login
-                if($user != $dbCheck)
+                if($dbCheck == null)
                 {
                     //include ('view/loginpage.php');
                     $page = $dir . '/view/loginpage.php';
                     print '<script type="text/javascript">'; 
-                            print 'alert("Not a valid Username or Password")'; 
-                            print '</script>';
+                        print 'alert("Not a valid Username or Password")'; 
+                    print '</script>';
+                }
+                elseif($dbCheck == 1) {
+                    $page = $dir . '/view/loginpage.php';
                 }
                 else
                 {	

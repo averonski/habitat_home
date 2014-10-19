@@ -77,6 +77,9 @@
         // login // ---------------------
         //This section likely will need to be comepletly be redone. there are all kind of issues with the logic.
         public function getLogin($user,$pw){
+            if(empty($user) || empty($pw)) {
+                return 1;
+            }
             $this->open();
             global $con;
             $sql='SELECT id, email FROM email where email ="'.$user.'"';
