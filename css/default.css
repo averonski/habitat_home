@@ -16,7 +16,7 @@ a {
     color: tomato;
 }
 
-a:hover { /* For som reason ths one is not working */
+a[href]:hover { /* For som reason ths one is not working */
     color: crimson;
 }
 
