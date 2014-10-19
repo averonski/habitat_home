@@ -103,15 +103,15 @@ $act='loginCheck';
 		
                 
                 <br>
-                <div id="registerBox">    
-                    <a href="../habitat_home/register">New? Register Here</a>
-                </div>
                 
-                <br><a href="../index.php">York Habitat Website</a><br><br>
+                <button onclick="location.href='./register/'">New? Register Here</button>
+               
+                
+                <br><br><a href="http://www.yorkhabitat.org" target="_blank">York Habitat Website</a><br><br>
 		</div>
 	    </form>
 	</div>
-    <button onclick="location.href='./register/'">Create New Account</button>
+    
 </div>
 <!-- Hosting24 Analytics Code -->
 <!--<script type="text/javascript" src="http://stats.hosting24.com/count.php"></script> -->
