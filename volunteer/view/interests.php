@@ -17,8 +17,7 @@
     $interestTypes = $dbio->listInterest_type();
     $volId = $dbio->readVolunteerByPid($pid);
     $volInterestedIn = $dbio->readInterested_in($volId->getId());
-    print_r($volInterestedIn[1]->getInterest()[0]->getId());
-    //$interests = $dbio->readInterest($volInterestedIn->getInterest());
+    //print_r($volInterestedIn[2]->getInterest()[0]->getId());
     //print_r($interests);
 
     if(isset($updated))
@@ -42,9 +41,8 @@
 
 	$typeInts = array();
 	foreach ($volInterestedIn as $int) {
-	    if ($int->getInterest()[0]->getId() == $it->getId()) {
+	    if ($int->getInterest()[0]->getType()->getId() == $it->getId()) {
 		$typeInts[] = $int;
-                //print_r($typeInts);
 	    }
 	}
 
@@ -83,7 +81,10 @@
 
 	}// end for
 
-	for ($i = 0; $i < ($columnCount - $remainder); $i++) {echo '<td></td>';}
+	for ($i = 0; $i < ($columnCount - $remainder); $i++) {
+            echo '<td></td>';    
+        }
+        
 	echo '</tr></table></div>';
 
     }// end foreach
