@@ -42,8 +42,8 @@
 	// FILE: volunteer/view/history.php
 	// AUTHOR: Logan Gurreri
 
-        $workHistory = array('1', '2', '3', '4', '5');
-        global $workHistory2;
+        //$workHistory = array('1', '2', '3', '4', '5');
+        //global $workHistory2;
         
         //$association = array('Penn State Build', 'Charity Event', 'Dinner', 'Meeting', 'Fundraiser');
 
@@ -102,9 +102,9 @@
     <?php
       foreach ($result as $workHistory) {
             echo "<tr>";
-            echo "<td>" . $workHistory->getEvent() . "</td>";
-            echo "<td>" . $workHistory->getDate() . "</td>";
-            echo "<td>" . $workHistory->getTime() . "</td>";
+            echo "<td>" . $workHistory->getEvent()->getTitle() . "</td>";
+            echo "<td>" . $workHistory->getEvent()->getDate() . "</td>";
+            echo "<td>" . $workHistory->getHours_worked() . "</td>";
             echo "<tr>";
         }
         
@@ -121,7 +121,7 @@
     <?php
         $a=0;
         foreach($result as $abc){
-            $a=$a+$abc->getTime();
+            $a=$a+$abc->getHours_worked();
         }
 
         echo $a." Hours";

@@ -25,8 +25,8 @@
         //global $volId;
         global $event_id;
         //$event_idh=$dbio->readWorkByVid($volId);
-        //print_r($event_id[0]->getEvent()->getId());
         $dbevent= $dbio->readEvent($event_id);
+        //print_r($dbevent);
         return $dbevent;
     }
 
@@ -42,8 +42,8 @@
         global $dbio;
         global $volId;
         $dbHours= $dbio->readWorkByVid($volId);
-        //print_r($dbHours[0]->getHours_worked());
-        return $dbHours[0]->getHours_worked();
+       // print_r($dbHours[0]);
+        return $dbHours;
     }
 
     
