@@ -15,12 +15,12 @@
 
 	//read contact from person
 	$contact = new Contact();
-        //print_r($person);
+        //print_r($person->getContact()->getId());
 	$contact = $dbio->readContact($person->getContact()->getId());  
 	
 	//read address from contact
 	$address = new Address();
-        //print_r($contact);
-	$address = $dbio->readAddress($contact->getAddress()->getId());
+        //print_r($contact->getAddress()[0]->getId());
+	$address = $dbio->readAddress($contact->getAddress()[0]->getId());
 
 ?>

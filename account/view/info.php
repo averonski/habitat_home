@@ -5,14 +5,20 @@
 	// AUTHOR: 
 	//displays an accounts info, and allows it to be updated
 
+        //person
 	$title = $person->getTitle();
 	$fName = $person->getFirst_name();
 	$lName = $person->getLast_name();
-	$street1 = $address->getStreet1();
-	$street2 = $address->getStreet2();
-	$city = $address->getCity();
-	$state = $address->getState();
-	$zip = $address->getZip();
+        
+        //address
+       
+	$street1 = $address[0]->getStreet1();
+	$street2 = $address[0]->getStreet2();
+	$city = $address[0]->getCity();
+	$state = $address[0]->getState();
+	$zip = $address[0]->getZip();
+        
+        //contact
 	$phone = $contact->getPhone();
 	$email = $contact->getEmail()->getemail();
 	//$employer = $person->getEmployer();
