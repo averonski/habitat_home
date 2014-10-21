@@ -4,7 +4,6 @@
     	// Author: Brandon Willis; bmw5285
 ?>
 
-<!--css
 <style>
 	dd.list
 		{
@@ -12,22 +11,16 @@
 		border-bottom-style:dotted;
 		border-width: 1px;
 		border-color:lightgrey;
-		}
-	dd.list
-		{
-		padding:0px;
+                padding:0px;
 		padding-left:60px;
 		}
+
 	dt.list
 		{
 		padding:5px;
 		padding-left:20px;
 		}
-	h4
-		{
-
-		}
-</style>-->
+</style>
 
 <h2>Administration</h2> 
 <hr>

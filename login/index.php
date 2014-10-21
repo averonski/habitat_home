@@ -1,5 +1,6 @@
 <link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
-
+<link rel="stylesheet" href="css/default.css" media="screen">
+ 
 <div class="navbar navbar-inverse">
   <div class="navbar-inner">
     <a class="brand">Habitat for Humanity Login Page:</a>

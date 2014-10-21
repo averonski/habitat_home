@@ -1,5 +1,11 @@
 <?php session_start(); ?>
+<link rel="stylesheet" href="../css/default.css" media="screen">
 <link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
+
+ 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+<script src="../js/boxit.js"></script>
 
 <div class="navbar navbar-inverse">
   <div class="navbar-inner">
