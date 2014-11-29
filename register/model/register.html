@@ -7,17 +7,22 @@
                 <script src="js/FILENAME.js"></script>
                 <link rel="stylesheet" href="FILENAME.css" />
                 -->
-                <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Ubuntu">    
-                <style>
-                        body {font-family: 'Ubuntu', sans-serif; text-align: center;}
+                <link rel="stylesheet" href="css/default.css" media="screen">
+                <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+                <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Ubuntu">
+                
+                 <style>
+                         /*body {font-family: 'Ubuntu', sans-serif; text-align: center;}
+                        
                         .bold {font-weight: bold;}
                         .note {font-size: 10pt; color: grey;}
                         .mandatory {color: crimson;}
-                        /*
+                       
                         h4.show, h4.hide {width: 742px;}
                         div {width: 750px;}
-                        */
+                        
                         label {margin-left: 5px;}
+                        
                         h4.show + div {display: block;}
                         h4.hide + div {display: none;}
                         h4.show + div, h4.hide + div {
@@ -29,7 +34,11 @@
                                 background-color: black;
                                 padding-left: 10px;
                         }
-                        #page {width: 800px; text-align: left; margin: auto;}
+                        #page {
+                            width: 800px; 
+                            text-align: left;
+                            margin: auto;
+                        }*/
                 </style>
                 <script>
                         function swap(e) {
@@ -58,7 +67,8 @@
                 </script>
         </head>
 	<body>
-		<div id="page">
+            <form>
+                <!--<div id="page">-->
 		<h2>Committee Member/Volunteer Interest Application</h2>
 		For non-construction-related volunteer opportunities<br/>
 										
@@ -126,6 +136,7 @@
 		<br/>
 		<input name="signature" /><label>Signature</label><br/>
 		<input name="date" /><label>Date</label><br/>
-		</div>
+                <!--</div>-->
+            </form>
 	</body>
 </html>
