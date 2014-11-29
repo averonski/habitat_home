@@ -41,31 +41,27 @@
 		<table>
 		<?php
                 echo '<table class="table table-striped table-hover " style="width:100%"><tr><th>Title</th><th>First Name</th><th>Last Name</th><th>Phone</th><th>Street 1</th><th>Address 2</th><th>City</th><th>State</th><th>Zip</th><th>Email</th></tr>';
-			
+		    print_r($volunteers[0]);
                    foreach  ($volunteers as $volunteer) {
 
-                            $person_id = $volunteer->getPerson_id();
-                            $title = $volunteer->getTitle();
-                            $first_name = $volunteer->getFirst_name();
-                            $last_name = $volunteer->getLast_name();
-                            $dob = $volunteer->getDob();
-                            $contact = $volunteer->getContact();
+                            $person_id = $volunteer->getPerson()->getId();
+                            $title = $volunteer->getPerson()->getTitle();
+                            $first_name = $volunteer->getPerson()->getFirst_name();
+                            $last_name = $volunteer->getPerson()->getLast_name();
+                            $dob = $volunteer->getPerson()->getDob();
+                            $contact = $volunteer->getPerson()->getContact();
                             
-                           
-                                $contacts = $dbio->readContact($contact);
-                                $phone = $contacts->getPhone();
-                                $email = $contacts->getEmail();
-                                $phone2 = $contacts->getPhone2();
-                                $extension = $contacts->getExtension();
-                                $address = $contacts->getAddress();
+                                $phone = $volunteer->getPerson()->getContact()->getPhone();
+                                $email = $volunteer->getPerson()->getContact()->getEmail()->getEmail();
+                                $phone2 = $volunteer->getPerson()->getContact()->getPhone2();
+                                //$extension = $volunteer->getPerson()->getContact()->getExtension();
                             
-                                    $addresses = $dbio->readAddress($address);
-                                    $address_id = $addresses->getAddress_id();
-                                    $street1 = $addresses->getStreet1();
-                                    $street2 = $addresses->getStreet2();
-                                    $city = $addresses->getCity();
-                                    $state = $addresses->getState();
-                                    $zip = $addresses->getZip();
+                                    $address_id = $volunteer->getPerson()->getContact()->getAddress()->getId();
+                                    $street1 = $volunteer->getPerson()->getContact()->getAddress()->getStreet1();
+                                    $street2 = $volunteer->getPerson()->getContact()->getAddress()->getStreet2();
+                                    $city = $volunteer->getPerson()->getContact()->getAddress()->getCity();
+                                    $state = $volunteer->getPerson()->getContact()->getAddress()->getState()->getTitle();
+                                    $zip = $volunteer->getPerson()->getContact()->getAddress()->getZip();
                            
 				
                                 

@@ -21,6 +21,6 @@
 	//read address from contact
 	$address = new Address();
         //print_r($contact->getAddress()[0]->getId());
-	$address = $dbio->readAddress($contact->getAddress()[0]->getId());
+	$address = $dbio->readAddress($contact->getAddress()->getId());
 
 ?>

@@ -27,8 +27,8 @@
 	function read() {
 		global $dbio;
 		$tableinfo = array();
-		$donations = $dbio->readAllDonations();
-		$donors = $dbio->getDonors();
+		$donations = $dbio->listDonation();
+		$donors = $dbio->listPersonal_donation();
 		$tableinfo[] = $donations;
 		$tableinfo[] = $donors;
 		return $tableinfo;

@@ -26,29 +26,30 @@ width:100%;
 <input name="act" id="act" type="hidden" value="edit" >
 <input name="oid" id="oid" type="hidden" value="0">
 <?php 
-	$orgs = $tableinfo[0];
-	$contacts = $tableinfo[1];
-	$addresses = array();
-	foreach ($contacts as $contact) {
-		$address = $contact->getAddress();
-		$addresses[] = $address;
-	}
+	$orgs = $tableinfo;
+        //print_r($orgs[0]);
+	//$contacts = $tableinfo[1];
+	//$addresses = array();
+//	foreach ($contacts as $contact) {
+//		$address = $contact->getAddress();
+//		$addresses[] = $address;
+//	}
 
 	echo '<table class="table table-striped table-hover " style="width:100%"><tr><th>Organization</th><th>Street 1</th><th>Street 2</th><th>City</th><th>State</th><th>Zip</th><th>Email</th><th>Phone</th><th>Phone 2</th><th>Ext</th></tr>';
 		
 		$length = count($orgs);
 		for ($i = 0; $i < $length; $i++) {
-			echo '<tr onclick="retrieve(' . $orgs[$i]->getOrganization_id() . ');">';
+			echo '<tr onclick="retrieve(' . $orgs[$i]->getId() . ');">';
 			echo '<td>' . $orgs[$i]->getName() . '</td>';
-			echo '<td>' . $addresses[$i]->getStreet1() . '</td>';
-			echo '<td>' . $addresses[$i]->getStreet2() . '</td>';
-			echo '<td>' . $addresses[$i]->getCity() . '</td>';
-			echo '<td>' . $addresses[$i]->getState() . '</td>';
-			echo '<td>' . $addresses[$i]->getZip() . '</td>';
-			echo '<td>' . $contacts[$i]->getEmail() . '</td>';
-			echo '<td>' . $contacts[$i]->getPhone() . '</td>';
-			echo '<td>' . $contacts[$i]->getPhone2() . '</td>';
-			echo '<td>' . $contacts[$i]->getExtension() . '</td>';
+			echo '<td>' . $orgs[$i]->getContact()->getAddress()->getStreet1() . '</td>';
+			echo '<td>' . $orgs[$i]->getContact()->getAddress()->getStreet2() . '</td>';
+			echo '<td>' . $orgs[$i]->getContact()->getAddress()->getCity() . '</td>';
+			echo '<td>' . $orgs[$i]->getContact()->getAddress()->getState()->getTitle() . '</td>';
+			echo '<td>' . $orgs[$i]->getContact()->getAddress()->getZip() . '</td>';
+			echo '<td>' . $orgs[$i]->getContact()->getEmail()->getEmail() . '</td>';
+			echo '<td>' . $orgs[$i]->getContact()->getPhone() . '</td>';
+			echo '<td>' . $orgs[$i]->getContact()->getPhone2() . '</td>';
+			//echo '<td>' . $contacts[$i]->getExtension() . '</td>';
 			echo '</tr>';		
 		}
 			

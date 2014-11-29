@@ -33,7 +33,7 @@
 			break;
 
 		default:
-			$_SESSION['userid'] = $_SESSION['userid'];
+			//$_SESSION['userid'] = $_SESSION['userid']; //I'm not deleteing this, but I have no clue why this line of code exists.
 			$page = $dir . '/view/' . (($sub) ? $sub : $dir) . '.php';
 			break;
 

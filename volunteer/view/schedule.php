@@ -77,40 +77,27 @@
 <table class="table table-striped table-hover " style="width:100%">
 	<tr><th>Event Name</th><th>Event Date</th><th>Event Time</th><th>Event Location</th><th>Event Type</th></tr>
 <?php
-$personSchedules = $dbio->readScheduleByName($_SESSION['personid']);
+$personSchedules = getWork();
 	foreach($personSchedules as $personSchedule)
 	{
-		if($personSchedule[1]->getDate()<date('Y-m-d'))
+		if($personSchedule->getDate()<date('Y-m-d'))
 		{
-			$title = $personSchedule[0]->getTitle();
-			$lastName = $personSchedule[0]->getLast_name();
-			$firstName = $personSchedule[0]->getFirst_name();
-			
-			$eventId = $personSchedule[1]->getEvent_id();
-			$eventTitle = $personSchedule[1]->getTitle();
-			$eventDate = $personSchedule[1]->getDate();
-			$eventTime = $personSchedule[1]->getTime();
-			
-			$scheduleId = $personSchedule[2]->getId();
-			$scheduleDescription = $personSchedule[2]->getDescription();
-			$scheduleTimeStart = $personSchedule[2]->getTimeStart();
-			$scheduleTimeEnd = $personSchedule[2]->getTimeEnd();
-			
-			$addressStreet1 = $personSchedule[3]->getStreet1();
-			$addressStreet2 = $personSchedule[3]->getStreet2();
-			$addressCity = $personSchedule[3]->getCity();
-			$addressState = $personSchedule[3]->getState();
-			$addessZip = $personSchedule[3]->getZip();
-			
-			$eventType = $personSchedule[4]->getTitle();
+			$eventTitle = $personSchedule->getEvent()->getTitle();
+                        $eventDate = $personSchedule->getDate();
+                        $eventTime = $personSchedule->getEvent()-getStart_time();
+                        $addressStreet1 = $personSchedule->getAddress()->getStreet1();
+                        $addressStreet2 = $personSchedule->getAddress()->getStreet2();
+                        $addressCity = $personSchedule->getAddress()->getCity();
+                        $addressState = $personSchedule->getAddress()->getState();
+                        $addressZip = $personSchedule->getAddress()->getZip();
+                        $eventType = $personSchedule->getEvent()->getType()->getTitle();
+
 			echo '<tr>';
 				echo "<td>{$eventTitle}</td>";
 				echo "<td>{$eventDate}</td>";
 				echo "<td>{$eventTime}</td>";
 				echo "<td>{$addressStreet1} {$addressStreet2} {$addressCity}, {$addressState}, {$addessZip}</td>";
 				echo "<td>{$eventType}</td>";
-				//echo "<td>{$interest_title}</td>";
-				//echo "<td>'{$description}'</td>";
 			echo "</tr>";
 		}
 	}
@@ -125,45 +112,32 @@ $personSchedules = $dbio->readScheduleByName($_SESSION['personid']);
 <?php
 $i=0;
 $j=0;
-$personSchedules = $dbio->readScheduleByName($_SESSION['personid']);
+$personSchedules = getWork();
 	foreach($personSchedules as $personSchedule)
 	{
-		if($personSchedule[1]->getDate()>date('Y-m-d')) {$i++;}
+		if($personSchedule->getDate()>date('Y-m-d')) {$i++;}
 		if($i>0)
 		{
-			if($eventId !== $personSchedule[1]->getEvent_id())
-			{
-				$title = $personSchedule[0]->getTitle();
-				$lastName = $personSchedule[0]->getLast_name();
-				$firstName = $personSchedule[0]->getFirst_name();
-				
-				$eventId = $personSchedule[1]->getEvent_id();
-				$eventTitle = $personSchedule[1]->getTitle();
-				$eventDate = $personSchedule[1]->getDate();
-				$eventTime = $personSchedule[1]->getTime();
-				
-				$scheduleId = $personSchedule[2]->getId();
-				$scheduleDescription = $personSchedule[2]->getDescription();
-				$scheduleTimeStart = $personSchedule[2]->getTimeStart();
-				$scheduleTimeEnd = $personSchedule[2]->getTimeEnd();
-				
-				$addressStreet1 = $personSchedule[3]->getStreet1();
-				$addressStreet2 = $personSchedule[3]->getStreet2();
-				$addressCity = $personSchedule[3]->getCity();
-				$addressState = $personSchedule[3]->getState();
-				$addessZip = $personSchedule[3]->getZip();
-				
-				$eventType = $personSchedule[4]->getTitle();
+			//if($eventId !== $personSchedule->getEvent()->getId())
+			//{
+                                $eventTitle = $personSchedule->getEvent()->getTitle();
+                                $eventDate = $personSchedule->getDate();
+                                $eventTime = $personSchedule->getEvent()->getStart_time();
+                                $addressStreet1 = $personSchedule->getEvent()->getAddress_id()->getStreet1();
+                                $addressStreet2 = $personSchedule->getEvent()->getAddress_id()->getStreet2();
+                                $addressCity = $personSchedule->getEvent()->getAddress_id()->getCity();
+                                $addressState = $personSchedule->getEvent()->getAddress_id()->getState()->getTitle();
+                                $addressZip = $personSchedule->getEvent()->getAddress_id()->getZip();
+                                $eventType = $personSchedule->getEvent()->getType()->getTitle();
+                                
 				echo '<tr>';
 					echo "<td>{$eventTitle}</td>";
 					echo "<td>{$eventDate}</td>";
 					echo "<td>{$eventTime}</td>";
-					echo "<td>{$addressStreet1} {$addressStreet2} {$addressCity}, {$addressState}, {$addessZip}</td>";
+					echo "<td>{$addressStreet1} {$addressStreet2} {$addressCity}, {$addressState}, {$addressZip}</td>";
 					echo "<td>{$eventType}</td>";
-					//echo "<td>{$interest_title}</td>";
-					//echo "<td>'{$description}'</td>";
 				echo "</tr>";
-			}
+			//}
 		}
 		else
 		{

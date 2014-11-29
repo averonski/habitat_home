@@ -11,7 +11,24 @@
 	//function update() {}
 	//function delete() {}
 	//function list() {}
-
+        
+        //variables
+        $person_id = $_SESSION['personid'];
+        $volIdH = $dbio->readVolunteerByPid($person_id);
+        $volId = $volIdH->getId();
+        $event_idh=$dbio->readWorkByVid($volId);
+        $event_id= $event_idh[0]->getEvent()->getId();
+        
+        
+        
+        function getWork(){
+            global $dbio;
+            global $volId;
+                $work= $dbio->readWorkByVid($volId);
+            //print_r($work);
+            return $work;
+        }
+        
 	function readPersonEvents($personId) {
 		global $dbio;
 		$personSchedules = $dbio->readScheduleByName($personId);

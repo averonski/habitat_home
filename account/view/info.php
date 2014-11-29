@@ -11,32 +11,24 @@
 	$lName = $person->getLast_name();
         
         //address
-       
-	$street1 = $address[0]->getStreet1();
-	$street2 = $address[0]->getStreet2();
-	$city = $address[0]->getCity();
-	$state = $address[0]->getState();
-	$zip = $address[0]->getZip();
+	$street1 = $address->getStreet1();
+	$street2 = $address->getStreet2();
+	$city = $address->getCity();
+	$state = $address->getState();
+	$zip = $address->getZip();
         
         //contact
 	$phone = $contact->getPhone();
-	$email = $contact->getEmail()->getemail();
+	$email = $contact->getEmail()->getEmail();
 	//$employer = $person->getEmployer();
 	$workPhone = $contact->getPhone2();
 	//$workExt = $contact->getExtension();
 	//$jobTitle = $person->getJobTitle();
 
+        //checks for page update
 	if($update)
-		echo '<div class="alert alert-dismissable alert-success"><button type="button" class="close" data-dismiss="alert">×</button><strong>UPDATED</strong> You successfully updated the information.</div>';
+            echo '<div class="alert alert-dismissable alert-success"><button type="button" class="close" data-dismiss="alert">×</button><strong>UPDATED</strong> You successfully updated the information.</div>';
 ?>
-
-<!--css
-<style>
-	th
-	{
-		font-size:1.3em;
-	}
-</style>-->
 
 <!--html-->
 <h2>Personal Information</h2>
@@ -48,13 +40,13 @@
     <input name="sub" type="hidden" value="<?php echo $sub; ?>" >
     <input name="act" type="hidden" value="update" >
     <input name="pid" type="hidden" value="<?php echo $pid; ?>" >
+    
     <table>
 	<tr>
 	    <th>Name Info</th>
 	    <th>Address Info</th>
 	    <th>Contact Info</th>
 	</tr>
-
 	<tr>
 	    <td>
 		<select name="title" type="text">
@@ -73,6 +65,7 @@
 		<span class="required">*</span>
 		<br>
 	    </td>
+            
 	    <td>
 		<input name="street1" type="text" placeholder="street 1" value="<?php echo $street1; ?>" >
 		<span class="required">*</span>
@@ -92,6 +85,7 @@
 		<input name="zip" type="text" placeholder="zip" value="<?php echo $zip; ?>" >
 		<span class="required">*</span>
 	    </td>
+            
 	    <td>
 		<input name="phone" type="text" placeholder="phone" value="<?php echo $phone; ?>" >
 		<span class="required">*</span></label>

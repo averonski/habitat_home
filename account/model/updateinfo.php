@@ -8,9 +8,13 @@
 	$person = new Person();
 	$contact = new Contact();
 	$address = new Address();
+        
+        //gets email id
         $email = $_GET['email'];
+        $emailId = $contact->getEmail();
 
 	//gets information submitted in the form
+        
 	//person
 	$pid = $_GET['pid'];
 	$person->setTitle($_GET['title']);
@@ -18,24 +22,28 @@
 	$person->setLast_name($_GET['lName']);
             //$person->setEmployer($_GET['employer']);
             //$person->setJobtitle($_GET['jobTitle']);
-        //email
-        $dbio->updateEmail($email);
+        
 	//contact
 	$contact->setPhone($_GET['phone']);
-	$contact->setPhone2($_GET['workPhone']);
-            //$contact->setExtension($_GET['workExt']);
+	//$contact->setPhone2($_GET['workPhone']);
+        //$contact->setExtension($_GET['workExt']);
+            
 	//address
 	$address->setStreet1($_GET['street1']);
 	$address->setStreet2($_GET['street2']);
 	$address->setCity($_GET['city']);
 	$address->setState($_GET['state']);
 	$address->setZip($_GET['zip']);
-	//updates database
-	//$update = $dbio->updateInfo($pid,$person,$contact,$address);
-        $hold = $dbio->readPerson($pid);
         
+	//updates database
+        print_r($email);
+        print_r($emailId);
+        print_r($person);
+        print_r($contact);
+        $dbio->updateEmail($emailId, $email);
         $dbio->updatePerson($pid, $person);
-        $dbio->updateContact($email, $contact);
+        $dbio->updateContact($contact->getId(), $contact);
+        $dbio->updateAddress($address->getId(), $address);
         
 
 

@@ -7,7 +7,7 @@
 	function listInterests()
 	{
 		$dbio = new DBIO();
-		$ints = $dbio->listInterests();
+		$ints = $dbio->listInterest();
 		echo '<table class="table table-striped table-hover " style="width:100%"><tr><th>ID</th><th>Type ID</th><th>Title</th><th>Description</th></tr>';
 		foreach ($ints as &$int)
 		{
@@ -16,7 +16,7 @@
 			echo '<input id="act" type="hidden" value="viewInterest">';
 			echo '<tr onclick="retreive(' . $int->getId() . ');">';
 			echo '<td>' . $int->getId() . '</td>';
-			echo '<td>' . $int->getTypeId() . '</td>';
+			echo '<td>' . $int->getType()->getTitle() . '</td>';
 			echo '<td>' . $int->getTitle() . '</td>';
 			echo '<td>' . $int->getDescription() . '</td>';
 			echo '</tr>';
@@ -27,15 +27,15 @@
 	function listInterestTypes()
 	{
 		$dbio = new DBIO();
-		$intTypes = $dbio->listInterestTypes();
+		$intTypes = $dbio->listInterest_type();
 		echo '<table class="table table-striped table-hover " style="width:100%"><tr><th>ID</th><th>Title</th><th>Description</th></tr>';
 		foreach ($intTypes as &$intType)
 		{
 			echo '<input id="dir" type="hidden" value="office">';
 			echo '<input id="sub" type="hidden" value="interests">';
 			echo '<input id="act" type="hidden" value="viewInterestType">';
-			echo '<tr onclick="retreive(' . $intType->getType_id() . ');">';
-			echo '<td>' . $intType->getType_id() . '</td>';
+			echo '<tr onclick="retreive(' . $intType->getId() . ');">';
+			echo '<td>' . $intType->getId() . '</td>';
 			echo '<td>' . $intType->getTitle() . '</td>';
 			echo '<td>' . $intType->getDescription() . '</td>';
 			echo '</tr>';

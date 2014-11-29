@@ -7,13 +7,13 @@
 	
 	function readEvents() {
 		global $dbio;
-		$events = $dbio->readAllEvent();
+		$events = $dbio->listEvent();
 		return $events;
 	}
 
 	function readEvent_Types(){
 		global $dbio;
-		$event_types = $dbio->readAllEvent_Type();
+		$event_types = $dbio->listEvent_type();
 		return $event_types;
 	}
 

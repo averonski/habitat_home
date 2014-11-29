@@ -102,7 +102,7 @@ function updateInfo(){
 
 function listVolunteer(){
     global $dbio;
-    $volunteers = $dbio->listVolunteers();
+    $volunteers = $dbio->listVolunteer();
     return $volunteers;
 }
 //function readContact($id){}

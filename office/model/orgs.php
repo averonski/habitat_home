@@ -32,7 +32,7 @@
 	}
 	function read() {
 		global $dbio;
-		$tableinfo = $dbio->listOrgs();
+		$tableinfo = $dbio->listOrganization();
 		return $tableinfo;
 	}
 	function update() {

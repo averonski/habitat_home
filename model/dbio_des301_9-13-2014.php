@@ -170,11 +170,9 @@
 		global $con;
 		$sql = 'SELECT * FROM account WHERE person_id = ' . $id . '';
 		$this->open();
-		$results = mysql_query($sql, $con);
+		$result = mysql_query($sql, $con);
 		$this->close();
-		if ($results) {
-			$accounts = array();
-			while($result = mysql_fetch_array($results)) {
+		if ($result) {
 				$account = new Account();
 				$account->setId($result[0]);
 				$account->setEmail($result[1]);
@@ -183,7 +181,6 @@
 				$account->setStatus($this->readStatus_change($result[4]));
 				$account->setPerson($this->readPerson($result[5]));
 				$accounts[] = $account;
-			}// end while
 		} else {
 			$account = false;
 		}
@@ -219,17 +216,17 @@
 			while($result = mysql_fetch_array($results)) {
 				$account = new Account();
 				$account->setId($result[0]);
-				$account->setEmail($result[1]);
+				$account->setEmail($this->readEmail($result[1]));
 				$account->setPassword($result[2]);
 				$account->setCreated($result[3]);
 				$account->setStatus($this->readStatus_change($result[4]));
-				$account->setPerson(readPerson($result[5]));
+				$account->setPerson($this->readPerson($result[5]));
 				$accounts[] = $account;
 			}// end while
 		} else {
-			$account = false;
+			$accounts = false;
 		}
-		return $account;
+		return $accounts;
 	}// end function
 
 	// account_recovery // --------------------
@@ -397,7 +394,6 @@
 		$results = mysql_query($sql, $con);
 		$this->close();
 		if ($results) {
-			$addresss = array();
 			while($result = mysql_fetch_array($results)) {
 				$address = new Address();
 				$address->setId($result[0]);
@@ -406,17 +402,22 @@
 				$address->setCity($result[3]);
 				$address->setState($this->readState($result[4]));
 				$address->setZip($result[5]);
-				$addresss[] = $address;
 			}// end while
 		} else {
-			$addresss = false;
+			$address = false;
 		}
-		return $addresss;
+		return $address;
 	}// end function
 
-	public function updateAddress($address) {
+	public function updateAddress($addressId, $address) {
 		global $con;
-		$sql = 'UPDATE address SET ($array) WHERE id = ' . $id . '';
+                $street1 = $address->getStreet1();
+                $street2 = $address->getStreet2();
+                $city = $address->getCity();
+                $zip = $address->getZip();
+                $stateId = $this->readStateByTitle($address->getState())->getId();
+                
+                $sql = "UPDATE address SET street1 = '{$street1}', street2 = '{$street2}', city = '{$city}', zip = '{$zip}', state_id = '{$stateId}' WHERE id = '{$addressId}'";
 		$this->open();
 		$results = mysql_query($sql, $con);
 		$this->close();
@@ -446,7 +447,7 @@
 				$address->setStreet1($result[1]);
 				$address->setStreet2($result[2]);
 				$address->setCity($result[3]);
-				$address->setState(readState($result[4]));
+				$address->setState($this->readState($result[4]));
 				$address->setZip($result[5]);
 				$addresss[] = $address;
 			}// end while
@@ -472,16 +473,29 @@
 		global $con;
 		$sql = 'SELECT * FROM admin WHERE id = ' . $id . '';
 		$this->open();
-		$results = mysql_query($sql, $con);
+		$result = mysql_query($sql, $con);
 		$this->close();
-		if ($results) {
-			$admins = array();
-			while($result = mysql_fetch_array($results)) {
+		if ($result) {
 				$admin = new Admin();
 				$admin->setId($result[0]);
 				$admin->setPerson($this->readPerson($result[1]));
-				$admins[] = $admin;
-			}// end while
+		} else {
+			$admin = false;
+		}
+		return $admin;
+	}// end function
+        
+        public function readAdminByPid($pid) {
+		global $con;
+		$sql = 'SELECT * FROM admin WHERE person_id = ' . $pid . '';
+		$this->open();
+		$results = mysql_query($sql, $con);
+		$this->close();
+		if ($results) {
+                    $result = mysql_fetch_array($results);
+				$admin = new Admin();
+				$admin->setId($result[0]);
+				$admin->setPerson($this->readPerson($result[1]));
 		} else {
 			$admin = false;
 		}
@@ -517,7 +531,7 @@
 			while($result = mysql_fetch_array($results)) {
 				$admin = new Admin();
 				$admin->setId($result[0]);
-				$admin->setPerson(readPerson($result[1]));
+				$admin->setPerson($this->readPerson($result[1]));
 				$admins[] = $admin;
 			}// end while
 		} else {
@@ -623,7 +637,7 @@
 			while($result = mysql_fetch_array($results)) {
 				$auction = new Auction();
 				$auction->setId($result[0]);
-				$auction->setEvent(readEvent($result[1]));
+				$auction->setEvent($this->readEvent($result[1]));
 				$auctions[] = $auction;
 			}// end while
 		} else {
@@ -661,7 +675,7 @@
 			while($result = mysql_fetch_array($results)) {
 				$auction = new Auction();
 				$auction->setId($result[0]);
-				$auction->setEvent(readEvent($result[1]));
+				$auction->setEvent($this->readEvent($result[1]));
 				$auctions[] = $auction;
 			}// end while
 		} else {
@@ -699,7 +713,7 @@
 				$auction_item->setDescription($result[4]);
 				$auction_item->setValue($result[5]);
 				$auction_item->setPrice($result[6]);
-				$auction_item->setPerson(readPerson($result[7]));
+				$auction_item->setPerson($this->readPerson($result[7]));
 				$auction_item->setDonation(readDonation($result[8]));
 				$auction_items[] = $auction_item;
 			}// end while
@@ -744,7 +758,7 @@
 				$auction_item->setDescription($result[4]);
 				$auction_item->setValue($result[5]);
 				$auction_item->setPrice($result[6]);
-				$auction_item->setPerson(readPerson($result[7]));
+				$auction_item->setPerson($this->readPerson($result[7]));
 				$auction_item->setDonation(readDonation($result[8]));
 				$auction_items[] = $auction_item;
 			}// end while
@@ -848,7 +862,7 @@
 				$city = new City();
 				$city->setId($result[0]);
 				$city->setTitle($result[1]);
-				$city->setState(readState($result[2]));
+				$city->setState($this->readState($result[2]));
 				$citys[] = $city;
 			}// end while
 		} else {
@@ -887,7 +901,7 @@
 				$city = new City();
 				$city->setId($result[0]);
 				$city->setTitle($result[1]);
-				$city->setState(readState($result[2]));
+				$city->setState($this->readState($result[2]));
 				$citys[] = $city;
 			}// end while
 		} else {
@@ -1054,30 +1068,27 @@
 
 	public function readContact($id) {
 		global $con;
-		$sql = 'SELECT * FROM contact WHERE id = ' . $id . '';
+		$sql = "SELECT * FROM contact WHERE id = '{$id}'";
 		$this->open();
 		$results = mysql_query($sql, $con);
 		$this->close();
 		if ($results) {
-			$contacts = array();
-			while($result = mysql_fetch_array($results)) {
-				$contact = new Contact();
-				$contact->setId($result[0]);
-				$contact->setAddress($this->readAddress($result[1]));
-				$contact->setPhone($result[2]);
-				$contact->setPhone2($result[3]);
-				$contact->setEmail($this->readEmail($result[4]));
-				$contacts[] = $contact;
-			}// end while
+                    $result = mysql_fetch_array($results); 
+                        $contact = new Contact();
+                        $contact->setId($result[0]);
+                        $contact->setAddress($this->readAddress($result[1]));
+                        $contact->setPhone($result[2]);
+                        $contact->setPhone2($result[3]);
+                        $contact->setEmail($this->readEmail($result[4]));
 		} else {
-			$contact = false;
+                    $contact = false;
 		}
 		return $contact;
 	}// end function
 
-	public function updateContact($contact) {
+	public function updateContact($email_id, $contact) {
 		global $con;
-		$sql = 'UPDATE contact SET  WHERE id = ' . $id . '';
+                $sql = "UPDATE contact SET phone = '{$contact->getPhone()}' WHERE email_id = {$email_id} ";
 		$this->open();
 		$results = mysql_query($sql, $con);
 		$this->close();
@@ -1216,10 +1227,10 @@
 				$donation->setDetails($result[3]);
 				$donation->setWhen_entered($result[4]);
 				$donation->setDonor(readDonor($result[5]));
-				$donation->setOffice(readOffice($result[6]));
+				$donation->setOffice($this->readOffice($result[6]));
 				$donation->setDonation_type(readDonation_type($result[7]));
 				$donation->setPledge($result[8]);
-				$donation->setAdmin(readAdmin($result[9]));
+				$donation->setAdmin($this->readAdmin($result[9]));
 				$donations[] = $donation;
 			}// end while
 		} else {
@@ -1262,16 +1273,16 @@
 				$donation->setDetails($result[3]);
 				$donation->setWhen_entered($result[4]);
 				$donation->setDonor(readDonor($result[5]));
-				$donation->setOffice(readOffice($result[6]));
+				$donation->setOffice($this->readOffice($result[6]));
 				$donation->setDonation_type(readDonation_type($result[7]));
 				$donation->setPledge($result[8]);
-				$donation->setAdmin(readAdmin($result[9]));
+				$donation->setAdmin($this->readAdmin($result[9]));
 				$donations[] = $donation;
 			}// end while
 		} else {
 			$donation = false;
 		}
-		return $donation;
+		return $donations;
 	}// end function
 
 	// donation_type // --------------------
@@ -1365,6 +1376,23 @@
 		$results = mysql_query($sql, $con);
 		$this->close();
 		if ($results) {
+                    $result = mysql_fetch_array($results);
+                        $email = new Email();
+                        $email->setId($result[0]);
+                        $email->setEmail($result[1]);
+		} else {
+			$email = false;
+		}
+		return $email;
+	}// end function
+        
+        public function readEmailByEmail($email) {
+            global $con;
+            $sql = "SELECT * FROM email WHERE email = {$email}";
+		$this->open();
+		$results = mysql_query($sql, $con);
+		$this->close();
+		if ($results) {
 			$emails = array();
 			while($result = mysql_fetch_array($results)) {
 				$email = new Email();
@@ -1374,14 +1402,14 @@
 				$emails[] = $email;
 			}// end while
 		} else {
-			$email = false;
+			$emails = false;
 		}
-		return $email;
+		return $emails;
 	}// end function
 
-	public function updateEmail($email) {
+	public function updateEmail($email_id, $email) {
 		global $con;
-		$sql = "UPDATE email SET email= '{$email}' WHERE id = '{$email}'";
+		$sql = "UPDATE email SET email= '{$email}' WHERE id = '{$email_id}'";
 		$this->open();
 		$results = mysql_query($sql, $con);
 		$this->close();
@@ -1409,7 +1437,7 @@
 				$email = new Email();
 				$email->setId($result[0]);
 				$email->setEmail($result[1]);
-				$email->setPerson(readPerson($result[2]));
+				$email->setPerson($this->readPerson($result[2]));
 				$emails[] = $email;
 			}// end while
 		} else {
@@ -1491,11 +1519,11 @@
 				$event->setDate($result[2]);
 				$event->setStart_time($result[3]);
 				$event->setEnd_time($result[4]);
-				$event->setAddress(readAddress($result[5]));
+				$event->setAddress_id($this->readAddress($result[5]));
 				$event->setType($this->readInterest_type($result[6]));
 				$event->setMax_num_guests($result[7]);
-				$event->setCommittee(readCommittee($result[8]));
-				$event->setSponsored(readSponsored($result[9]));
+				$event->setCommittee($this->readCommittee($result[8]));
+				//$event->setSponsored_id($this->readSponsored($result[9]));
 				$events[] = $event;
 			}// end while
 		} else {
@@ -1532,9 +1560,9 @@
 				$event_expenses->setDescription($result[3]);
 				$event_expenses->setAmount($result[4]);
 				$event_expenses->setWhen_entered($result[5]);
-				$event_expenses->setOffice(readOffice($result[6]));
+				$event_expenses->setOffice($this->readOffice($result[6]));
 				$event_expenses->setWhen_authorized($result[7]);
-				$event_expenses->setAdmin(readAdmin($result[8]));
+				$event_expenses->setAdmin($this->readAdmin($result[8]));
 				$event_expensess[] = $event_expenses;
 			}// end while
 		} else {
@@ -1572,14 +1600,14 @@
 			while($result = mysql_fetch_array($results)) {
 				$event_expenses = new Event_expenses();
 				$event_expenses->setId($result[0]);
-				$event_expenses->setEvent(readEvent($result[1]));
+				$event_expenses->setEvent($this->readEvent($result[1]));
 				$event_expenses->setTitle($result[2]);
 				$event_expenses->setDescription($result[3]);
 				$event_expenses->setAmount($result[4]);
 				$event_expenses->setWhen_entered($result[5]);
-				$event_expenses->setOffice(readOffice($result[6]));
+				$event_expenses->setOffice($this->readOffice($result[6]));
 				$event_expenses->setWhen_authorized($result[7]);
-				$event_expenses->setAdmin(readAdmin($result[8]));
+				$event_expenses->setAdmin($this->readAdmin($result[8]));
 				$event_expensess[] = $event_expenses;
 			}// end while
 		} else {
@@ -1611,8 +1639,8 @@
 			while($result = mysql_fetch_array($results)) {
 				$event_sponsor = new Event_sponsor();
 				$event_sponsor->setId($result[0]);
-				$event_sponsor->setEvent(readEvent($result[1]));
-				$event_sponsor->setPerson(readPerson($result[2]));
+				$event_sponsor->setEvent($this->readEvent($result[1]));
+				$event_sponsor->setPerson($this->readPerson($result[2]));
 				$event_sponsor->setOrganization(readOrganization($result[3]));
 				$event_sponsors[] = $event_sponsor;
 			}// end while
@@ -1651,8 +1679,8 @@
 			while($result = mysql_fetch_array($results)) {
 				$event_sponsor = new Event_sponsor();
 				$event_sponsor->setId($result[0]);
-				$event_sponsor->setEvent(readEvent($result[1]));
-				$event_sponsor->setPerson(readPerson($result[2]));
+				$event_sponsor->setEvent($this->readEvent($result[1]));
+				$event_sponsor->setPerson($this->readPerson($result[2]));
 				$event_sponsor->setOrganization(readOrganization($result[3]));
 				$event_sponsors[] = $event_sponsor;
 			}// end while
@@ -1828,8 +1856,8 @@
 			$fohs = array();
 			while($result = mysql_fetch_array($results)) {
 				$foh = new Foh();
-				$foh->setEvent(readEvent($result[0]));
-				$foh->setPerson(readPerson($result[1]));
+				$foh->setEvent($this->readEvent($result[0]));
+				$foh->setPerson($this->readPerson($result[1]));
 				$fohs[] = $foh;
 			}// end while
 		} else {
@@ -1866,8 +1894,8 @@
 			$fohs = array();
 			while($result = mysql_fetch_array($results)) {
 				$foh = new Foh();
-				$foh->setEvent(readEvent($result[0]));
-				$foh->setPerson(readPerson($result[1]));
+				$foh->setEvent($this->readEvent($result[0]));
+				$foh->setPerson($this->readPerson($result[1]));
 				$fohs[] = $foh;
 			}// end while
 		} else {
@@ -1898,8 +1926,8 @@
 			$guest_lists = array();
 			while($result = mysql_fetch_array($results)) {
 				$guest_list = new Guest_list();
-				$guest_list->setEvent(readEvent($result[0]));
-				$guest_list->setPerson(readPerson($result[1]));
+				$guest_list->setEvent($this->readEvent($result[0]));
+				$guest_list->setPerson($this->readPerson($result[1]));
 				$guest_list->setAttended($result[2]);
 				$guest_lists[] = $guest_list;
 			}// end while
@@ -1937,8 +1965,8 @@
 			$guest_lists = array();
 			while($result = mysql_fetch_array($results)) {
 				$guest_list = new Guest_list();
-				$guest_list->setEvent(readEvent($result[0]));
-				$guest_list->setPerson(readPerson($result[1]));
+				$guest_list->setEvent($this->readEvent($result[0]));
+				$guest_list->setPerson($this->readPerson($result[1]));
 				$guest_list->setAttended($result[2]);
 				$guest_lists[] = $guest_list;
 			}// end while
@@ -1971,7 +1999,7 @@
 			while($result = mysql_fetch_array($results)) {
 				$habitat_employee = new Habitat_employee();
 				$habitat_employee->setId($result[0]);
-				$habitat_employee->setPerson(readPerson($result[1]));
+				$habitat_employee->setPerson($this->readPerson($result[1]));
 				$habitat_employee->setStart_date($result[2]);
 				$habitat_employee->setEnd_date($result[3]);
 				$habitat_employees[] = $habitat_employee;
@@ -2011,7 +2039,7 @@
 			while($result = mysql_fetch_array($results)) {
 				$habitat_employee = new Habitat_employee();
 				$habitat_employee->setId($result[0]);
-				$habitat_employee->setPerson(readPerson($result[1]));
+				$habitat_employee->setPerson($this->readPerson($result[1]));
 				$habitat_employee->setStart_date($result[2]);
 				$habitat_employee->setEnd_date($result[3]);
 				$habitat_employees[] = $habitat_employee;
@@ -2045,7 +2073,7 @@
 			while($result = mysql_fetch_array($results)) {
 				$ho_asset = new Ho_asset();
 				$ho_asset->setId($result[0]);
-				$ho_asset->setPerson(readPerson($result[1]));
+				$ho_asset->setPerson($this->readPerson($result[1]));
 				$ho_asset->setTitle($result[2]);
 				$ho_asset->setDescription($result[3]);
 				$ho_asset->setValue($result[4]);
@@ -2086,7 +2114,7 @@
 			while($result = mysql_fetch_array($results)) {
 				$ho_asset = new Ho_asset();
 				$ho_asset->setId($result[0]);
-				$ho_asset->setPerson(readPerson($result[1]));
+				$ho_asset->setPerson($this->readPerson($result[1]));
 				$ho_asset->setTitle($result[2]);
 				$ho_asset->setDescription($result[3]);
 				$ho_asset->setValue($result[4]);
@@ -2121,7 +2149,7 @@
 			while($result = mysql_fetch_array($results)) {
 				$ho_debt = new Ho_debt();
 				$ho_debt->setId($result[0]);
-				$ho_debt->setPerson(readPerson($result[1]));
+				$ho_debt->setPerson($this->readPerson($result[1]));
 				$ho_debt->setMonthly_payment($result[2]);
 				$ho_debt->setBalance($result[3]);
 				$ho_debts[] = $ho_debt;
@@ -2161,7 +2189,7 @@
 			while($result = mysql_fetch_array($results)) {
 				$ho_debt = new Ho_debt();
 				$ho_debt->setId($result[0]);
-				$ho_debt->setPerson(readPerson($result[1]));
+				$ho_debt->setPerson($this->readPerson($result[1]));
 				$ho_debt->setMonthly_payment($result[2]);
 				$ho_debt->setBalance($result[3]);
 				$ho_debts[] = $ho_debt;
@@ -2194,7 +2222,7 @@
 			$ho_groups = array();
 			while($result = mysql_fetch_array($results)) {
 				$ho_group = new Ho_group();
-				$ho_group->setPerson(readPerson($result[0]));
+				$ho_group->setPerson($this->readPerson($result[0]));
 				$ho_group->setHo(readHo($result[1]));
 				$ho_group->setDemographic(readDemographic($result[2]));
 				$ho_group->setPrimary_ho($result[3]);
@@ -2234,7 +2262,7 @@
 			$ho_groups = array();
 			while($result = mysql_fetch_array($results)) {
 				$ho_group = new Ho_group();
-				$ho_group->setPerson(readPerson($result[0]));
+				$ho_group->setPerson($this->readPerson($result[0]));
 				$ho_group->setHo(readHo($result[1]));
 				$ho_group->setDemographic(readDemographic($result[2]));
 				$ho_group->setPrimary_ho($result[3]);
@@ -2269,7 +2297,7 @@
 			while($result = mysql_fetch_array($results)) {
 				$ho_income = new Ho_income();
 				$ho_income->setId($result[0]);
-				$ho_income->setPerson(readPerson($result[1]));
+				$ho_income->setPerson($this->readPerson($result[1]));
 				$ho_income->setGross($result[2]);
 				$ho_income->setChild_support($result[3]);
 				$ho_income->setDisability($result[4]);
@@ -2311,7 +2339,7 @@
 			while($result = mysql_fetch_array($results)) {
 				$ho_income = new Ho_income();
 				$ho_income->setId($result[0]);
-				$ho_income->setPerson(readPerson($result[1]));
+				$ho_income->setPerson($this->readPerson($result[1]));
 				$ho_income->setGross($result[2]);
 				$ho_income->setChild_support($result[3]);
 				$ho_income->setDisability($result[4]);
@@ -2346,13 +2374,13 @@
 			$ho_requirements = array();
 			while($result = mysql_fetch_array($results)) {
 				$ho_requirement = new Ho_requirement();
-				$ho_requirement->setPerson(readPerson($result[0]));
+				$ho_requirement->setPerson($this->readPerson($result[0]));
 				$ho_requirement->setRequirement(readRequirement($result[1]));
 				$ho_requirement->setWhen_entered($result[2]);
 				$ho_requirement->setWhen_completed($result[3]);
-				$ho_requirement->setOffice(readOffice($result[4]));
+				$ho_requirement->setOffice($this->readOffice($result[4]));
 				$ho_requirement->setWhen_authorized($result[5]);
-				$ho_requirement->setAdmin(readAdmin($result[6]));
+				$ho_requirement->setAdmin($this->readAdmin($result[6]));
 				$ho_requirements[] = $ho_requirement;
 			}// end while
 		} else {
@@ -2389,13 +2417,13 @@
 			$ho_requirements = array();
 			while($result = mysql_fetch_array($results)) {
 				$ho_requirement = new Ho_requirement();
-				$ho_requirement->setPerson(readPerson($result[0]));
+				$ho_requirement->setPerson($this->readPerson($result[0]));
 				$ho_requirement->setRequirement(readRequirement($result[1]));
 				$ho_requirement->setWhen_entered($result[2]);
 				$ho_requirement->setWhen_completed($result[3]);
-				$ho_requirement->setOffice(readOffice($result[4]));
+				$ho_requirement->setOffice($this->readOffice($result[4]));
 				$ho_requirement->setWhen_authorized($result[5]);
-				$ho_requirement->setAdmin(readAdmin($result[6]));
+				$ho_requirement->setAdmin($this->readAdmin($result[6]));
 				$ho_requirements[] = $ho_requirement;
 			}// end while
 		} else {
@@ -2500,7 +2528,7 @@
 			$home_owners = array();
 			while($result = mysql_fetch_array($results)) {
 				$home_owner = new Home_owner();
-				$home_owner->setPerson(readPerson($result[0]));
+				$home_owner->setPerson($this->readPerson($result[0]));
 				$home_owner->setStatus($this->readStatus_change($result[1]));
 				$home_owner->setBank(readBank($result[2]));
 				$home_owner->setSocial_security($result[3]);
@@ -2540,7 +2568,7 @@
 			$home_owners = array();
 			while($result = mysql_fetch_array($results)) {
 				$home_owner = new Home_owner();
-				$home_owner->setPerson(readPerson($result[0]));
+				$home_owner->setPerson($this->readPerson($result[0]));
 				$home_owner->setStatus($this->readStatus_change($result[1]));
 				$home_owner->setBank(readBank($result[2]));
 				$home_owner->setSocial_security($result[3]);
@@ -2621,9 +2649,9 @@
 				$interests[] = $interest;
 			}// end while
 		} else {
-			$interest = false;
+			$interests = false;
 		}
-		return $interest;
+		return $interests;
 	}// end function
 
 	// interest_type // --------------------
@@ -3081,7 +3109,7 @@
 			while($result = mysql_fetch_array($results)) {
 				$mortgage = new Mortgage();
 				$mortgage->setId($result[0]);
-				$mortgage->setPerson(readPerson($result[1]));
+				$mortgage->setPerson($this->readPerson($result[1]));
 				$mortgage->setAmount($result[2]);
 				$mortgage->setStatus($result[3]);
 				$mortgage->setProject(readProject($result[4]));
@@ -3123,7 +3151,7 @@
 			while($result = mysql_fetch_array($results)) {
 				$mortgage = new Mortgage();
 				$mortgage->setId($result[0]);
-				$mortgage->setPerson(readPerson($result[1]));
+				$mortgage->setPerson($this->readPerson($result[1]));
 				$mortgage->setAmount($result[2]);
 				$mortgage->setStatus($result[3]);
 				$mortgage->setProject(readProject($result[4]));
@@ -3237,6 +3265,23 @@
 		}
 		return $office;
 	}// end function
+        
+        public function readOfficeByPid($pid) {
+		global $con;
+		$sql = 'SELECT * FROM admin WHERE person_id = ' . $pid . '';
+		$this->open();
+		$results = mysql_query($sql, $con);
+		$this->close();
+		if ($results) {
+                    $result = mysql_fetch_array($results);
+				$office = new Office();
+				$office->setId($result[0]);
+				$office->setPerson($this->readPerson($result[1]));
+		} else {
+			$office = false;
+		}
+		return $office;
+	}// end function
 
 	public function updateOffice($office) {
 		global $con;
@@ -3267,7 +3312,7 @@
 			while($result = mysql_fetch_array($results)) {
 				$office = new Office();
 				$office->setId($result[0]);
-				$office->setPerson(readPerson($result[1]));
+				$office->setPerson($this->readPerson($result[1]));
 				$offices[] = $office;
 			}// end while
 		} else {
@@ -3339,13 +3384,13 @@
 				$organization = new Organization();
 				$organization->setId($result[0]);
 				$organization->setName($result[1]);
-				$organization->setContact(readContact($result[2]));
+				$organization->setContact($this->readContact($result[2]));
 				$organizations[] = $organization;
 			}// end while
 		} else {
-			$organization = false;
+			$organizations = false;
 		}
-		return $organization;
+		return $organizations;
 	}// end function
 
 	// organization_contact // --------------------
@@ -3371,7 +3416,7 @@
 			while($result = mysql_fetch_array($results)) {
 				$organization_contact = new Organization_contact();
 				$organization_contact->setOrganization(readOrganization($result[0]));
-				$organization_contact->setPerson(readPerson($result[1]));
+				$organization_contact->setPerson($this->readPerson($result[1]));
 				$organization_contact->setPhone($result[2]);
 				$organization_contact->setExt($result[3]);
 				$organization_contact->setFax($result[4]);
@@ -3412,7 +3457,7 @@
 			while($result = mysql_fetch_array($results)) {
 				$organization_contact = new Organization_contact();
 				$organization_contact->setOrganization(readOrganization($result[0]));
-				$organization_contact->setPerson(readPerson($result[1]));
+				$organization_contact->setPerson($this->readPerson($result[1]));
 				$organization_contact->setPhone($result[2]);
 				$organization_contact->setExt($result[3]);
 				$organization_contact->setFax($result[4]);
@@ -3519,14 +3564,14 @@
 			while($result = mysql_fetch_array($results)) {
 				$payment = new Payment();
 				$payment->setId($result[0]);
-				$payment->setPerson(readPerson($result[1]));
+				$payment->setPerson($this->readPerson($result[1]));
 				$payment->setMortgage(readMortgage($result[2]));
 				$payment->setAmount($result[3]);
 				$payment->setDate($result[4]);
 				$payment->setTime($result[5]);
 				$payment->setOffice(readOffice($result[6]));
 				$payment->setWhen_authorized($result[7]);
-				$payment->setAdmin(readAdmin($result[8]));
+				$payment->setAdmin($this->readAdmin($result[8]));
 				$payments[] = $payment;
 			}// end while
 		} else {
@@ -3564,14 +3609,14 @@
 			while($result = mysql_fetch_array($results)) {
 				$payment = new Payment();
 				$payment->setId($result[0]);
-				$payment->setPerson(readPerson($result[1]));
+				$payment->setPerson($this->readPerson($result[1]));
 				$payment->setMortgage(readMortgage($result[2]));
 				$payment->setAmount($result[3]);
 				$payment->setDate($result[4]);
 				$payment->setTime($result[5]);
 				$payment->setOffice(readOffice($result[6]));
 				$payment->setWhen_authorized($result[7]);
-				$payment->setAdmin(readAdmin($result[8]));
+				$payment->setAdmin($this->readAdmin($result[8]));
 				$payments[] = $payment;
 			}// end while
 		} else {
@@ -3599,8 +3644,7 @@
 		$results = mysql_query($sql, $con);
 		$this->close();
 		if ($results) {
-			$persons = array();
-			while($result = mysql_fetch_array($results)) {
+                    $result = mysql_fetch_array($results);
 				$person = new Person();
 				$person->setId($result[0]);
 				$person->setTitle($result[1]);
@@ -3610,8 +3654,6 @@
 				$person->setDob($result[5]);
 				$person->setMarital_status($this->readMarital_status($result[6]));
 				$person->setContact($this->readContact($result[7]));
-				$persons[] = $person;
-			}// end while
 		} else {
 			$person = false;
 		}
@@ -3656,14 +3698,14 @@
 				$person->setLast_name($result[3]);
 				$person->setGender($result[4]);
 				$person->setDob($result[5]);
-				$person->setMarital_status(readMarital_status($result[6]));
-				$person->setContact(readContact($result[7]));
+				$person->setMarital_status($this->readMarital_status($result[6]));
+				$person->setContact($this->readContact($result[7]));
 				$persons[] = $person;
 			}// end while
 		} else {
-			$person = false;
+			$persons = false;
 		}
-		return $person;
+		return $persons;
 	}// end function
 
 	// personal_donation // --------------------
@@ -3728,14 +3770,14 @@
 			while($result = mysql_fetch_array($results)) {
 				$personal_donation = new Personal_donation();
 				$personal_donation->setId($result[0]);
-				$personal_donation->setDonation(readDonation($result[1]));
-				$personal_donation->setPerson(readPerson($result[2]));
+				$personal_donation->setDonation($this->readDonation($result[1]));
+				$personal_donation->setPerson($this->readPerson($result[2]));
 				$personal_donations[] = $personal_donation;
 			}// end while
 		} else {
 			$personal_donation = false;
 		}
-		return $personal_donation;
+		return $personal_donations;
 	}// end function
 
 	// photo_id // --------------------
@@ -3760,7 +3802,7 @@
 			$photo_ids = array();
 			while($result = mysql_fetch_array($results)) {
 				$photo_id = new Photo_id();
-				$photo_id->setPerson(readPerson($result[0]));
+				$photo_id->setPerson($this->readPerson($result[0]));
 				$photo_id->setPhoto(readPhoto($result[1]));
 				$photo_ids[] = $photo_id;
 			}// end while
@@ -3798,7 +3840,7 @@
 			$photo_ids = array();
 			while($result = mysql_fetch_array($results)) {
 				$photo_id = new Photo_id();
-				$photo_id->setPerson(readPerson($result[0]));
+				$photo_id->setPerson($this->readPerson($result[0]));
 				$photo_id->setPhoto(readPhoto($result[1]));
 				$photo_ids[] = $photo_id;
 			}// end while
@@ -4024,7 +4066,7 @@
 			$project_events = array();
 			while($result = mysql_fetch_array($results)) {
 				$project_event = new Project_event();
-				$project_event->setEvent(readEvent($result[0]));
+				$project_event->setEvent($this->readEvent($result[0]));
 				$project_event->setProject(readProject($result[1]));
 				$project_events[] = $project_event;
 			}// end while
@@ -4062,7 +4104,7 @@
 			$project_events = array();
 			while($result = mysql_fetch_array($results)) {
 				$project_event = new Project_event();
-				$project_event->setEvent(readEvent($result[0]));
+				$project_event->setEvent($this->readEvent($result[0]));
 				$project_event->setProject(readProject($result[1]));
 				$project_events[] = $project_event;
 			}// end while
@@ -4103,7 +4145,7 @@
 				$project_expenses->setWhen_entered($result[6]);
 				$project_expenses->setOffice(readOffice($result[7]));
 				$project_expenses->setWhen_authorized($result[8]);
-				$project_expenses->setAdmin(readAdmin($result[9]));
+				$project_expenses->setAdmin($this->readAdmin($result[9]));
 				$project_expensess[] = $project_expenses;
 			}// end while
 		} else {
@@ -4149,7 +4191,7 @@
 				$project_expenses->setWhen_entered($result[6]);
 				$project_expenses->setOffice(readOffice($result[7]));
 				$project_expenses->setWhen_authorized($result[8]);
-				$project_expenses->setAdmin(readAdmin($result[9]));
+				$project_expenses->setAdmin($this->readAdmin($result[9]));
 				$project_expensess[] = $project_expenses;
 			}// end while
 		} else {
@@ -4254,7 +4296,7 @@
 			$recovery_logs = array();
 			while($result = mysql_fetch_array($results)) {
 				$recovery_log = new Recovery_log();
-				$recovery_log->setAccount(readAccount($result[0]));
+				$recovery_log->setAccount($this->readAccount($result[0]));
 				$recovery_log->setDate($result[1]);
 				$recovery_log->setTime($result[2]);
 				$recovery_logs[] = $recovery_log;
@@ -4293,7 +4335,7 @@
 			$recovery_logs = array();
 			while($result = mysql_fetch_array($results)) {
 				$recovery_log = new Recovery_log();
-				$recovery_log->setAccount(readAccount($result[0]));
+				$recovery_log->setAccount($this->readAccount($result[0]));
 				$recovery_log->setDate($result[1]);
 				$recovery_log->setTime($result[2]);
 				$recovery_logs[] = $recovery_log;
@@ -4560,6 +4602,24 @@
 		}
 		return $state;
 	}// end function
+        
+        public function readStateByTitle($title) {
+		global $con;
+		$sql = 'SELECT * FROM state WHERE title = ' . $title . '';
+		$this->open();
+		$results = mysql_query($sql, $con);
+		$this->close();
+		if ($results) {
+			$result = mysql_fetch_array($results); 
+				$state = new State();
+				$state->setId($result[0]);
+				$state->setAbbreviation($result[1]);
+				$state->setTitle($result[2]);
+		} else {
+			$state = false;
+		}
+		return $state;
+	}// end function
 
 	public function updateState($state) {
 		global $con;
@@ -4694,7 +4754,7 @@
 			$ticketss = array();
 			while($result = mysql_fetch_array($results)) {
 				$tickets = new Tickets();
-				$tickets->setEvent(readEvent($result[0]));
+				$tickets->setEvent($this->readEvent($result[0]));
 				$tickets->setId($result[1]);
 				$tickets->setTicket_price($result[2]);
 				$tickets->setMax_num($result[3]);
@@ -4735,7 +4795,7 @@
 			$ticketss = array();
 			while($result = mysql_fetch_array($results)) {
 				$tickets = new Tickets();
-				$tickets->setEvent(readEvent($result[0]));
+				$tickets->setEvent($this->readEvent($result[0]));
 				$tickets->setId($result[1]);
 				$tickets->setTicket_price($result[2]);
 				$tickets->setMax_num($result[3]);
@@ -4866,9 +4926,9 @@
 				$volunteers[] = $volunteer;
 			}// end while
 		} else {
-			$volunteer = false;
+			$volunteers = false;
 		}
-		return $volunteer;
+		return $volunteers;
 	}// end function
 
 	// work // --------------------
@@ -4896,11 +4956,11 @@
 				$work->setId($result[0]);
 				$work->setVolunteer(readVolunteer($result[1]));
 				$work->setDate($result[2]);
-				$work->setEvent(readEvent($result[3]));
+				$work->setEvent($this->readEvent($result[3]));
 				$work->setWhen_entered($result[4]);
 				$work->setOffice(readOffice($result[5]));
 				$work->setWhen_authorized($result[6]);
-				$work->setAdmin(readAdmin($result[7]));
+				$work->setAdmin($this->readAdmin($result[7]));
 				$work->setHours_worked($result[8]);
 				$works[] = $work;
 			}// end while
@@ -4927,7 +4987,7 @@
 				$work->setWhen_entered($result[4]);
 				$work->setOffice($this->readOffice($result[5]));
 				$work->setWhen_authorized($result[6]);
-				$work->setAdmin($this->readAdmin($result[7]));
+				$work->setAdmin($this->$this->readAdmin($result[7]));
 				$work->setHours_worked($result[8]);
 				$works[] = $work;
 			}// end while
@@ -4972,7 +5032,7 @@
 				$work->setWhen_entered($result[4]);
 				$work->setOffice(readOffice($result[5]));
 				$work->setWhen_authorized($result[6]);
-				$work->setAdmin(readAdmin($result[7]));
+				$work->setAdmin($this->readAdmin($result[7]));
 				$work->setHours_worked($result[8]);
 				$works[] = $work;
 			}// end while

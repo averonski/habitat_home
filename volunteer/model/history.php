@@ -10,8 +10,8 @@
     $person_id=$_SESSION['personid'];
     $volIdH = $dbio->readVolunteerByPid($person_id);
     $volId = $volIdH->getId();
-    $event_idh=$dbio->readWorkByVid($volId);
-    $event_id= $event_idh[0]->getEvent()->getId();
+    //$event_idh=$dbio->readWorkByVid($volId);
+    //$event_id= $event_idh[0]->getEvent()->getId();
     
     function getEventId(){
         global $volId;
@@ -33,9 +33,9 @@
     function getDates(){
         global $dbio;
         global $event_id;
-        $dbdate= $dbio->readEvent($event_id);
+        $dbdate=$dbio->readEvent($event_id);
         //print_r($dbdate->getDate());
-        return $dbdate->getDate();
+        return $dbdate;
     }
 
     function getHours(){

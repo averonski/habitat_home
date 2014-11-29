@@ -8,7 +8,7 @@
 
 	function read(){
 		global $dbio;
-		$tableinfo = $dbio->readAccounts();
+		$tableinfo = $dbio->listAccount();
 		return $tableinfo;
 	}
 

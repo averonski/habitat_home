@@ -55,7 +55,7 @@
 	
 	function read() {
 		global $dbio;
-		$tableinfo = $dbio->readPersons();
+		$tableinfo = $dbio->listPerson();
 		return $tableinfo;
 	}
 
