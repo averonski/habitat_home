@@ -103,11 +103,13 @@
     <input type="checkbox" name="liability" value="6" <?php echo $checkLiability; ?> <?php if ($checkLiability == 'checked="checked"') ?> disabled/> I accept the terms of <a href="http://www.yorkhabitat.org/TDE_CMS/database/userfiles/file/waiverform20120711.pdf">Liability Waiver Form</a><br><br>
     
     <h5><strong>Emergency Contact Information: </strong></h5>
-    <form>
-    <!--<table>
-    <tr><td>--><label>Emergency Name:</label><!--</td><td>--><input type="text" name="emergencyName" value="<?php echo $dbName; ?>"><!--</td></tr>--><br><br>
-    
-    <!--<tr><td>--><label>Phone Number:</label><!--</td><td>--><input type="text" name="phone" value="<?php echo $dbPhone; ?>"><!--</td></tr></table>--><br><br>
+    <form id="update">
+        <input type="hidden" name="act" value="updateConsent" >    
+        <!--<table>
+        <tr><td>--><label>Emergency Name:</label><!--</td><td>--><input type="text" name="emergencyName" value="<?php echo $dbName; ?>"><!--</td></tr>--><br><br>
+
+        <!--<tr><td>--><label>Phone Number:</label><!--</td><td>--><input type="text" name="phone" value="<?php echo $dbPhone; ?>"><!--</td></tr></table>--><br><br>
+        <button value="submit" onclick="return check();">Save Changes</button>
     </form>
     <script type="text/javascript">
     function check(){
@@ -132,12 +134,11 @@
                 }
 
         else{
-            return true;
+            document.getElementById("update").submit();
         }
 
     }
     </script>
-    <button value="submit" onclick="return check();">Save Changes</button>
 </form>
 <hr>
 <span class="note">

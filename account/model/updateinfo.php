@@ -9,12 +9,17 @@
 	$contact = new Contact();
 	$address = new Address();
         
+        //gets needed IDs for update
+        $ids = $dbio->readPerson($_GET['pid']);
+        $contactId = $ids->getContact()->getId();
+        $addressId = $ids->getContact()->getAddress()->getId();
+        print_r($addressId);
+        
         //gets email id
         $email = $_GET['email'];
-        $emailId = $contact->getEmail();
+        $emailId = $dbio->readEmailbyEmail($_SESSION['username']);
 
 	//gets information submitted in the form
-        
 	//person
 	$pid = $_GET['pid'];
 	$person->setTitle($_GET['title']);
@@ -36,15 +41,10 @@
 	$address->setZip($_GET['zip']);
         
 	//updates database
-        print_r($email);
-        print_r($emailId);
-        print_r($person);
-        print_r($contact);
-        $dbio->updateEmail($emailId, $email);
+        $dbio->updateEmail($emailId->getId(), $email);
+            $_SESSION['username'] = $email;
         $dbio->updatePerson($pid, $person);
-        $dbio->updateContact($contact->getId(), $contact);
-        $dbio->updateAddress($address->getId(), $address);
+        $dbio->updateContact($contactId, $contact);
+        $dbio->updateAddress($addressId, $address);
         
-
-
 ?>

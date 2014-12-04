@@ -22,6 +22,7 @@
 		case 'update':
 			include 'account/model/updateinfo.php';
 			$page = $dir . '/view/' . (($sub) ? $sub : $dir) . '.php';
+                        include 'account/model/info.php';
 			break;
 
 		case 'delete':

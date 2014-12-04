@@ -17,7 +17,7 @@
 		if($_GET['searchBy'] == 'name'){
 				$fname = $_GET['input1'];
 				$lname =  $_GET['input2'];
-				$tableinfo = $dbio->searchAccountname($fname,$lname);	
+				$tableinfo = $dbio->readAccountByName($fname,$lname);	
 			}
 			elseif ($_GET['searchBy'] == 'organization') {
 				$org = $_GET['input1'];

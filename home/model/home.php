@@ -24,7 +24,6 @@
 	
 	// gets personId based on username
 	function getPersonid($userName){
-
 	global $dbio;
 	$personId=$dbio->getPersonIdByUserName($userName);
 	$_SESSION['personid'] = $personId;

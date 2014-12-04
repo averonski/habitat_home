@@ -1,11 +1,6 @@
 <?php
     //SCW5137, bmw5285
 
-  // $schedules = $dbio->getVolunteerEvents(2); //getAllEvents() //$personId hard set
-	
-
-    //Code has been tested using a database
-	//include 'volunteer/model/schedule.php';
 ?>
 <script>
 	function dropDown() {
@@ -26,50 +21,6 @@
 	}
 </script>
 
-<!-- <style>
-    input.signedUp {
-        background: #cc0000;
-        color: white;
-        margin-top: 4px;
-				padding_bottom: 100px;
-    }
-    
-    input.notSignedUp {
-        background: #009900;
-        color: black;
-        margin-top: 4px;
-        color: white;
-    }
-    
-    td
-    {
-        text-align: center;
-    }
-    
-    th
-    {
-        text-align: center;
-		height: 25px;
-		vertical-align:top;
-    }
-	
-	h4.other
-	{
-	border-bottom-style: dotted;
-	padding-bottom: 20px;
-	border-width:1px;
-	border-color:lightgrey;
-	}
-	
-    table.VolSchedule{
-        width: 55em;
-    }
-    
-    table.VolSchedule tr:nth-child(2n+3) td {background-color: lavender;}
-    
-
-</style> -->
-
 <h2>Volunteer Schedule</h2>
 <hr>
 
@@ -80,28 +31,27 @@
 $personSchedules = getWork();
 	foreach($personSchedules as $personSchedule)
 	{
-		if($personSchedule->getDate()<date('Y-m-d'))
+		if($personSchedule->getEvent()->getDate() < date('Y-m-d'))
 		{
 			$eventTitle = $personSchedule->getEvent()->getTitle();
                         $eventDate = $personSchedule->getDate();
-                        $eventTime = $personSchedule->getEvent()-getStart_time();
-                        $addressStreet1 = $personSchedule->getAddress()->getStreet1();
-                        $addressStreet2 = $personSchedule->getAddress()->getStreet2();
-                        $addressCity = $personSchedule->getAddress()->getCity();
-                        $addressState = $personSchedule->getAddress()->getState();
-                        $addressZip = $personSchedule->getAddress()->getZip();
+                        $eventTime = $personSchedule->getEvent()->getStart_time();
+                        $addressStreet1 = $personSchedule->getEvent()->getAddress_id()->getStreet1();
+                        $addressStreet2 = $personSchedule->getEvent()->getAddress_id()->getStreet2();
+                        $addressCity = $personSchedule->getEvent()->getAddress_id()->getCity();
+                        $addressState = $personSchedule->getEvent()->getAddress_id()->getState()->getTitle();
+                        $addressZip = $personSchedule->getEvent()->getAddress_id()->getZip();
                         $eventType = $personSchedule->getEvent()->getType()->getTitle();
 
 			echo '<tr>';
 				echo "<td>{$eventTitle}</td>";
 				echo "<td>{$eventDate}</td>";
 				echo "<td>{$eventTime}</td>";
-				echo "<td>{$addressStreet1} {$addressStreet2} {$addressCity}, {$addressState}, {$addessZip}</td>";
+				echo "<td>{$addressStreet1} {$addressStreet2} {$addressCity}, {$addressState}, {$addressZip}</td>";
 				echo "<td>{$eventType}</td>";
 			echo "</tr>";
 		}
 	}
-
  ?>
 </table>
 <hr>
@@ -112,41 +62,42 @@ $personSchedules = getWork();
 <?php
 $i=0;
 $j=0;
-$personSchedules = getWork();
 	foreach($personSchedules as $personSchedule)
 	{
-		if($personSchedule->getDate()>date('Y-m-d')) {$i++;}
-		if($i>0)
-		{
-			//if($eventId !== $personSchedule->getEvent()->getId())
-			//{
-                                $eventTitle = $personSchedule->getEvent()->getTitle();
-                                $eventDate = $personSchedule->getDate();
-                                $eventTime = $personSchedule->getEvent()->getStart_time();
-                                $addressStreet1 = $personSchedule->getEvent()->getAddress_id()->getStreet1();
-                                $addressStreet2 = $personSchedule->getEvent()->getAddress_id()->getStreet2();
-                                $addressCity = $personSchedule->getEvent()->getAddress_id()->getCity();
-                                $addressState = $personSchedule->getEvent()->getAddress_id()->getState()->getTitle();
-                                $addressZip = $personSchedule->getEvent()->getAddress_id()->getZip();
-                                $eventType = $personSchedule->getEvent()->getType()->getTitle();
-                                
-				echo '<tr>';
-					echo "<td>{$eventTitle}</td>";
-					echo "<td>{$eventDate}</td>";
-					echo "<td>{$eventTime}</td>";
-					echo "<td>{$addressStreet1} {$addressStreet2} {$addressCity}, {$addressState}, {$addressZip}</td>";
-					echo "<td>{$eventType}</td>";
-				echo "</tr>";
-			//}
-		}
-		else
-		{
-			$j++;
-			if($j==0)
-			{
-				echo '<td colspan="5">You have no upcoming events scheduled</td>';
-			}
-		}
+		if($personSchedule->getEvent()->getDate() >= date('Y-m-d')) {
+                    $i++;
+                    if($i>0)
+                    {
+                            //if($eventId !== $personSchedule->getEvent()->getId())
+                            //{
+                                    $eventTitle = $personSchedule->getEvent()->getTitle();
+                                    $eventDate = $personSchedule->getDate();
+                                    $eventTime = $personSchedule->getEvent()->getStart_time();
+                                    $addressStreet1 = $personSchedule->getEvent()->getAddress_id()->getStreet1();
+                                    $addressStreet2 = $personSchedule->getEvent()->getAddress_id()->getStreet2();
+                                    $addressCity = $personSchedule->getEvent()->getAddress_id()->getCity();
+                                    $addressState = $personSchedule->getEvent()->getAddress_id()->getState()->getTitle();
+                                    $addressZip = $personSchedule->getEvent()->getAddress_id()->getZip();
+                                    $eventType = $personSchedule->getEvent()->getType()->getTitle();
+
+                                    echo '<tr>';
+                                            echo "<td>{$eventTitle}</td>";
+                                            echo "<td>{$eventDate}</td>";
+                                            echo "<td>{$eventTime}</td>";
+                                            echo "<td>{$addressStreet1} {$addressStreet2} {$addressCity}, {$addressState}, {$addressZip}</td>";
+                                            echo "<td>{$eventType}</td>";
+                                    echo "</tr>";
+                            //}
+                    }
+                    else
+                    {
+                            $j++;
+                            if($j==0)
+                            {
+                                    echo '<td colspan="5">You have no upcoming events scheduled</td>';
+                            }
+                    }
+                }
 	}
 
  ?>
@@ -201,41 +152,41 @@ $personSchedules = getWork();
 			?>
 	</table>
 </div>
-<div id="all" style="display:inline">
-	<table class="table table-striped table-hover " style="width:100%">
-		<tr><th>Details</th><th>Event Name</th><th>Event Date</th><th>Event Time</th><th>Event Location</th><th>Event Type</th></tr>
-			<?php
-				$events = readEventAll();
-				foreach ($events as $event) {
-					if($event[0]->getDate()>date('Y-m-d'))
-					{
-						$eventId = $event[0]->getEvent_id();
-						$eventTitle = $event[0]->getTitle();
-						$eventDate = $event[0]->getDate();
-						$eventTime = $event[0]->getTime();
-						
-						$addressStreet1 = $event[1]->getStreet1();
-						$addressStreet2 = $event[1]->getStreet2();
-						$addressCity = $event[1]->getCity();
-						$addressState = $event[1]->getState();
-						$addessZip = $event[1]->getZip();
-						
-						$eventType = $event[2]->getTitle();
-						?><tr onclick="retrieveId(<?php echo $eventId; ?>)"><?php
-							echo "<td><button>view</button></td>";
-							echo "<td>{$eventTitle}</td>";
-							echo "<td>{$eventDate}</td>";
-							echo "<td>{$eventTime}</td>";
-							echo "<td>{$addressStreet1} {$addressStreet2} {$addressCity}, {$addressState}, {$addessZip}</td>";
-							echo "<td>{$eventType}</td>";
-							//echo "<td>{$interest_title}</td>";
-							//echo "<td>'{$description}'</td>";
-						echo "</tr>";
-					}
-				}
-			?>
-	</table>	
-</div>
+    <div id="all" style="display:inline">
+        <table class="table table-striped table-hover " style="width:100%">
+            <tr><th>Details</th><th>Event Name</th><th>Event Date</th><th>Event Time</th><th>Event Location</th><th>Event Type</th></tr>
+                <?php
+                    $events = readEventAll();
+                    foreach ($events as $event) {
+                        if($event[0]->getDate()>date('Y-m-d'))
+                        {
+                            $eventId = $event[0]->getEvent_id();
+                            $eventTitle = $event[0]->getTitle();
+                            $eventDate = $event[0]->getDate();
+                            $eventTime = $event[0]->getTime();
+
+                            $addressStreet1 = $event[1]->getStreet1();
+                            $addressStreet2 = $event[1]->getStreet2();
+                            $addressCity = $event[1]->getCity();
+                            $addressState = $event[1]->getState();
+                            $addessZip = $event[1]->getZip();
+
+                            $eventType = $event[2]->getTitle();
+                            ?><tr onclick="retrieveId(<?php echo $eventId; ?>)"><?php
+                                    echo "<td><button>view</button></td>";
+                                    echo "<td>{$eventTitle}</td>";
+                                    echo "<td>{$eventDate}</td>";
+                                    echo "<td>{$eventTime}</td>";
+                                    echo "<td>{$addressStreet1} {$addressStreet2} {$addressCity}, {$addressState}, {$addessZip}</td>";
+                                    echo "<td>{$eventType}</td>";
+                                    //echo "<td>{$interest_title}</td>";
+                                    //echo "<td>'{$description}'</td>";
+                            echo "</tr>";
+                        }
+                    }
+                ?>
+        </table>	
+    </div>
 </form>
 
 <hr>

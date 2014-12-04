@@ -12,20 +12,14 @@
 	//function delete() {}
 	//function list() {}
         
-        //variables
+        //variables; sets volunteer id based on person id
         $person_id = $_SESSION['personid'];
-        $volIdH = $dbio->readVolunteerByPid($person_id);
-        $volId = $volIdH->getId();
-        $event_idh=$dbio->readWorkByVid($volId);
-        $event_id= $event_idh[0]->getEvent()->getId();
-        
-        
-        
+        $volId = $dbio->readVolunteerByPid($person_id)->getId();
+ 
         function getWork(){
             global $dbio;
             global $volId;
                 $work= $dbio->readWorkByVid($volId);
-            //print_r($work);
             return $work;
         }
         

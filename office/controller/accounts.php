@@ -11,7 +11,7 @@
 		case 'search':
 			include_once 'office/model/accounts.php';
 			$tableinfo = search();
-			$page = $dir . '/view/viewAccounts.php';
+			$page = $dir . '/view/searchAccount.php';
 			break;
 
 		case 'create':

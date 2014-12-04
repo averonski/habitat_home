@@ -2,7 +2,9 @@
 
     // FILE: Volunteer Interest View
     // AUTHOR: des301
-	// Modified by: bmw5285 //very slightly
+    // Modified by: bmw5285
+
+    //shows volunteers current interests and updates them
 
     global $dir;
     global $sub;
@@ -10,16 +12,13 @@
     global $msg;
     global $dbio;
     $pid = $_SESSION['personid'];
-    //print_r($pid);
 
     $columnCount = 3;
 
     $interestTypes = $dbio->listInterest_type();
     $volId = $dbio->readVolunteerByPid($pid);
     $volInterestedIn = $dbio->readInterested_in($volId->getId());
-    //print_r($volInterestedIn[2]->getInterest()[0]->getId());
-    //print_r($interests);
-
+ 
     if(isset($updated))
 		echo '<div class="alert alert-dismissable alert-success"><button type="button" class="close" data-dismiss="alert">×</button><strong>UPDATED</strong> You successfully updated the information.</div>';
 ?>

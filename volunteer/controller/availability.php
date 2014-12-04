@@ -4,7 +4,6 @@
 	// FILE: volunteer/controller/availability.php
 	// AUTHOR: rwg5215
 
-        //$vid = $_GET['vid'];
         global $act;
         global $msg;
         global $dir;
@@ -13,14 +12,13 @@
         $msg = (isset($_GET['msg'])) ? $_GET['msg'] : '';
         
         $personId= $_SESSION['personid'];
-        
-        //include ($dir . '/model/availability.php');
 
+        //updates DB or defaults to base page
 	switch ($act) {
 
 		case 'updateAvailability':
-                            
-                    
+                   
+                    //sets and gets volunteer availibility
                     $day = (isset($_GET['day'])) ? $_GET['day'] : '';
                     if($day=="0"){
                         $dayChecked="1";
@@ -44,32 +42,26 @@
                     else{
                         $wendChecked="0";
                     }
-
-                    $updateVolunteerAvailability= $dbio->setVolunteerAvailability($personId,$dayChecked,$eveChecked,$wendChecked);
+                    
+                    //updates DB
+                    $updateVolunteerAvailability= $dbio->updateVolunteerAvailability($personId,$dayChecked,$eveChecked,$wendChecked);
                     if($updateVolunteerAvailability==true){
+                        print_r($personId);
+                        print_r($dayChecked);
+                        print_r($eveChecked);
+                        print_r($wendChecked);
                         include ($dir . '/model/availability.php');
                         $page = 'volunteer/view/availability.php';
                         print '<script type="text/javascript">'; 
                         print 'alert("You Account is updated with the changes")'; 
                         print '</script>';
                     }
-                    
+                break;
 
-
-                                         
-                       
-                        break;
-
-		//case 'viewAvailability':
-                   // $page = $dir . '/view/interests.php';
                 default:
                     include ($dir . '/model/availability.php');
                     $page = $dir . '/view/' . $sub. '.php';
-                       // getVolunteerAvailability($vid);
-                        break;
+                break;
 
 	}// end switch
-        
-        
-
 ?>

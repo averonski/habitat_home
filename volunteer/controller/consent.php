@@ -64,7 +64,7 @@
                     $emergencyPhone= (isset($_GET['phone'])) ? $_GET['phone'] : '';
                     
                     
-                    $updateVolunteerConsent=$dbio->setVolunteerConsent($personid,$consentMinor,$consentAge,$consentPhoto,$consentSafety,$consentVideo,$consentWaiver,$emergencyName,$emergencyPhone);
+                    $updateVolunteerConsent=$dbio->updateVolunteerConsent($personid,$emergencyName,$emergencyPhone);
                     if($updateVolunteerConsent==true){
                         include ($dir . '/model/consent.php');
                         $page = $dir . '/view/' . $sub. '.php';

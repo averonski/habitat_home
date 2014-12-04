@@ -19,7 +19,7 @@
         
         //contact
 	$phone = $contact->getPhone();
-	$email = $contact->getEmail()->getEmail();
+	$email = $_SESSION['username'];
 	//$employer = $person->getEmployer();
 	$workPhone = $contact->getPhone2();
 	//$workExt = $contact->getExtension();

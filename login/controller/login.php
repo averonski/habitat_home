@@ -45,6 +45,7 @@
 
                     $_SESSION['personid']=$personid;
                     $_SESSION['userName'] = (isset($_GET['userName'])) ? $_GET['userName'] : '';
+                    $_SESSION['username'] = (isset($_GET['userName'])) ? $_GET['userName'] : '';
                     $page = $dir . '/view/home.php';
                 }
             break;

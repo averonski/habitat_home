@@ -8,7 +8,6 @@
 	$account = new Account();
 	$account = $dbio->readAccount($pid); //gets account info from person id
 
-
 	//read person from account
 	$person = new Person();
 	$person = $dbio->readPerson($pid); 
