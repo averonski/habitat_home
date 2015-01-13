@@ -1,6 +1,6 @@
 <?php
  
-
+    print_r($_SESSION);
     if($updated)
 		echo '<div class="alert alert-dismissable alert-success"><button type="button" class="close" data-dismiss="alert">×</button><strong>UPDATED</strong> You successfully updated the information.</div>';
 ?>
@@ -145,22 +145,19 @@
       <label for="inputTitle" class="col-lg-2 control-label">Where did you meet :</label>
       <div class="col-lg-10">
         <select name="events" id="eventlist" type="text">
-        <?php //creates drop down menu options AND alphabetizes 
-        //require_once '/class/interest.php';
-        $events = $dbio->readAllEvent();
-        //$hold = array();
-        foreach($events as &$event)
-        {
-          $eventId = $event->getEvent_id();
-          $eventTitle = $event->getTitle();
-          echo "<option value = '{$eventId}' name = '{$eventTitle}'>{$eventTitle}</option>";
-        }
-      ?>
-        <span class="required">*</span>
-    </select>
+            <?php //creates drop down menu options AND alphabetizes 
+            $events = $dbio->listEvent();
+            foreach($events as &$event)
+            {
+              $eventId = $event->getId();
+              $eventTitle = $event->getTitle();
+              echo "<option value = '{$eventId}' name = '{$eventTitle}'>{$eventTitle}</option>";
+            }
+            ?>
+            <span class="required">*</span>
+        </select>
       </div>
     </div>
-
     <input type="submit" value="Create">
 </form>
 <hr>

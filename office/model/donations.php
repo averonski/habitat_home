@@ -6,24 +6,29 @@
 	
 
 	function search() {}
+        
+        //creates a new donation
 	function create() {
-		$eventid = isset($_GET['eventid']) ? $_GET['eventid'] : '';
-		$pid = isset($_GET['[pid]']) ? $_GET['pid'] : '';
-		$oid = isset($_GET['oid']) ? $_GET['oid'] : '';
+        global $dbio;
+        $eventid = isset($_GET['eventid']) ? $_GET['eventid'] : '';
+        $pid = isset($_GET['[pid]']) ? $_GET['pid'] : '';
+        $oid = isset($_GET['oid']) ? $_GET['oid'] : '';
+        $personid = $_SESSION['personid'];
 
-		$donation = new Donation();
+        $donation = new Donation();
         $donation->setDate($_GET['date']);
         $donation->setTime($_GET['time']);
         $donation->setDetails($_GET['details']);
         $donation->setType($_GET['type']);
         $donation->setValue($_GET['value']);
         $donation->setEvent($eventid);
-        $personid =$_SESSION['personid'];
         $donation->setPerson_person($personid);
-		global $dbio;
-		$updated = $dbio->createDonation($donation);
-		return $updated;
+     
+        $updated = $dbio->createDonation($donation);
+        return $updated;
 	}
+        
+        //lists donation and doner
 	function read() {
 		global $dbio;
 		$tableinfo = array();
@@ -33,9 +38,11 @@
 		$tableinfo[] = $donors;
 		return $tableinfo;
 	}
+        
+        //updates a donation
 	function update() {
-		$donation = new Donation();
-		$donation->setDate($_GET['date']);
+        $donation = new Donation();
+        $donation->setDate($_GET['date']);
         $donation->setTime($_GET['time']);
         $donation->setDetails($_GET['details']);
         $donation->setType($_GET['types']);
@@ -45,44 +52,50 @@
         $updated = $dbio->updateDonations($donation);
         return $updated;
 	}
+        
+        //edits a donation
 	function edit() {
-		global $dbio;
-		$did = $_GET['did'];
-		$donation = $dbio->getDonationById($did);
-		$donor = $dbio->getDonorById($did);
-		$donationtypes = $dbio->readDonationtype();
-		$donationInfo[] = $donation;
-		$donationInfo[] = $donor;
-		$donationInfo[] = $donationtypes;
-		return $donationInfo;
+            global $dbio;
+            $did = $_GET['did'];
+            $donation = $dbio->readDonation($did);
+            return $donation;
 	}
 
+        //reads event from id
 	function getEvent() {
-		global $dbio;
-		$eventid = $_GET['eventid'];
-		$event= $dbio->readEvent($eventid);
-		return $event;
+            global $dbio;
+            $eventid = $_GET['eventid'];
+            $event= $dbio->readEvent($eventid);
+            return $event;
 	}
 	
+        //reads person from id
 	function getPerson() {
-		global $dbio;
-		$pid = $_GET['pid'];
-		$person = $dbio->readPerson($pid);
-		return $person;
+            global $dbio;
+            $pid = $_GET['pid'];
+            $person = $dbio->readPerson($pid);
+            return $person;
 	}
 
+        //reads org from id
 	function getOrg() {
-		global $dbio;
-		if(isset($_GET['oid'])){
-			$oid = $_GET['oid'];
-			$org = $dbio->getOrgById($oid);
-		}
-			
-		
-		if(isset($org))
-			return $org;
-		else
-			return '';
+            global $dbio;
+            if(isset($_GET['oid'])) {
+                $oid = $_GET['oid'];
+                $org = $dbio->getOrgById($oid);
+            }
+             if(isset($org)) {
+                return $org;
+            } else {
+                return '';
+            }
 	}
+        
+        //lists all donation types
+        function listDonationTypes() {
+            global $dbio;
+            $donationTypes = $dbio->listDonation_type();
+            return $donationTypes;
+        }
 
 ?>

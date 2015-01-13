@@ -1,3 +1,6 @@
+<!--author: unknown-->
+<!--allows volunteer to view the hours they have worked total and for each event-->
+
 <h2>Work History</h2>
 <hr>
 
@@ -8,59 +11,12 @@
         global $msg;
         global $person_id;
     
-
+        //variables
         $person_id=$_SESSION['personid'];
-        //var_dump($person_id);
-        
-       // $dbevent = getEvent();
         $dbevent= getEvents();
-
-        // foreach($dbevent as $a){
-        //     echo $a;
-        // }
-        
         $dbdate = getDates();
-        
-
         $result = getHours();
-        //$person_id='8';
-        //$result=$dbio->getWorkHistory($person_id);
-        //var_dump($result);
-        
-        
-
-        
-
-        
-        
-
-       
-        //$dbevent = $dbio->getEventDate($event);
-        //var_dump($dbevent);
-    
-	// TITLE: Volunteer Work History View
-	// FILE: volunteer/view/history.php
-	// AUTHOR: Logan Gurreri
-
-        //$workHistory = array('1', '2', '3', '4', '5');
-        //global $workHistory2;
-        
-        //$association = array('Penn State Build', 'Charity Event', 'Dinner', 'Meeting', 'Fundraiser');
-
-       // $association = array($dbevent);
-
-        //$date = array('20140305', '20140309', '20140313', '20140315','20140401');
-
         $date = array($dbdate);
-
-        // $start = array('1100', '0800', '0800', '0700','0700');
-
-       // $start = array($dbStartTime);
-
-        // $end = array('1230', '0830', '0900', '0830', '0800');
-
-       // $end = array($dbEndTime);
-
         $auth = array('No', 'No', 'No', 'Yes', 'Yes');
         
         $month;
@@ -88,7 +44,7 @@
 ?>
 
 
-
+<!--shows volunteer what work they have done-->
 <form>
 <table class="table table-striped table-hover " style="width:100%">
     <tr>

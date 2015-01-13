@@ -1,6 +1,7 @@
 <?php
     //File: volunteer view
     //Author: Brandon Willis; bmw5285
+    //landing page
 ?>
 <style>
 	dd.list

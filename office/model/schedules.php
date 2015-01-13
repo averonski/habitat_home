@@ -4,6 +4,9 @@
 	// FILE: office/model/interests.php
 	// AUTHOR: bmw5285d
 
+        //this entire file is depreciated. parts are currently used in events, but need to be rewritten
+
+        //lists all schedules
 	function listSchedule()
 	{
 		$dbio = new DBIO();
@@ -26,6 +29,7 @@
 		echo '</table>';
 	}
 	
+        //lists schedule slots (depreciated)
 	function listScheduleSlot()
 	{
 		$dbio = new DBIO();
@@ -45,6 +49,7 @@
 		echo '</table>';
 	}
 	
+        //creates a schedule
 	function createSchedule($timeStart, $timeEnd, $eventId, $description, $interestId)
 	{
 		$dbio = new DBIO();
@@ -58,6 +63,7 @@
 		echo "You have created a new {$tableName} its a part of the event {$eventId} it starts at {$timeStart} and ends at {$timeEnd} its description is:{$description} and is linked to the following interest:{$interestId}";
 	}
 	
+        //creates a schedule slot
 	function createScheduleSlot($person, $schedule)
 	{
 		//require_once '/class/interest_type.php';
@@ -71,6 +77,7 @@
 		echo "You have created a new {$tableName}";
 	}
 	
+        //reads scheules based on events
 	function readScheduleByEvent()
 	{
 		include_once "class/eventHasSchedule.php";
@@ -120,6 +127,7 @@
 		echo '</table>';
 	}
 	
+        //reads a schudle by its name
 	function readScheduleByName()
 	{
 		$dbio = new DBIO();
@@ -167,6 +175,7 @@
 		}
 	}
 	
+        //reads schedule based on its id
 	function viewSchedule()
 	{
 		$dbio = new DBIO();
@@ -222,6 +231,7 @@
 		}
 	}
 	
+        //reads schedule slot based on its id
 	function viewScheduleSlot()
 	{
 		$dbio = new DBIO();

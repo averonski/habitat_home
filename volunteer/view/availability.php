@@ -8,7 +8,9 @@
 	// TITLE: Volunteer Availability View
 	// FILE: volunteer/view/availability.php
 	// AUTHOR: Logan Gurreri
+        //show volunteer their availabilty and lets them edit it
         
+        //variables
         global $dir;
         global $sub;
         global $act;
@@ -18,7 +20,7 @@
         global $checkedWeekend;
         $act='updateAvailability';
 
-         $avail=getAvailability();
+        $avail=getAvailability();
 
         $dbDay=$avail->getAvail_day();
         $dbEve=$avail->getAvail_eve();
@@ -57,6 +59,8 @@
         $checkedWeekend = ($checkedWeekend == 'Yes') ? 'checked= "checked"' : '';
 
 ?>
+    
+<!--    form shows volunteer their availability, and lets them update it-->
     <input name="act" type="hidden" value="updateAvailability" >
     <input name="dir" type="hidden" value="<?php echo $dir; ?>" >
     <input name="sub" type="hidden" value="<?php echo $sub; ?>" >

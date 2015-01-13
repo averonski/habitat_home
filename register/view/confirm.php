@@ -10,6 +10,7 @@
 	global $total;
 	global $dbio;
 
+    // reads and verifies variables needed for registration section
     $title = isset($_SESSION['title']) ? $_SESSION['title'] : 'null';
     $fname = isset($_SESSION['fname']) ? $_SESSION['fname'] : 'null';
     $lname = isset($_SESSION['lname']) ? $_SESSION['lname'] : 'null';
@@ -60,15 +61,16 @@
     	$consentMinor=0;
     }
 
+    //creates person, address, contact, email
     $flag=$dbio->createNewPerson($street1,$street2,$city,$state,$zip,$phone,$email,$phone2,$extension,$title,$fname,$lname,$gender,$dob,$maritial,$checkEmail,$checkMail,$checkPhone);
     
-
+    //creates volunteer, and some email info
     if($flag){
         $flag2=$dbio->createNewAccount($consentAge, $consentVideo , $consentWaiver, $consentPhoto , $availDay , $availEve, $availWend, $consentMinor, $consentSafety, $emergencyName, $emergencyPhone, $churchAmbassador, $affiliation,$interestIds, $email, $password);
     }
 
+    //creates an organization if it does not exist
     $dbio->createNewOrganization($organization);
-    //session_destroy();
 ?>
 	<h4>Confirmation</h4>
 	<?php include 'progress.php'; ?>

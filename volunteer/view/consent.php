@@ -1,3 +1,6 @@
+<!--shows volunteer what they have consented-->
+<!--allows volunteer to updates their emergency contact info-->
+
 <h2>Your Consents</h2>
 <hr>
 <form action"index.php">
@@ -9,6 +12,8 @@
 	// TITLE: Volunteer Consent View
 	// FILE: volunteer/view/consent.php
 	// AUTHOR: Logan Gurreri
+
+        //variables
         global $dir;
         global $sub;
         global $act;
@@ -73,12 +78,6 @@
         else{
             $checkLiability='No';
         }
-        // $less18 = 'Yes';
-        // $greater18='No';
-        // $checkedPhoto = 'Yes';
-        // $safetyGuidelines = 'Yes';
-        // $checkedVideo = 'Yes';
-        // $checkLiability= 'Yes';
         
         $less18 = ($less18 == 'Yes') ? 'checked="checked"' : '';
         $greater18 = ($greater18 == 'Yes') ? 'checked="checked"' : '';
@@ -91,7 +90,7 @@
 
 ?>
     
-    
+    <!--form for showing consent info then updating emergency info-->
     <input name="act" type="hidden" value="updateConsent" >
     <input name="dir" type="hidden" value="<?php echo $dir; ?>" >
     <input name="sub" type="hidden" value="<?php echo $sub; ?>" >
@@ -111,6 +110,8 @@
         <!--<tr><td>--><label>Phone Number:</label><!--</td><td>--><input type="text" name="phone" value="<?php echo $dbPhone; ?>"><!--</td></tr></table>--><br><br>
         <button value="submit" onclick="return check();">Save Changes</button>
     </form>
+    
+    
     <script type="text/javascript">
     function check(){
         if (document.getElementById('emergencyName').value==""

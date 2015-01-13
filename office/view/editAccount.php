@@ -1,38 +1,24 @@
 <?php
-    // echo $person = $dbio->getPerson($personId);
-    // echo $address = $dbio->getAddress(echo $personId);
-    // echo $contact = $dbio->getContact(echo $personId);
-    
-/*
-    mysql_connect("localhost", "root", "");
-    mysql_select_db("rkcpfk");
-    // $sql = mysql_query("SELECT * FROM tbl_name");
 
-    $query = "SELECT * FROM personalinfo";
-    $allInfo = mysql_query($query);
-    $info = mysql_fetch_array($allInfo);
-*/
- 
-    $account = $tableinfo[0];
-    $person = $tableinfo[1];
-    $contact = $tableinfo[2];
-    $address = $tableinfo[3];
-    $uname = $account->getUsername();
-    $title = $person->getTitle();
-    $fName = $person->getFirst_name();
-    $lName = $person->getLast_name();
-    $dob = $person->getDob();
-    $street1 = $address->getStreet1();
-    $street2 = $address->getStreet2();
-    $city = $address->getCity();
-    $state = $address->getState();
-    $zip = $address->getZip();
-    $phone = $contact->getPhone();
-    $email = $contact->getEmail();
-    $employer = 'abc company';
-    $workPhone = $contact->getPhone2();
-    $workExt = $contact->getExtension();
-    $jobTitle = 'engineer';
+    $account = edit();
+    //print_r($account);
+
+    //sets account info
+    $uname = $account->getEmail()->getEmail();
+    $title = $account->getPerson()->getTitle();
+    $fName = $account->getPerson()->getFirst_name();
+    $lName = $account->getPerson()->getLast_name();
+    $dob = $account->getPerson()->getDob();
+    $street1 = $account->getPerson()->getContact()->getAddress()->getStreet1();
+    $street2 = $account->getPerson()->getContact()->getAddress()->getStreet2();
+    $city = $account->getPerson()->getContact()->getAddress()->getCity();
+    $state = $account->getPerson()->getContact()->getAddress()->getState()->getTitle();
+    $zip = $account->getPerson()->getContact()->getAddress()->getZip();
+    $phone = $account->getPerson()->getContact()->getPhone();
+    //$employer = 'abc company';
+    $workPhone = $account->getPerson()->getContact()->getPhone2();
+    //$workExt = $account->getPerson()->getContact()->getExtension();
+    //$jobTitle = 'engineer';
 
     if($updated)
 		echo '<div class="alert alert-dismissable alert-success"><button type="button" class="close" data-dismiss="alert">×</button><strong>UPDATED</strong> You successfully updated the information.</div>';
@@ -42,7 +28,7 @@
 <form action="index.php" method="GET" class="form-horizontal">
     <input name="dir" type="hidden" value="<?php echo $dir; ?>" >
     <input name="sub" type="hidden" value="<?php echo $sub; ?>" >
-    <input name="pid" type="hidden" value="<?php echo $person->getPerson_id(); ?>" >
+    <input name="pid" type="hidden" value="<?php echo $_SESSION['personid']; ?>" >
     <input name="act" type="hidden" value="update" >
     <fieldset>
     <legend>Account Info</legend>
@@ -61,7 +47,7 @@
     <div class="form-group">
       <label for="inputuName" class="col-lg-2 control-label">Username :</label>
       <div class="col-lg-10">
-        <input name="uName" type="text" placeholder="first name" value="<?php echo $uname; ?>" >
+        <input name="uName" type="text" placeholder="username" value="<?php echo $uname; ?>" >
 		<span class="required">*</span>
       </div>
     </div>
@@ -131,12 +117,12 @@
 		<span class="required">*</span></label>
       </div>
     </div>
-		<div class="form-group">
+<!--		<div class="form-group">
       <label for="inputemail" class="col-lg-2 control-label">Email :</label>
       <div class="col-lg-10">
-        <input name="email" type="text" placeholder="email" value="<?php echo $email; ?>" >
+        <input name="email" type="text" placeholder="email" value="<?php //echo $uname; ?>" >
 		<span class="required">*</span>
-      </div>
+      </div>-->
     </div>
     <div class="form-group">
       <label for="inputemployer" class="col-lg-2 control-label">Employer :</label>

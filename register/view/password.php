@@ -1,8 +1,8 @@
 <?php
 	
 	// FILE: Registration Password View
-
 	// AUTHOR: des301
+        // section for user to create username and password
 
 	global $act;
 	global $msg;
@@ -51,6 +51,7 @@
 	    padding-bottom: 3px;
 	}
     </style> -->
+        
 	<h4>Registration</h4>
         <br/>
 	<?php include 'progress.php'; ?>
@@ -68,6 +69,8 @@
 	    <tr><td><label><span class="mandatory">*</span>Password</label></td><td><input type="password" name="pw1" id="pw1"></td></tr><br>
 	    <tr><td><label><span class="mandatory">*</span>Confirm</label></td><td><input type="password" name="pw2" id="pw2"> </td><td>&nbsp<span style="color:lightgrey; font-size: 10pt;">Re-type password</span></td></tr></table></div><br>
 	    <br>
+            
+            <!--checks if both password boxes has entries and match-->
 	    <script type="text/javascript">
 
             function checkPassword()

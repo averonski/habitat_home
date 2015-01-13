@@ -54,7 +54,6 @@
 			break;
 
 		case 'submitHours':
-		
 			include 'office/model/event.php';
 			$_SESSION['eventId'] = isset($_GET['eventId']) ? $_GET['eventId'] : '';
 
@@ -63,9 +62,7 @@
 
 			foreach ($VolunteerSchedule as $VolunteerScheduleItem){
 			$hours= isset($_GET['hours'.$VolunteerScheduleItem->getVolunteerId()]) ? $_GET['hours'.$VolunteerScheduleItem->getVolunteerId()] : "";
-
-			if($hours){
-				
+                            if($hours){
 				$workObj = new Work();
 		 		$workObj->setAmount($hours);
 		 		$workObj->setPerson_person($VolunteerScheduleItem->getVolunteerId());
@@ -73,13 +70,10 @@
 		 		$workObj->setEnteredById($_SESSION['personid']);
 		 		$workObj->setAdminId(Null);
 		 		$workObj->setEvent($_GET['eventId']);
-
-		 		$dbio->insertWorkForVolunteer($workObj);
-		 		
+                                
+		 		$dbio->insertWorkForVolunteer($workObj);	
+                            }
 			}
-			
-			}
-
 			$page = $dir . '/view/viewEventInfo.php';
 			break;
 

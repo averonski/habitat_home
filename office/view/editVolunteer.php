@@ -16,31 +16,25 @@
         
         $vid = filter_input(INPUT_GET, 'vid', FILTER_SANITIZE_STRING);
         
-        $information = $dbio->readVolunteer($vid);
-        $volunteer = $information[1];
-        $person = $information[0];
-  
-        
-        $title = $person->getTitle(); 
-        $first_name = $person->getFirst_name();
-        $last_name = $person->getLast_name();
-        $dob = $person->getDob();
-        $contact = $person->getContact();
+        $volunteer = $dbio->readVolunteer($vid);
+
+        $title = $volunteer->getPerson()->getTitle(); 
+        $first_name = $volunteer->getPerson()->getFirst_name();
+        $last_name = $volunteer->getPerson()->getLast_name();
+        $dob = $volunteer->getPerson()->getDob();
+        $contact = $volunteer->getPerson()->getContact();
                                                 
-        $contacts = $dbio->readContact($contact);
-        $phone = $contacts->getPhone();
-        $email = $contacts->getEmail();
-        $phone2 = $contacts->getPhone2();
-        $extension = $contacts->getExtension();
-        $address = $contacts->getAddress();
+        $phone = $volunteer->getPerson()->getContact()->getPhone();
+        $email = $volunteer->getPerson()->getContact()->getEmail()->getEmail();
+        $phone2 = $volunteer->getPerson()->getContact()->getPhone2();
+        //$extension = $volunteer->getPerson()->getContact()->getExtension();
                           
-        $addresses = $dbio->readAddress($address);
-        $address_id = $addresses->getAddress_id();
-        $street1 = $addresses->getStreet1();
-        $street2 = $addresses->getStreet2();
-        $city = $addresses->getCity();
-        $state = $addresses->getState();
-        $zip = $addresses->getZip();
+        $address_id = $volunteer->getPerson()->getContact()->getAddress()->getId();
+        $street1 = $volunteer->getPerson()->getContact()->getAddress()->getStreet1();
+        $street2 = $volunteer->getPerson()->getContact()->getAddress()->getStreet2();
+        $city = $volunteer->getPerson()->getContact()->getAddress()->getCity();
+        $state = $volunteer->getPerson()->getContact()->getAddress()->getState()->getTitle();
+        $zip = $volunteer->getPerson()->getContact()->getAddress()->getZip();
             
             if($updated){
 		echo '<div class="alert alert-dismissable alert-success"><button type="button" class="close" data-dismiss="alert">×</button><strong>UPDATED</strong> You successfully updated the information.</div>';
@@ -57,7 +51,7 @@
     <form action="index.php" method="GET">
     <input name="dir" type="hidden" value="<?php echo $dir; ?>" >
     <input name="sub" type="hidden" value="<?php echo $sub; ?>" >
-    <input name="vid" type="hidden" value="<?php echo $person->getPerson_id(); ?>" >
+    <input name="vid" type="hidden" value="<?php echo $_SESSION['personid']; ?>" >
     <input name="act" type="hidden" value="update" >
 
 		
@@ -87,7 +81,7 @@
                <table class="intTable">
 		<tr><td>Phone<span class="mandatory">*</span></td><td> <input name="phone" type="text" id="phone" value="<?php echo $phone; ?>"></label></td></tr><br>
 		<tr><td>Phone2<span class="mandatory">*</span></td><td> <input name="phone2" type="text" id="phone2" value="<?php echo $phone2; ?>"></label></td></tr><br>
-                <tr><td>Extension<span class="mandatory">*</span></td><td> <input name="extension" type="text" id="extension" value="<?php echo $extension; ?>"></label></td></tr><br>
+                <!--<tr><td>Extension<span class="mandatory">*</span></td><td> <input name="extension" type="text" id="extension" value="<?php// echo $extension; ?>"></label></td></tr><br>-->
 		<tr><td>Email<span class="mandatory">*</span> </td><td><input name="email" type="text" id="email" value="<?php echo $email; ?>"></label></td></tr>
                 
                </table></div>

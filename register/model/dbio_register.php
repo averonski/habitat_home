@@ -3,6 +3,9 @@
     // FILE: Registration Database
     // AUTHOR: sbkedia
 
+// all methods for dbio input and ouput
+// too many to explain. Ask BMW5285 (brandon Willis) if issue arrise
+
 class DBIO {
 	
 	

@@ -1,29 +1,27 @@
 <?php
 
-/* 
- * File: /model/volunteer.php
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- * Author:
- */
 
-function indexVolunteerBy($value1, $value2) {}
+    global $msg;
+    global $dbio;
+    $pid = $_SESSION['personid'];
 
-	function search() {
-		global $dbio;
-		if($_GET['searchBy'] == 'name'){
-                    $fname = $_GET['input1'];
-                    $lname =  $_GET['input2'];
-                    $tableinfo = $dbio->searchPersonByName($fname,$lname);
-			}
-			elseif ($_GET['searchBy'] == 'organization') {
-                            $org = $_GET['input1'];
-                            $tableinfo = $dbio->searchPersonByOrg($org);
-			}
-                            return $tableinfo;
-                           }
+    //function indexVolunteerBy($value1, $value2) {}
+    
+    //searches volunteers by name or organization
+    function search() {
+        global $dbio;
+        if($_GET['searchBy'] == 'name'){
+            $fname = $_GET['input1'];
+            $lname =  $_GET['input2'];
+            $tableinfo = $dbio->readPersonByName($fname,$lname);
+        } elseif ($_GET['searchBy'] == 'organization') {
+            $org = $_GET['input1'];
+            $tableinfo = $dbio->searchPersonByOrg($org);
+        }
+        return $tableinfo;
+    }
 
+    //creates a volunteer
     function create(){
        
         $person = new Person();
@@ -69,7 +67,7 @@ function indexVolunteerBy($value1, $value2) {}
         
     }
 
-
+//updates volunteer info
 function updateInfo(){
     
     $vid = $_GET['vid'];
@@ -99,7 +97,8 @@ function updateInfo(){
     return $updated;
 }
 
-
+//I think that most of functions below here have been copied from elsewhere. check with care
+//lists all volunteers
 function listVolunteer(){
     global $dbio;
     $volunteers = $dbio->listVolunteer();
@@ -107,65 +106,46 @@ function listVolunteer(){
 }
 //function readContact($id){}
 
-
+//searches through people by name
 function editVolunteers(){
     global $dbio;
     $volunteers = $dbio->searchPersonByName($fname,$lname);
     return $volunteers;
 } 
 
-//****************************************************************************
-//****************************************************************************
+//updates a volunteers availability
+function setVolunteerAvailability($vid, $day, $eve, $wend) {
+    $dbio->setVolunteerAvailability($vid, $day, $eve, $wend);
+}
 
-    global $msg;
+//gets a volunteers available times
+function getAvailability() {
     global $dbio;
     $pid = $_SESSION['personid'];
+    $dbAvailability = $dbio->getVolunteerAvailability($pid);
+    return $dbAvailability;
+}
 
-    function setVolunteerAvailability($vid, $day, $eve, $wend) {
-    
-   
-        $dbio->setVolunteerAvailability($vid, $day, $eve, $wend);
+//updates a volunteers consent
+function setVolunteerConsent($vid, $age, $photo, $agree, $video) {
+    $dbio->setVolunteerConsent($vid, $age, $photo, $agree, $video);
+}
 
-    }
+//reads a volunteers consent
+function getVolunteerConsent() {
+    global $dbio;
+    $ppid=$_SESSION['personid'];
+    $dbConsent = $dbio->getVolunteerConsent($ppid);
+    return $dbConsent;
+}
 
-    function getAvailability() {
-    	global $dbio;
-        $pid = $_SESSION['personid'];
-        $ppid=$pid;
-        $dbAvailability = $dbio->getVolunteerAvailability($ppid);
-        return $dbAvailability;
-
-
-     
-    
-    }
-
-    function setVolunteerConsent($vid, $age, $photo, $agree, $video) {
-    
-   
-        $dbio->setVolunteerConsent($vid, $age, $photo, $agree, $video);
-
-    }
-    
-    function getVolunteerConsent() {
-        
-        global $dbio;
-        $ppid=$_SESSION['personid'];
-        $dbConsent = $dbio->getVolunteerConsent($ppid);
-        
-        return $dbConsent;
-     
-    
-    }
-    
-   function update() {
-        global $dbio;
-
-        $deleteAll = $dbio->deleteInterestsByVolunteer($_SESSION['personid']);
-        $updated = $dbio->addInterestByVolunteer($_SESSION['personid'], $_SESSION['interestVolunteer']);
-               
-        return $updated;
-    }
+//updates something
+function update() {
+    global $dbio;
+    $deleteAll = $dbio->deleteInterestsByVolunteer($_SESSION['personid']);
+    $updated = $dbio->addInterestByVolunteer($_SESSION['personid'], $_SESSION['interestVolunteer']);     
+    return $updated;
+}
 
 ?>
 

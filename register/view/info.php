@@ -1,8 +1,8 @@
 <?php
 	
 	// FILE: Registration Info View
-
 	// AUTHOR: dum5002
+        // user enters person, contact and address info
 
 	global $act;
 	global $msg;
@@ -10,6 +10,7 @@
 
 ?>
 
+<!--I don't think this script is used-->
 <script type="text/javascript"> 
     //Executes your code when the DOM is ready.  Acts the same as $(document).ready().
     $(function() {
@@ -26,7 +27,9 @@
     selectBox.setOptions({ showEffect: "blind", hideEffect: "blind", showFirstOption: "false"  });
 
   });*/
-</script>	
+</script>
+
+<!--form for user to enter person, contact, and address info-->
 <?php include 'progress.php'; ?>
 <hr>
 <br>
@@ -136,6 +139,8 @@
 		<tr><td>Title/Occupation</td><td><input name="occupation" type="text" value="Laborer"></td></tr></table></div> -->
 		
 		<br>
+                
+                <!--script checks if user entered all required fields-->
 		<script type="text/javascript">
 
             function check()

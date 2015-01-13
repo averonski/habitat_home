@@ -34,24 +34,39 @@
         }// END*/
 
         function open() {
-                $hostname="73.52.51.66";
-                $username="habitat";
-                $password="habitat";
-                $dbname="homes_db";
+                $hostname = 'mysql3.000webhost.com';
+                $username = 'a6127773_root';
+                $password = '440wistpsuyk';
+                $database = 'a612773_habitat';
 
                  global $con;
-                 $con = mysql_connect($hostname,$username,$password) or die ("no worky");
+                 $con = mysql_connect($hostname,$username,$password) or die("no worky");
                  mysql_select_db($dbname);
         }// END
+        
+        private function openi() {
+			global $link;
+			$hostname = 'mysql3.000webhost.com';
+			$username = 'a6127773_root';
+			$password = '440wistpsuyk';
+			$database = 'a612773_habitat';
+			$link = mysqli_connect($hostname, $username, $password, $database);
+                            if (mysqli_connect_errno()) {
+                                printf("Connect failed: %s\n", mysqli_connect_error());
+                                exit();
+                            }
+		}// END
 
 
         function close() {
                 global $con;
                 mysql_close($con);
         }// END
-
-
-
+        
+         private function closei() {
+			global $link;
+			mysqli_close($link);
+		}// END
 
         /*
                 requires: array of values, left char, right char: most often the left and right chars will be the same
@@ -76,30 +91,72 @@
         
         // login // ---------------------
         //This section likely will need to be comepletly be redone. there are all kind of issues with the logic.
+//        public function getLogin($user,$pw){
+//            if(empty($user) || empty($pw)) {
+//                return 1;
+//            }
+//            $this->open();
+//            global $con;
+//            $sql='SELECT id, email FROM email where email ="'.$user.'"';
+//            $result=mysql_query($sql,$con);
+//            $hold=mysql_fetch_row($result);
+//            $id=$hold[0];
+//            $email=$hold[1];
+//            
+//            $sql2='SELECT email,password FROM account WHERE email="'.$id.'" AND password="'.$pw.'"';
+//            $results=mysql_query($sql2,$con);
+//            $final=mysql_fetch_row($results);
+//            $status=$final[0];
+//            $this->close();
+//            
+//            if (empty($status)){
+//                return null;
+//            }else{
+//                return $email;
+//            }
+//        }
+        
         public function getLogin($user,$pw){
-            if(empty($user) || empty($pw)) {
-                return 1;
-            }
-            $this->open();
-            global $con;
-            $sql='SELECT id, email FROM email where email ="'.$user.'"';
-            $result=mysql_query($sql,$con);
-            $hold=mysql_fetch_row($result);
-            $id=$hold[0];
-            $email=$hold[1];
-            
-            $sql2='SELECT email,password FROM account WHERE email="'.$id.'" AND password="'.$pw.'"';
-            $results=mysql_query($sql2,$con);
-            $final=mysql_fetch_row($results);
-            $status=$final[0];
-            $this->close();
-            
-            if (empty($status)){
-                return null;
-            }else{
-                return $email;
-            }
-        }
+                    if(empty($user) || empty($pw)) {
+                        return 1;
+                    }
+                    $this->openi();
+                    global $link;
+                    //$hold = array();
+                    $sql='SELECT id, email FROM email where email =?';
+                    //$result=mysql_query($sql,$con);
+                    $stmt = mysqli_stmt_init($link);
+                        if (mysqli_stmt_prepare($stmt, $sql)) {
+                            mysqli_stmt_bind_param($stmt, "s", $user);
+                            mysqli_stmt_execute($stmt);
+                            mysqli_stmt_bind_result($stmt, $id, $email);
+                            while (mysqli_stmt_fetch($stmt)) {
+                                $hold[0] = $id;
+                                $hold[1] = $email;
+                            }
+                            mysqli_stmt_close($stmt);
+                        }
+                    //$id=$hold[0];
+                    //$email=$hold[1];
+
+                    $sql2='SELECT email,password FROM account WHERE email=? AND password=?';
+                    $stmt2 = mysqli_stmt_init($link);
+                        if (mysqli_stmt_prepare($stmt2, $sql2)) {
+                            mysqli_stmt_bind_param($stmt2, "is", $hold[0], $hold[1]);
+                            mysqli_stmt_execute($stmt2);
+                            mysqli_stmt_bind_result($stmt2, $email, $password);
+                            $status = $email;
+                        }
+                    //$results=mysql_query($sql2,$con);
+                    //$final=mysql_fetch_row($results);
+                    //$status=$final;
+                    $this->closei();
+                    if (empty($status)){
+                        return null;
+                    }else{
+                        return $email;
+                    }
+                }
         
         public function getPersonIdByUserName($user){
 
@@ -152,7 +209,99 @@
                 }
             }
         }
+        // OLD FUNCTIONS //---------------
+        
+            public function createNewPerson($street1,$street2,$city,$state,$zip,$phone,$email,$phone2,$extension,$title,$fName,$lName,$gender,$dob,$maritialStatusId,$prefEmail,$prefMail,$prefPhone){
+		global $con;
+		$this->open();
+                
+                //insert data into address
+                
+                //finds state id from name
+                $sql = "SELECT id
+                        FROM STATE
+                        WHERE title = '" .$state. "';";
+                        $result = mysql_query($sql, $con);
+                        while($row = mysql_fetch_array($result)) {
+                            $state_id = $row[0];
+                        }
+                
+                //inserts data into address
+		$sql =	"INSERT INTO Address
+                    (street1,street2,city,state_id,zip)
+                    VALUES
+                    ('" .$street1. "','" .$street2. "','" .$city. "','" .$state_id. "','" .$zip. "');";
+		mysql_query($sql, $con);
+                    //echo mysql_errno($con) . ": " . mysql_error($con). "\n";
+                
+                
+                //insert data into person
+                
+                //finds the last address created
+                $sql = "SELECT MAX(id)
+                        FROM address;";
+                        $result = mysql_query($sql, $con);
+                        while($row = mysql_fetch_array($result)) {
+                            $address_id = $row[0];
+                        }
+                
+                //finds the last contact id in the contact table and ioncrements by one. This will need fixed when database changes are made
+                $sql= "SELECT max(id) FROM contact;";
+                    $result = mysql_query($sql, $con);
+                    while($row = mysql_fetch_array($result)) {
+                        $contact_id = $row[0];
+                    }
+                    $contact_id = (int)$contact_id + 1;
+         
+                //inserts data into person                
+		$sql=	"INSERT INTO person
+                    (title,first_name,last_name,gender,dob,marital_status_id,contact_id)
+                    VALUES ('" .$title. "','" .$fName. "','" .$lName. "','" .$gender. "','" .$dob. "','" .$maritialStatusId. "','" .$contact_id. "');";
+		mysql_query($sql, $con); 
 
+                
+                //insert data into email
+                
+                //finds the last person created
+                $sql = "SELECT max(id) FROM person;";
+                    $result = mysql_query($sql, $con);
+                    while($row = mysql_fetch_array($result)) {
+                        $person_id = $row[0];
+                    }
+                
+                //inserts data into email    
+                $sql = "INSERT INTO email (email,person_id)
+                        VALUES ('" .$email. "','" .$person_id. "');";
+                mysql_query($sql, $con);
+                  
+                
+                //insert data into contact
+                
+                //finds the last email created
+                $sql = "SELECT max(id) FROM email";
+                    $result = mysql_query($sql, $con);
+                    while($row = mysql_fetch_array($result)) {
+                        $email_id = $row[0];
+                    }
+          
+                // finds the last address created
+                $sql= "SELECT max(id) FROM ADDRESS;";
+                    $result = mysql_query($sql, $con);
+                    while($row = mysql_fetch_array($result)) {
+                        $address_id = $row[0];
+                    }
+                    
+                //inserts data into contact
+		$sql=	"INSERT INTO Contact
+				(address_id,phone,phone2,email_id)
+                                VALUES
+				('" .$address_id. "','" .$phone. "','" .$phone2. "','" .$email_id. "');";
+		mysql_query($sql, $con);
+		
+		$this->close();
+                
+		return True;
+            }//end function
         
         // account // --------------------
 
@@ -170,12 +319,34 @@
 		global $con;
 		$sql = 'SELECT * FROM account WHERE person_id = ' . $id . '';
 		$this->open();
-		$result = mysql_query($sql, $con);
+		$results = mysql_query($sql, $con);
 		$this->close();
-		if ($result) {
+		if ($results) {
+                    $result = mysql_fetch_array($results);
 				$account = new Account();
 				$account->setId($result[0]);
 				$account->setEmail($result[1]);
+				$account->setPassword($result[2]);
+				$account->setCreated($result[3]);
+				$account->setStatus($this->readStatus_change($result[4]));
+				$account->setPerson($this->readPerson($result[5]));
+		} else {
+			$account = false;
+		}
+		return $account;
+	}// end function
+        
+        public function readAccount_by_account($id) {
+		global $con;
+                $sql = "SELECT * FROM account WHERE id = '{$id}';";
+		$this->open();
+		$results = mysql_query($sql, $con);
+		$this->close();
+		if ($results) {
+                     $result = mysql_fetch_array($results);
+				$account = new Account();
+				$account->setId($result[0]);
+				$account->setEmail($this->readEmail($result[1]));
 				$account->setPassword($result[2]);
 				$account->setCreated($result[3]);
 				$account->setStatus($this->readStatus_change($result[4]));
@@ -406,9 +577,14 @@
 
 	// address // --------------------
 
-	public function createAddress($address, $array) {
+	public function createAddress($address) {
 		global $con;
-		$sql = "INSERT INTO address (id, street1, street2, city, state_id, zip) VALUES ({$array})";
+                $street1 = $address->getStreet1();
+                $street2 =  $address->getStreet2();
+                $city = $address->getCity();
+                $state_id = $address->getState();
+                $zip = $address->getZip();
+		$sql = "INSERT INTO address (street1, street2, city, state_id, zip) VALUES ('{$street1}', '{$street2}', '{$city}', '{$state_id}', '{$zip}')";
 		$this->open();
 		$results = mysql_query($sql, $con);
 		$id = ($results) ? mysql_insert_id() : $results;
@@ -591,7 +767,7 @@
 			while($result = mysql_fetch_array($results)) {
 				$ambassador = new Ambassador();
 				$ambassador->setVolunteer($this->readVolunteer($result[0]));
-				$ambassador->setOrganization(readOrganization($result[1]));
+				$ambassador->setOrganization($this->readOrganization($result[1]));
 				$ambassador->setChurch_ambassador($result[2]);
 				$ambassador->setAffiliation($result[3]);
 				$ambassadors[] = $ambassador;
@@ -631,7 +807,7 @@
 			while($result = mysql_fetch_array($results)) {
 				$ambassador = new Ambassador();
 				$ambassador->setVolunteer($this->readVolunteer($result[0]));
-				$ambassador->setOrganization(readOrganization($result[1]));
+				$ambassador->setOrganization($this->readOrganization($result[1]));
 				$ambassador->setChurch_ambassador($result[2]);
 				$ambassador->setAffiliation($result[3]);
 				$ambassadors[] = $ambassador;
@@ -742,7 +918,7 @@
 				$auction_item->setValue($result[5]);
 				$auction_item->setPrice($result[6]);
 				$auction_item->setPerson($this->readPerson($result[7]));
-				$auction_item->setDonation(readDonation($result[8]));
+				$auction_item->setDonation($this->readDonation($result[8]));
 				$auction_items[] = $auction_item;
 			}// end while
 		} else {
@@ -787,7 +963,7 @@
 				$auction_item->setValue($result[5]);
 				$auction_item->setPrice($result[6]);
 				$auction_item->setPerson($this->readPerson($result[7]));
-				$auction_item->setDonation(readDonation($result[8]));
+				$auction_item->setDonation($this->readDonation($result[8]));
 				$auction_items[] = $auction_item;
 			}// end while
 		} else {
@@ -1003,9 +1179,9 @@
 				$committees[] = $committee;
 			}// end while
 		} else {
-			$committee = false;
+			$committees = false;
 		}
-		return $committee;
+		return $committees;
 	}// end function
 
 	// committee_attendance // --------------------
@@ -1246,21 +1422,19 @@
 		$results = mysql_query($sql, $con);
 		$this->close();
 		if ($results) {
-			$donations = array();
-			while($result = mysql_fetch_array($results)) {
+			$result = mysql_fetch_array($results);
 				$donation = new Donation();
 				$donation->setId($result[0]);
 				$donation->setDate($result[1]);
 				$donation->setTime($result[2]);
 				$donation->setDetails($result[3]);
-				$donation->setWhen_entered($result[4]);
-				$donation->setDonor(readDonor($result[5]));
-				$donation->setOffice($this->readOffice($result[6]));
-				$donation->setDonation_type(readDonation_type($result[7]));
-				$donation->setPledge($result[8]);
-				$donation->setAdmin($this->readAdmin($result[9]));
-				$donations[] = $donation;
-			}// end while
+                                $donation->setValue($result[4]);
+				$donation->setWhen_entered($result[5]);
+				$donation->setDonor_id($this->readPerson($result[6])); //altered this will need to be corrected
+				$donation->setOffice($this->readOffice($result[7]));
+				$donation->setDonation_type($this->readDonation_type($result[8]));
+				$donation->setPledge($result[9]);
+				$donation->setAdmin($this->readAdmin($result[10]));
 		} else {
 			$donation = false;
 		}
@@ -1299,16 +1473,17 @@
 				$donation->setDate($result[1]);
 				$donation->setTime($result[2]);
 				$donation->setDetails($result[3]);
-				$donation->setWhen_entered($result[4]);
-				$donation->setDonor(readDonor($result[5]));
-				$donation->setOffice($this->readOffice($result[6]));
-				$donation->setDonation_type(readDonation_type($result[7]));
-				$donation->setPledge($result[8]);
-				$donation->setAdmin($this->readAdmin($result[9]));
+                                $donation->setValue($result[4]);
+				$donation->setWhen_entered($result[5]);
+				$donation->setDonor_id($this->readPerson($result[6])); //altered this will need to be corrected
+				$donation->setOffice($this->readOffice($result[7]));
+				$donation->setDonation_type($this->readDonation_type($result[8]));
+				$donation->setPledge($result[9]);
+				$donation->setAdmin($this->readAdmin($result[10]));
 				$donations[] = $donation;
 			}// end while
 		} else {
-			$donation = false;
+			$donations = false;
 		}
 		return $donations;
 	}// end function
@@ -1380,9 +1555,9 @@
 				$donation_types[] = $donation_type;
 			}// end while
 		} else {
-			$donation_type = false;
+			$donation_types = false;
 		}
-		return $donation_type;
+		return $donation_types;
 	}// end function
 
 	// email // --------------------
@@ -1489,21 +1664,18 @@
 		$results = mysql_query($sql, $con);
 		$this->close();
 		if ($results) {
-			$events = array();
-			while($result = mysql_fetch_array($results)) {
-				$event = new Event();
-				$event->setId($result[0]);
-				$event->setTitle($result[1]);
-				$event->setDate($result[2]);
-				$event->setStart_time($result[3]);
-				$event->setEnd_time($result[4]);
-				$event->setAddress_id($this->readAddress($result[5]));
-				$event->setType($this->readInterest_type($result[6]));
-				$event->setMax_num_guests($result[7]);
-				$event->setCommittee($this->readCommittee($result[8]));
-				$event->setSponsored_id($this->readCommittee($result[9]));
-				$events[] = $event;
-			}// end while
+                    $result = mysql_fetch_array($results);
+                        $event = new Event();
+                        $event->setId($result[0]);
+                        $event->setTitle($result[1]);
+                        $event->setDate($result[2]);
+                        $event->setStart_time($result[3]);
+                        $event->setEnd_time($result[4]);
+                        $event->setAddress_id($this->readAddress($result[5]));
+                        $event->setType($this->readInterest_type($result[6]));
+                        $event->setMax_num_guests($result[7]);
+                        $event->setCommittee($this->readCommittee($result[8]));
+                        $event->setSponsored($this->readCommittee($result[9]));
 		} else {
 			$event = false;
 		}
@@ -1530,7 +1702,7 @@
 
 	public function listEvent() {
 		global $con;
-		$sql = 'SELECT * FROM event';
+		$sql = 'SELECT * FROM event ORDER BY UNIX_TIMESTAMP(date) DESC';
 		$this->open();
 		$results = mysql_query($sql, $con);
 		$this->close();
@@ -1551,9 +1723,9 @@
 				$events[] = $event;
 			}// end while
 		} else {
-			$event = false;
+			$events = false;
 		}
-		return $event;
+		return $events;
 	}// end function
 
 	// event_expenses // --------------------
@@ -1665,7 +1837,7 @@
 				$event_sponsor->setId($result[0]);
 				$event_sponsor->setEvent($this->readEvent($result[1]));
 				$event_sponsor->setPerson($this->readPerson($result[2]));
-				$event_sponsor->setOrganization(readOrganization($result[3]));
+				$event_sponsor->setOrganization($this->readOrganization($result[3]));
 				$event_sponsors[] = $event_sponsor;
 			}// end while
 		} else {
@@ -1705,7 +1877,7 @@
 				$event_sponsor->setId($result[0]);
 				$event_sponsor->setEvent($this->readEvent($result[1]));
 				$event_sponsor->setPerson($this->readPerson($result[2]));
-				$event_sponsor->setOrganization(readOrganization($result[3]));
+				$event_sponsor->setOrganization($this->readOrganization($result[3]));
 				$event_sponsors[] = $event_sponsor;
 			}// end while
 		} else {
@@ -1781,9 +1953,9 @@
 				$event_types[] = $event_type;
 			}// end while
 		} else {
-			$event_type = false;
+			$event_types = false;
 		}
-		return $event_type;
+		return $event_types;
 	}// end function
 
 	// expense_type // --------------------
@@ -1870,20 +2042,17 @@
 		return $id;
 	}// end function
 
-	public function readFoh($id) {
+	public function readFoh_by_person($id) {
 		global $con;
-		$sql = 'SELECT * FROM foh WHERE id = ' . $id . '';
+                $sql = "SELECT * FROM foh WHERE person_id = '{$id}'";
 		$this->open();
 		$results = mysql_query($sql, $con);
 		$this->close();
 		if ($results) {
-			$fohs = array();
-			while($result = mysql_fetch_array($results)) {
-				$foh = new Foh();
+			$result = mysql_fetch_array($results);
+                                $foh = new Foh;
 				$foh->setEvent($this->readEvent($result[0]));
 				$foh->setPerson($this->readPerson($result[1]));
-				$fohs[] = $foh;
-			}// end while
 		} else {
 			$foh = false;
 		}
@@ -1930,9 +2099,9 @@
 
 	// guest_list // --------------------
 
-	public function createGuest_list($guest_list, $array) {
+	public function createGuest_list($eventId, $personId) {
 		global $con;
-		$sql = "INSERT INTO guest_list (event_id, person_id, attended) VALUES ({$array})";
+                $sql = "INSERT INTO guest_list (event_id, person_id) VALUES ('{$eventId}', '{$personId}');";
 		$this->open();
 		$results = mysql_query($sql, $con);
 		$id = ($results) ? mysql_insert_id() : $results;
@@ -1942,7 +2111,7 @@
 
 	public function readGuest_list($id) {
 		global $con;
-		$sql = 'SELECT * FROM guest_list WHERE id = ' . $id . '';
+		$sql = 'SELECT * FROM guest_list WHERE person_id = ' . $id . '';
 		$this->open();
 		$results = mysql_query($sql, $con);
 		$this->close();
@@ -1956,9 +2125,44 @@
 				$guest_lists[] = $guest_list;
 			}// end while
 		} else {
-			$guest_list = false;
+			$guest_lists = false;
 		}
-		return $guest_list;
+		return $guest_lists;
+	}// end function
+        
+        public function readGuest_list_by_event($id) {
+		global $con;
+		$sql = 'SELECT * FROM guest_list WHERE event_id = ' . $id . '';
+		$this->open();
+		$results = mysql_query($sql, $con);
+		$this->close();
+		if ($results) {
+			$guest_lists = array();
+			while($result = mysql_fetch_array($results)) {
+				$guest_list = new Guest_list();
+				$guest_list->setEvent($this->readEvent($result[0]));
+				$guest_list->setPerson($this->readPerson($result[1]));
+				$guest_list->setAttended($result[2]);
+				$guest_lists[] = $guest_list;
+			}// end while
+		} else {
+			$guest_lists = false;
+		}
+		return $guest_lists;
+	}// end function
+        
+        public function countGuest_list($id) {
+		global $con;
+		$sql = 'SELECT * FROM guest_list WHERE event_id = ' . $id . ' AND attended = 1;';
+		$this->open();
+		$results = mysql_query($sql, $con);
+		$this->close();
+		if ($results) {
+                    $guestListCount = mysql_num_rows($results);
+		} else {
+			$guestListCount = false;
+		}
+		return $guestListCount;
 	}// end function
 
 	public function updateGuest_list($guest_list) {
@@ -2606,9 +2810,12 @@
 
 	// interest // --------------------
 
-	public function createInterest($interest, $array) {
+	public function createInterest($interest) {
 		global $con;
-		$sql = "INSERT INTO interest (id, type_id, title, description) VALUES ({$array})";
+                $type_id = $interest->getType();
+                $title = $interest->getTitle();
+                $description = $interest->getDescription();
+                $sql = "INSERT INTO interest (type_id, title, description) VALUES ('{$type_id}', '{$title}', '{$description}')";
 		$this->open();
 		$results = mysql_query($sql, $con);
 		$id = ($results) ? mysql_insert_id() : $results;
@@ -2623,15 +2830,33 @@
 		$results = mysql_query($sql, $con);
 		$this->close();
 		if ($results) {
-			$interests = array();
-			while($result = mysql_fetch_array($results)) {
+			$result = mysql_fetch_array($results);
 				$interest = new Interest();
 				$interest->setId($result[0]);
 				$interest->setType($this->readInterest_type($result[1]));
 				$interest->setTitle($result[2]);
 				$interest->setDescription($result[3]);
-				$interests[] = $interest;
-			}// end while
+		} else {
+			$interest = false;
+		}
+		return $interest;
+	}// end function
+        
+        public function readInterestbyType($id) {
+		global $con;
+		$sql = 'SELECT * FROM interest WHERE type_id = ' . $id . '';
+		$this->open();
+		$results = mysql_query($sql, $con);
+		$this->close();
+		if ($results) {
+			while($result = mysql_fetch_array($results)) {
+				$interest = new Interest();
+				$interest->setId($this->readInterested_in($result[0]));
+				$interest->setType($this->readInterest_type($result[1]));
+				$interest->setTitle($result[2]);
+				$interest->setDescription($result[3]);
+                                $interests[] = $interest;
+                        }
 		} else {
 			$interests = false;
 		}
@@ -2680,9 +2905,11 @@
 
 	// interest_type // --------------------
 
-	public function createInterest_type($interest_type, $array) {
+	public function createInterest_type($interestType) {
 		global $con;
-		$sql = "INSERT INTO interest_type (id, title, description) VALUES ({$array})";
+                $title = $interestType->getTitle();
+                $description = $interestType->getDescription();
+		$sql = "INSERT INTO interest_type (title, description) VALUES ('{$title}', '{$description}')";
 		$this->open();
 		$results = mysql_query($sql, $con);
 		$id = ($results) ? mysql_insert_id() : $results;
@@ -2697,14 +2924,11 @@
 		$results = mysql_query($sql, $con);
 		$this->close();
 		if ($results) {
-			$interest_types = array();
-			while($result = mysql_fetch_array($results)) {
+			$result = mysql_fetch_array($results);
 				$interest_type = new Interest_type();
 				$interest_type->setId($result[0]);
 				$interest_type->setTitle($result[1]);
 				$interest_type->setDescription($result[2]);
-				$interest_types[] = $interest_type;
-			}// end while
 		} else {
 			$interest_type = false;
 		}
@@ -2764,22 +2988,79 @@
 
 	public function readInterested_in($id) {
 		global $con;
-		$sql = 'SELECT * FROM interested_in WHERE volunteer_id = ' . $id . '';
+		$sql = 'SELECT * FROM interested_in WHERE interest_id = ' . $id . '';
 		$this->open();
 		$results = mysql_query($sql, $con);
 		$this->close();
 		if ($results) {
-			$interested_ins = array();
+                    $interested_ins = array();
 			while($result = mysql_fetch_array($results)) {
 				$interested_in = new Interested_in();
 				$interested_in->setVolunteer($this->readVolunteer($result[0]));
 				$interested_in->setInterest($this->readInterest($result[1]));
-				$interested_ins[] = $interested_in;
+                                $interested_ins[] = $interested_in;
 			}// end while
 		} else {
 			$interested_ins = false;
 		}
 		return $interested_ins;
+	}// end function
+        
+        public function readInterested_in_by_volunteer($id) {
+		global $con;
+		$sql = 'SELECT * FROM interested_in WHERE volunteer_id = ' . $id . '';
+		$this->open();
+		$results = mysql_query($sql, $con);
+		$this->close();
+		if ($results) {
+                    $interested_ins = array();
+			while($result = mysql_fetch_array($results)) {
+				$interested_in = new Interested_in();
+				$interested_in->setVolunteer($this->readVolunteer($result[0]));
+				$interested_in->setInterest($this->readInterest($result[1]));
+                                $interested_ins[] = $interested_in;
+			}// end while
+		} else {
+			$interested_ins = false;
+		}
+		return $interested_ins;
+	}// end function
+        
+         public function readNot_Interested_in_by_volunteer($id) {
+		global $con;
+		$sql = 'SELECT * FROM interested_in WHERE volunteer_id = ' . $id . '';
+		$this->open();
+		$results = mysql_query($sql, $con);
+		$this->close();
+		if ($results) {
+                    $interested_ins = array();
+			while($result = mysql_fetch_array($results)) {
+				$interested_in = new Interested_in();
+				$interested_in->setVolunteer($this->readVolunteer($result[0]));
+				$interested_in->setInterest($this->readInterest($result[1]));
+                                $interested_ins[] = $interested_in;
+			}// end while
+		} else {
+			$interested_ins = false;
+		}
+		return $interested_ins;
+	}// end function
+        
+        public function readInterested_in_NA($id) {
+		global $con;
+		$sql = 'SELECT * FROM interested_in WHERE interest_id = ' . $id . '';
+		$this->open();
+		$results = mysql_query($sql, $con);
+		$this->close();
+		if ($results) {
+			$result = mysql_fetch_array($results);
+				$interested_in = new Interested_in();
+				$interested_in->setVolunteer($this->readVolunteer($result[0]));
+				$interested_in->setInterest($this->readInterest($result[1]));
+		} else {
+			$interested_in = false;
+		}
+		return $interested_in;
 	}// end function
 
 	public function updateInterested_in($interested_in) {
@@ -3347,9 +3628,11 @@
 
 	// organization // --------------------
 
-	public function createOrganization($organization, $array) {
+	public function createOrganization($organization) {
 		global $con;
-		$sql = "INSERT INTO organization (id, name, contact_id) VALUES ({$array})";
+                $name = $organization->getName();
+                $address_id = $organization->getAddress();
+                $sql = "INSERT INTO organization (name, address_id) VALUES ('{$name}', '{$address_id}')";
 		$this->open();
 		$results = mysql_query($sql, $con);
 		$id = ($results) ? mysql_insert_id() : $results;
@@ -3364,18 +3647,36 @@
 		$results = mysql_query($sql, $con);
 		$this->close();
 		if ($results) {
-			$organizations = array();
-			while($result = mysql_fetch_array($results)) {
-				$organization = new Organization();
-				$organization->setId($result[0]);
-				$organization->setName($result[1]);
-				$organization->setContact(readContact($result[2]));
-				$organizations[] = $organization;
-			}// end while
+                    $result = mysql_fetch_array($results);
+                        $organization = new Organization();
+                        $organization->setId($result[0]);
+                        $organization->setName($result[1]);
+                        $organization->setAddress($this->readAddress($result[2]));
 		} else {
 			$organization = false;
 		}
 		return $organization;
+	}// end function
+        
+        public function readOrganizationByName($orgName) {
+		global $con;
+                $sql = "SELECT * FROM organization WHERE name LIKE '%{$orgName}%';";
+		$this->open();
+		$results = mysql_query($sql, $con);
+		$this->close();
+		if ($results) {
+                    $organizations = array();
+                    while($result = mysql_fetch_array($results)) {
+                        $organization = new Organization();
+                        $organization->setId($result[0]);
+                        $organization->setName($result[1]);
+                        $organization->setAddress($this->readAddress($result[2]));
+                        $organizations[] = $organization;
+                    } //end while
+		} else {
+			$organizations = false;
+		}
+		return $organizations;
 	}// end function
 
 	public function updateOrganization($organization) {
@@ -3408,7 +3709,7 @@
 				$organization = new Organization();
 				$organization->setId($result[0]);
 				$organization->setName($result[1]);
-				$organization->setContact($this->readContact($result[2]));
+				$organization->setAddress($this->readAddress($result[2]));
 				$organizations[] = $organization;
 			}// end while
 		} else {
@@ -3431,23 +3732,19 @@
 
 	public function readOrganization_contact($id) {
 		global $con;
-		$sql = 'SELECT * FROM organization_contact WHERE id = ' . $id . '';
+		$sql = 'SELECT * FROM organization_contact WHERE organization_id = ' . $id . '';
 		$this->open();
 		$results = mysql_query($sql, $con);
 		$this->close();
 		if ($results) {
-			$organization_contacts = array();
-			while($result = mysql_fetch_array($results)) {
-				$organization_contact = new Organization_contact();
-				$organization_contact->setOrganization(readOrganization($result[0]));
-				$organization_contact->setPerson($this->readPerson($result[1]));
-				$organization_contact->setPhone($result[2]);
-				$organization_contact->setExt($result[3]);
-				$organization_contact->setFax($result[4]);
-				$organization_contacts[] = $organization_contact;
-			}// end while
+                    $result = mysql_fetch_array($results);
+                        $organization_contact = new Organization_contact();
+                        $organization_contact->setOrganization($this->readOrganization($result[0]));
+                        $organization_contact->setPerson($this->readPerson($result[1]));
+                        $organization_contact->setExt($result[3]);
+                        $organization_contact->setFax($result[4]);
 		} else {
-			$organization_contact = false;
+                    $organization_contact = false;
 		}
 		return $organization_contact;
 	}// end function
@@ -3480,7 +3777,7 @@
 			$organization_contacts = array();
 			while($result = mysql_fetch_array($results)) {
 				$organization_contact = new Organization_contact();
-				$organization_contact->setOrganization(readOrganization($result[0]));
+				$organization_contact->setOrganization($this->readOrganization($result[0]));
 				$organization_contact->setPerson($this->readPerson($result[1]));
 				$organization_contact->setPhone($result[2]);
 				$organization_contact->setExt($result[3]);
@@ -3517,7 +3814,7 @@
 				$organization_donation = new Organization_donation();
 				$organization_donation->setId($result[0]);
 				$organization_donation->setDonation(readDonation($result[1]));
-				$organization_donation->setOrganization(readOrganization($result[2]));
+				$organization_donation->setOrganization($this->readOrganization($result[2]));
 				$organization_donations[] = $organization_donation;
 			}// end while
 		} else {
@@ -3556,7 +3853,7 @@
 				$organization_donation = new Organization_donation();
 				$organization_donation->setId($result[0]);
 				$organization_donation->setDonation(readDonation($result[1]));
-				$organization_donation->setOrganization(readOrganization($result[2]));
+				$organization_donation->setOrganization($this->readOrganization($result[2]));
 				$organization_donations[] = $organization_donation;
 			}// end while
 		} else {
@@ -3651,9 +3948,28 @@
 
 	// person // --------------------
 
-	public function createPerson($person, $array) {
+	public function createPerson($person) {
 		global $con;
-		$sql = "INSERT INTO person (id, title, first_name, last_name, gender, dob, marital_status_id, contact_id) VALUES ({$array})";
+                $title = $person->getTitle();
+                $fName = $person->getFirst_name();
+                $lName = $person->getLast_name();
+                switch ($title) {
+                    case 'Mr.':
+                        $gender = 'Male';
+                        break;
+                    case 'Mrs.':
+                        $gender = 'Female';
+                        break;
+                    case 'Ms.':
+                        $gender = 'Female';
+                        break;
+                    case 'Dr.':
+                        $gender = 'Other';
+                        break;
+                    default:
+                        $gender = 'other';
+                }
+		$sql = "INSERT INTO person (id, title, first_name, last_name, gender, dob, marital_status_id, contact_id) VALUES ({})";
 		$this->open();
 		$results = mysql_query($sql, $con);
 		$id = ($results) ? mysql_insert_id() : $results;
@@ -3707,6 +4023,25 @@
 			$persons = false;
 		}
 		return $persons;
+	}// end function
+        
+        public function readPersonByOrg($org) {
+		global $con;
+                $sql = "SELECT id FROM organization WHERE name LIKE '%{$org}%';";
+		$this->open();
+		$results = mysql_query($sql, $con);
+		$this->close();
+		if ($results) {
+			$organizations = array();
+			while($result = mysql_fetch_array($results)) {
+				$organization = new Organization();
+				$organization->setId($this->readOrganization_contact($result[0]));
+				$organizations[] = $organization;
+			}// end while
+		} else {
+			$organizations = false;
+		}
+		return $organizations;
 	}// end function
 
 	public function updatePerson($pid, $person) {
@@ -4486,22 +4821,44 @@
 		$results = mysql_query($sql, $con);
 		$this->close();
 		if ($results) {
-			$schedules = array();
-			while($result = mysql_fetch_array($results)) {
+                                $result = mysql_fetch_array($results);
 				$schedule = new Schedule();
 				$schedule->setId($result[0]);
-				$schedule->setSchedule(readSchedule($result[1]));
+				$schedule->setSchedule($this->readEvent($result[1]));
 				$schedule->setStart_time($result[2]);
 				$schedule->setEnd_time($result[3]);
 				$schedule->setDescription($result[4]);
-				$schedule->setInterest(readInterest($result[5]));
+				$schedule->setInterest_id($this->readInterest($result[5]));
 				$schedule->setMax_num_people($result[6]);
-				$schedules[] = $schedule;
-			}// end while
 		} else {
 			$schedule = false;
 		}
 		return $schedule;
+	}// end function
+        
+        public function readSchedule_by_event($id) {
+		global $con;
+		$sql = 'SELECT * FROM schedule WHERE event_id = ' . $id . '';
+		$this->open();
+		$results = mysql_query($sql, $con);
+		$this->close();
+		if ($results) {
+                        $schedules = array();
+			while($result = mysql_fetch_array($results)) {
+				$schedule = new Schedule();
+				$schedule->setId($result[0]);
+				$schedule->setSchedule($this->readSchedule($result[1]));
+				$schedule->setStart_time($result[2]);
+				$schedule->setEnd_time($result[3]);
+				$schedule->setDescription($result[4]);
+				$schedule->setInterest_id($this->readInterest($result[5]));
+				$schedule->setMax_num_people($result[6]);
+                                $schedules[] = $schedule;
+                        } //end while
+		} else {
+			$schedules = false;
+		}
+		return $schedules;
 	}// end function
 
 	public function updateSchedule($schedule) {
@@ -4533,7 +4890,7 @@
 			while($result = mysql_fetch_array($results)) {
 				$schedule = new Schedule();
 				$schedule->setId($result[0]);
-				$schedule->setSchedule(readSchedule($result[1]));
+				$schedule->setSchedule($this->readEvent($result[1]));
 				$schedule->setStart_time($result[2]);
 				$schedule->setEnd_time($result[3]);
 				$schedule->setDescription($result[4]);
@@ -4704,9 +5061,9 @@
 				$states[] = $state;
 			}// end while
 		} else {
-			$state = false;
+			$states = false;
 		}
-		return $state;
+		return $states;
 	}// end function
 
 	// status_change // --------------------
@@ -4876,8 +5233,7 @@
 		$results = mysql_query($sql, $con);
 		$this->close();
 		if ($results) {
-			$volunteers = array();
-			while($result = mysql_fetch_array($results)) {
+			$result = mysql_fetch_array($results);
 				$volunteer = new Volunteer();
 				$volunteer->setId($result[0]);
 				$volunteer->setPerson($this->readPerson($result[1]));
@@ -4892,8 +5248,6 @@
 				$volunteer->setAvail_wkend($result[10]);
 				$volunteer->setEmergency_name($result[11]);
 				$volunteer->setEmergency_phone($result[12]);
-				$volunteers[] = $volunteer;
-			}// end while
 		} else {
 			$volunteer = false;
 		}

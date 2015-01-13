@@ -30,7 +30,7 @@
 </style>
 
 <script>
-	
+    //hides and shows the div if clicked on
     function swap(divNo) {
     	e=document.getElementById("div"+divNo);
     	eButton=document.getElementById("button"+divNo);
@@ -45,6 +45,7 @@
 		}// end if-else
     }// end function
 
+    //vaidates text input for event creation using regex
     function validate(evt) {
   var theEvent = evt || window.event;
   var key = theEvent.keyCode || theEvent.which;
@@ -56,7 +57,8 @@
   }
 }
 
-function retrieveScheduleSlot(m,n) {
+//gets the value of person and schedule id, opens an alert box then asks if the user wants to delete
+    function retrieveScheduleSlot(m,n) {
 	document.getElementById("scheduleSlotId").value=m;
 	document.getElementById("personId").value=n;
 	var deleteScheduleSlot=confirm("Are you sure you want to\ndelete this volunteer\nfrom this schedule");
@@ -65,7 +67,8 @@ function retrieveScheduleSlot(m,n) {
 			document.getElementById("deleteScheduleSlot").submit();
 		}
 }
-	
+
+//gets the value of schedule id, opens an alert box then asks if the user wants to edit or delete
 function retrieveSchedule(n) {
 	document.getElementById("scheduleId").value=n;
 	var editSchedule=prompt("Press OK to edit,\n or\n type DELETE and press OK to delete","edit");
@@ -103,18 +106,15 @@ function retrieveSchedule(n) {
 
 		<?php 
 		$event_id= isset($_SESSION['eventId']) ? $_SESSION['eventId'] : 'null';
-		$Event= readEventByID($event_id);
-		$Event_type= readEvent_Types();
-
-		foreach ($Event as $EventItem) {
-		}
-		?>
+		$event= readEventByID($event_id);
+		$event_type= readEvent_Types();
+?>
 		
 		<input type="hidden" name="eventId" id="eventId" value=<?php echo $event_id ?> >
 		<table cellspacing="10" class="intTable">
 			<tr>
 				<td>Title:<span class="mandatory">*</span></td>
-				<td><input type="text" name="title" id="title" value="<?php echo $EventItem->getTitle(); ?>" ></td>
+				<td><input type="text" name="title" id="title" value="<?php echo $event->getTitle(); ?>" ></td>
 			<tr>
 			
 			<tr>	
@@ -122,8 +122,11 @@ function retrieveSchedule(n) {
 				<td><select name="type">
 						<option value ="" selected="selected">Choose Type</option>
 						<?php
-						foreach ($Event_type as $EventTypeItem){ ?>
-							<option value= <?php echo $EventTypeItem->getType_id(); echo " "; if($EventItem->getType()==$EventTypeItem->getType_id()) {echo "selected"; } ?> > <?php echo $EventTypeItem->getTitle() ?> </option>		
+						foreach ($event_type as $eventTypeItem){ ?>
+                                                    <option value= <?php echo $eventTypeItem->getId(); echo " ";
+                                                        if($event->getType()->getId()==$eventTypeItem->getId()) {
+                                                            echo "selected"; } ?> > 
+                                                                <?php echo $eventTypeItem->getTitle() ?> </option>		
 						<?php }// end foreach ?>
 
 					</select>
@@ -133,31 +136,32 @@ function retrieveSchedule(n) {
 				<td><select name="committee">
 						<option value ="">Choose Committee</option>
 			 			<?php
-						$committes= readCommittees(); 
+						$committes= listCommittees(); 
 						foreach ($committes as $committeItem){ ?>
-							<option value= <?php echo $committeItem->getCommittee_id(); echo " "; if($EventItem->getCommittee()==$committeItem->getCommittee_id()) {echo "selected"; }?> > <?php echo $committeItem->getTitle() ?> </option>		
+							<option value= <?php echo $committeItem->getId(); echo " "; if($e->getCommittee()->getId()==$committeItem->getId()) {echo "selected"; }?> > <?php echo $committeItem->getTitle() ?> </option>		
 						<?php }// end foreach ?>
 					</select>
 				</td>
 			</tr>
 
 			
-			<tr><td>Date: <span class="mandatory">*</span></td><td><input type="text" name="date" value="<?php echo $EventItem->getDate(); ?>"> <label>YYYY-MM-DD</label></td></tr>
-			<tr><td>Start Time: <span class="mandatory">*</span></td><td><input type="text" name="time" value="<?php echo $EventItem->getTime(); ?>"> <label>HH:MM:SS</label></td></tr>
-			<tr><td>End Time: <span class="mandatory">*</span></td><td><input type="text" name="endTime" value="<?php echo $EventItem->getEndTime(); ?>"> <label>HH:MM:SS</label></td></tr>
+			<tr><td>Date: <span class="mandatory">*</span></td><td><input type="text" name="date" value="<?php echo $event->getDate(); ?>"> <label>YYYY-MM-DD</label></td></tr>
+			<tr><td>Start Time: <span class="mandatory">*</span></td><td><input type="text" name="time" value="<?php echo $event->getStart_time(); ?>"> <label>HH:MM:SS</label></td></tr>
+			<tr><td>End Time: <span class="mandatory">*</span></td><td><input type="text" name="endTime" value="<?php echo $event->getEnd_time(); ?>"> <label>HH:MM:SS</label></td></tr>
 
 			<?php 
-			$Address = readAddressByID($EventItem->getAddress()); ?>
+                            $Address = $event->getAddress_id();
+                        ?>
 
-			<input type="hidden" name="addressId" id="addressId" value=<?php echo $Address->getAddress_id(); ?> >
+			<input type="hidden" name="addressId" id="addressId" value=<?php echo $Address->getId(); ?> >
 
 			<tr><td>Street 1: <span class="mandatory">*</span></td><td><input type="text" name="street1" id="street2" value="<?php echo $Address->getStreet1(); ?>"></td></tr>
 			<tr><td>Street 2: </td><td><input type="text" name="street2" id="street2" value="<?php echo $Address->getStreet2(); ?>" ></td></tr>
 			<tr><td>City: <span class="mandatory">*</span></td><td><input type="text" name="city" id="city" value="<?php echo $Address->getCity(); ?>"></td></tr>
-			<tr><td>State: <span class="mandatory">*</span></td><td><input type="text" name="state" id="state" value="<?php echo $Address->getState(); ?>"></td></tr>
+			<tr><td>State: <span class="mandatory">*</span></td><td><input type="text" name="state" id="state" value="<?php echo $Address->getState()->getTitle(); ?>"></td></tr>
 			<tr><td>Zip code: <span class="mandatory">*</span></td><td><input type="text" name="zipcode" id="zipcode" value="<?php echo $Address->getZip(); ?>"></td></tr>
 
-			<tr><td>Sponsor: <span class="mandatory">*</span></td><td><input type="text" name="sponsor" id="sponsor" value="<?php echo $EventItem->getSponsoredBy(); ?>"></td></tr>
+			<tr><td>Sponsor: <span class="mandatory">*</span></td><td><input type="text" name="sponsor" id="sponsor" value="<?php echo $event->getSponsored(); ?>"></td></tr>
 
 		</table> 
 
@@ -180,13 +184,14 @@ function retrieveSchedule(n) {
 		
 		<?php $Guests = readGuestsByEvent($event_id);
 		foreach($Guests as $guests){
+                    $guest = $guests->getPerson();
 			?>
 			<tr>
-				<td><?php echo $guests->getTitle(); ?> </td>
-				<td><?php echo $guests->getFirst_name(); ?> </td>
-				<td><?php echo $guests->getLast_name(); ?> </td>
-				<td><?php echo $guests->getGender(); ?> </td>
-				<td><?php echo $guests->getDob(); ?> </td>
+				<td><?php echo $guest->getTitle(); ?> </td>
+				<td><?php echo $guest->getFirst_name(); ?> </td>
+				<td><?php echo $guest->getLast_name(); ?> </td>
+				<td><?php echo $guest->getGender(); ?> </td>
+				<td><?php echo $guest->getDob(); ?> </td>
 
 			</tr>
 		<?php } ?>
@@ -204,7 +209,7 @@ function retrieveSchedule(n) {
 				<th>Description</th>
 				<th>Start Time</th>
 				<th>End Time</th>
-				<th>Interests</th>
+				<!--<th>Interests</th>-->
 				<th>Max Number Of People</th>
 			</tr>
 
@@ -215,16 +220,16 @@ function retrieveSchedule(n) {
 				<input name="scheduleId" type="hidden" id="scheduleId" value="0">
 				<?php $EventSchedule= getEventSchedules($event_id);
 				foreach ($EventSchedule as $EventScheduleItem){
-				$interest = readInterest($EventScheduleItem->getInterest_interest_id());
+//				$interest = readInterest($EventScheduleItem->getInterest_interest_id());
 				?>
 			
 				<tr onclick="retrieveSchedule(<?php echo $EventScheduleItem->getId(); ?>)">
 			</form>
 				<td> <?php echo $EventScheduleItem->getDescription(); ?> </td>
-				<td> <?php echo $EventScheduleItem->gettimeStart(); ?> </td>
-				<td> <?php echo $EventScheduleItem->gettimeEnd(); ?> </td>
-				<td> <?php echo $interest[0]->getInterest_title(); ?> </td>
-				<td> <?php echo $EventScheduleItem->getMaxNumPeople(); ?> </td>
+				<td> <?php echo $EventScheduleItem->getStart_time(); ?> </td>
+				<td> <?php echo $EventScheduleItem->getEnd_time(); ?> </td>
+				<!--<td> <?php // echo $interest->getInterest_title(); ?> </td>-->
+				<td> <?php echo $EventScheduleItem->getMax_num_people(); ?> </td>
 			</tr>
 			
 			<form id="deleteScheduleSlot" action="index.php" method="GET">
@@ -255,7 +260,7 @@ function retrieveSchedule(n) {
 			</form>
 						<?php $i++;
 					} 
-						if($i<$EventScheduleItem->getMaxNumPeople() || is_null($EventScheduleItem->getMaxNumPeople())) {
+						if($i<$EventScheduleItem->getMax_num_people() || is_null($EventScheduleItem->getMax_num_people())) {
 							?>
 							<form name="input" action="index.php" method="get">
 								<input name="dir" type="hidden" value="<?php echo $dir; ?>" >
@@ -269,7 +274,7 @@ function retrieveSchedule(n) {
 											<?php 
 												$volunteers = getVolunteers();
 												foreach($volunteers as $volunteer) {
-													?> <option value="<?php echo $volunteer->getPerson_id(); ?>" name="volunteer"><?php echo $volunteer->getFirst_name() . " " . $volunteer->getLast_name(); ?></option>
+													?> <option value="<?php echo $volunteer->getId(); ?>" name="volunteer"><?php echo $volunteer->getFirst_name() . " " . $volunteer->getLast_name(); ?></option>
 												<?php } ?>
 										</select>
 									</td>

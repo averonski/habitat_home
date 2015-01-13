@@ -5,19 +5,20 @@
 	// AUTHOR: 
 	//displays an accounts info, and allows it to be updated
 
-        //person
+        //person object
 	$title = $person->getTitle();
 	$fName = $person->getFirst_name();
 	$lName = $person->getLast_name();
         
-        //address
+        //address object
 	$street1 = $address->getStreet1();
 	$street2 = $address->getStreet2();
 	$city = $address->getCity();
 	$state = $address->getState();
 	$zip = $address->getZip();
         
-        //contact
+        //contact object
+        //some things have been commented out due to not bein in the new database
 	$phone = $contact->getPhone();
 	$email = $_SESSION['username'];
 	//$employer = $person->getEmployer();
@@ -31,6 +32,8 @@
 ?>
 
 <!--html-->
+<!--form for showing and updating the data-->
+<!--some things have been commented out due to not bein in the new database-->
 <h2>Personal Information</h2>
 
 <hr>

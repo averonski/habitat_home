@@ -15,7 +15,8 @@
 
         //updates DB or defaults to base page
 	switch ($act) {
-
+                
+                //updates volunteers availability
 		case 'updateAvailability':
                    
                     //sets and gets volunteer availibility

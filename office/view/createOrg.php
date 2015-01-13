@@ -42,10 +42,15 @@
       <label for="inputState" class="col-lg-2 control-label">State :</label>
       <div class="col-lg-10">
         <select name="state">
-		    <option value="MD">MD</option>
-		    <option value="PA" selected="selected">PA</option>
-		    <option value="TX">TX</option>
-		</select>
+            <?php
+                $states = listState();
+                foreach($states as $state) {
+                    ?>
+                        <option name = "<?php echo $state->getTitle() ?>" value = "<?php echo $state->getId() ?>"> <?php echo $state->getTitle() ?> </option>
+                    <?php
+                }
+            ?>
+        </select>
 		<span class="required">*</span>
       </div>
     </div>
@@ -56,7 +61,7 @@
     <span class="required">*</span></label>
       </div>
     </div>
-    <div class="form-group">
+    <!-- <div class="form-group">
       <label for="inputphone" class="col-lg-2 control-label">Phone :</label>
       <div class="col-lg-10">
         <input name="phone" type="text" placeholder="phone"  >
@@ -81,8 +86,8 @@
       <div class="col-lg-10">
        <input name="workExt" type="text" placeholder="ext"  >
 		<span class="required">*</span>
-      </div>
-    </div>
+      </div> 
+    </div> -->
     
     <input type="submit" value="Create">
 </form>

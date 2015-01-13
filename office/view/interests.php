@@ -4,8 +4,8 @@
 	// FILE: office/view/interests.php
 	// AUTHOR: Brandon Willis; bmw5285
 
-if($updated)
-      echo '<div class="alert alert-dismissable alert-success"><button type="button" class="close" data-dismiss="alert">×</button><strong>UPDATED</strong> You successfully updated the information.</div>';
+//if($updated)
+//     echo '<div class="alert alert-dismissable alert-success"><button type="button" class="close" data-dismiss="alert">×</button><strong>UPDATED</strong> You successfully updated the information.</div>';
 
 ?>
 
@@ -236,33 +236,24 @@ function dropDownMenu()
 			<option value="" disabled selected>-Select Interest-</option> <!-- drop down menu option; default -->
 			<?php //creates drop down menu options AND alphabetizes 
 				require_once 'class/interest.php';
-				$ints = $dbio->listInterests();
+				$ints = $dbio->listInterest();
 				$hold = array();
 				foreach($ints as &$int)
 				{
 					$interestId = $int->getId();
 					$interest = $int->getTitle();
-					//$holdInterest[] = $interest;
-					//$holdArray = array($interest, $interestId);
-					//$holdInterest[] = $holdArray;
 					echo "<option value = '{$interestId}' name = '{$interest}'>{$interest}</option>";
-				}
-				//array_multisort($interest, SORT_DESC, $holdInterest);
-				//foreach($holdInterest as &$val)
-				{
-					//$sortedInt = $val;
-					//echo "<option value = '{$interestId}' name = '{$sortedInt}'>{$sortedInt}</option>";
 				}
 			?>
 		</select>
 		<select id='vol2' name="id" action="model/interests.php" method="POST" style="display:none">" <!--watch difference between double and single quotes; 3hr+ wasted-->
 		<option value="" disabled selected>-Select Interest Type-</option> <!-- drop down menu option; default -->
 			<?php
-				$intTypes = $dbio->listInterestTypes();
+				$intTypes = $dbio->listInterest_type();
 				foreach ($intTypes as &$intType)
 				{
 					$interestType = $intType->getTitle();
-					$interestId = $intType->getType_Id();
+					$interestId = $intType->getId();
 					echo "<option value = '{$interestId}' name = '{$interestType}'>{$interestType}</option>";
 				}
 

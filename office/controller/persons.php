@@ -40,7 +40,7 @@
 		case 'list':
 			include_once 'office/model/persons.php';
 			$tableinfo = read();
-			$page = $dir . '/view/viewPersons.php';
+			$page = $dir . '/view/listPerson.php';
 			break;
 
 		case 'migrate':

@@ -2,46 +2,12 @@
 <?php
 
 	session_start();
-	
 	//hello
-	//----- SESSION
-
-	require_once 'root/config.php'; // CONFIG
-	
-
-	// REQUIRES/INCLUDES
-	/*require_once('class/accnt.php');
-	require_once('class/donationtype.php');
-	require_once('class/organization.php');
-	require_once('class/foh.php');
-	require_once('class/person.php');
-	require_once('class/donatedby.php');
-	require_once('class/contact.php');
-	include_once ('class/donation.php');
-	require_once('class/address.php');
-	require_once ('class/link.php');
-	require_once ('class/item.php');
-	require_once ('class/interest.php');
-	include_once ('class/interest_type.php');
-	require_once ('class/event.php');
-	require_once ('class/event_type.php');
-	require_once ('class/committee.php');
-	require_once('class/availability.php');
-	require_once('class/consent.php');
-	require_once('class/volunteerEvents.php');
-	require_once('class/schedule.php');
-	require_once('class/volunteer_has_schedule.php');
-	require_once('class/work.php');
-	require_once ('class/volunteerInterest.php');
-	require_once ('class/auction_item.php');
-	require_once ('model/dbio_des301.php');
-	require_once ('class/volunteer.php');
-	require_once ('class/volunteer_has_interest.php');
-	require_once('class/workHistory.php');
-	//require_once('model/databaseio.php');
-	//require_once('model/urlio.php');
-	//require_once('model/sessionio.php');*/
+        //hola
         
+	//----- SESSION
+        //includes all needed class files
+	require_once 'root/config.php'; // CONFIG
         require_once ('model/dbio_des301_9-13-2014.php');
         require_once('class/account.php');
         require_once('class/account_recovery.php');
@@ -108,16 +74,16 @@
         require_once('class/volunteer.php');
         require_once('class/work.php');
 	
+        //includes dbio
 	$dbio = new DBIO();
 	
-	$dir = isset($_GET['dir']) ? $_GET['dir'] : DEFAULT_DIR;
-    $sub = isset($_GET['sub']) ? $_GET['sub'] : false;
-    $act = isset($_GET['act']) ? $_GET['act'] : false;
-    $msg = isset($_GET['msg']) ? $_GET['msg'] : false;
+        //default directory and serves page based on act
+        $dir = isset($_GET['dir']) ? $_GET['dir'] : DEFAULT_DIR;
+        $sub = isset($_GET['sub']) ? $_GET['sub'] : false;
+        $act = isset($_GET['act']) ? $_GET['act'] : false;
+        $msg = isset($_GET['msg']) ? $_GET['msg'] : false;
 	
 	$page = $dir . '/controller/' . (($sub) ? $sub : $dir) . '.php';
-	
-	// gateway(); // GATEWAY
 	
 	include $page; // controller call
 	
@@ -168,7 +134,8 @@
 			<div id="body">
 			<div id="mainnav">
 			<div id="mainNav">
-                            <?php 
+                            <?php
+                            //logic for what page to serve on logon
                             if ($dir!='login') {
 
                                 $isAdmin = false;

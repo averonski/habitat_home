@@ -34,8 +34,7 @@
 		
 	</tr>
 	<?php 
-	$Event= readEvents();
-	$Event_type= readEvent_Types();
+	$Event = readEvents();
 	$pastEventFlag=0;
 
 	foreach ($Event as $EventItem) { 
@@ -58,33 +57,28 @@
 			}
 		}?>
 
-	<tr onclick="retrieve(<?php echo $EventItem->getEvent_id(); ?>);">
+	<tr onclick="retrieve(<?php echo $EventItem->getId(); ?>);">
 
 		<td><?php echo $EventItem->getTitle(); ?></td>
 		<td><?php echo $EventItem->getDate(); ?></td>
-		<td><?php echo $EventItem->getTime(); ?></td>
+		<td><?php echo $EventItem->getStart_time(); ?></td>
 			
-			<?php foreach ($Event_type as $EventTypeItem){ 					//Entering Event Type title from its ID
-				if($EventItem->getType()==$EventTypeItem->getType_id()){ ?>
-					<td><?php echo $EventTypeItem->getTitle(); ?></td> 
-			<?php }//end if
-			}// end foreach ?>
-
+                <td><?php echo $EventItem->getType()->getTitle(); ?></td> 
 		<td>
-			<?php 
-			$EventNumberOfGuests = countEventGuest($EventItem->getEvent_id());	//Number of Guests attending the event
-			echo $EventNumberOfGuests; ?> 
+                    <?php 
+                    $EventNumberOfGuests = countEventGuest($EventItem->getId());	//Number of Guests attending the event
+                    echo $EventNumberOfGuests; ?> 
 		</td>
 
 		<td>
 		<?php 
-		$Address = readAddressByID($EventItem->getAddress());
+		$Address = $EventItem->getAddress_id();
 
-		echo $Address->getStreet1() . " , " . $Address->getStreet2() . " , " . $Address->getCity() . " , " . $Address->getState() . " , " . $Address->getZip();
+		echo $Address->getStreet1() . " , " . $Address->getStreet2() . " , " . $Address->getCity() . " , " . $Address->getState()->getTitle() . " , " . $Address->getZip();
 		?>
 		</td>
 		<!--<td><?php echo $EventItem->getCommittee(); ?></td> -->
-		<td><?php echo $EventItem->getSponsoredBy(); ?></td>
+		<td><?php echo $EventItem->getSponsored_id(); ?></td>
 	</tr>
 	<?php }// end foreach ?>
 

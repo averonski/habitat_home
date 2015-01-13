@@ -32,7 +32,7 @@
 		public function getTime() {return $this->time;}
 		public function getDetails() {return $this->details;}
 		public function getWhen_entered() {return $this->when_entered;}
-		public function getDonor_id() {return $this->donor_id;}
+		public function getDonor() {return $this->donor_id;}
 		public function getOffice() {return $this->office;}
 		public function getDonation_type() {return $this->donation_type;}
 		public function getPledge() {return $this->pledge;}
@@ -43,7 +43,7 @@
 		public function setTime($time) {$this->time = $time;}
 		public function setDetails($details) {$this->details = $details;}
 		public function setWhen_entered($when_entered) {$this->when_entered = $when_entered;}
-		public function setDonor_id($donor_id) {$this->donor_id = $donor_id;}
+		public function setDonor($donor_id) {$this->donor_id = $donor_id;}
 		public function setOffice($office) {$this->office = $office;}
 		public function setDonation_type($donation_type) {$this->donation_type = $donation_type;}
 		public function setPledge($pledge) {$this->pledge = $pledge;}

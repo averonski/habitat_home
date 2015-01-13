@@ -3,9 +3,9 @@
 	// FILE: Registration Review View
 
 	// AUTHOR: des301
-
-	global $dir;
+        // registraion landing page
 	
+        global $dir;
 	$progress = 5;
 	$act = 'getInfo';
 	

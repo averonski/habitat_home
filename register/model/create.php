@@ -29,6 +29,7 @@
 	$account->title = $_GET['title'];
 	$account->cellPhone = $_GET['cellPhone'];
 
+        //creates account
 	$dbio->addAccount($account);
 
 ?>

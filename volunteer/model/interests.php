@@ -3,7 +3,8 @@
     // FILE: Volunteer Interest Model
     // AUTHOR: des301
     
-   
+   //updates a volunteers interests
+   //this section has not been tested due to the view not working
    function update() {
         global $dbio;
 
@@ -12,6 +13,8 @@
                
         return $updated;
     }
+    
+    //im not sure what this graveyard is, it was here when I arrived. May it RIP in peace
    /* 
     $vid = $_GET['vid'];
     $userInterests = $_GET['int[]'];

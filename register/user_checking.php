@@ -1,21 +1,24 @@
 <?php 
 
+//gets username, password, and bolean check on password
 $UserName  = $_POST['username']; 
 $PassWord  = $_POST['password']; 
 $PassCheck = $_POST['passwordcheck']; 
 
+//connects to db
 $Connection = mysql_connect("localhost","root","root"); 
 if (!$Connection) { 
   die ('Could not connect to database...'); 
   } 
 mysql_select_db("homes_db", $Connection); 
 
+//verifies of username exists
 $Get   = "SELECT Username FROM Accounts WHERE Username='$UserName'";
 $Query = mysql_query($Get,$Connection); 
 $Rows  = mysql_affected_rows($Query); 
-
 mysql_close($Connection); 
 
+//conditionals for username and password
 if (strlen($UserName)>30  || empty($UserName)) { 
   echo 'Your username is either too long or you have not filled out the field.  Your username cannot be more that 30 characters.'; 
   } 

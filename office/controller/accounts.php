@@ -25,7 +25,6 @@
 
 		case 'viewAccount':
 			include_once 'office/model/accounts.php';
-			$tableinfo = edit();
 			$page = $dir . '/view/editAccount.php';
 			break;
 

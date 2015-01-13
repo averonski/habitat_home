@@ -20,21 +20,22 @@
 
 	$donations = $tableinfo[0];
 	$donors = $tableinfo[1];
-	echo '<table class="table table-striped table-hover " style="width:100%"><tr><th>Type</th><th>Details</th><th>Value</th><th>Date</th><th>Time</th><th>From</th><th>Where</th></tr>';
+        //print_r($donations);
+	echo '<table class="table table-striped table-hover " style="width:100%"><tr><th>Type</th><th>Details</th><th>Value</th><th>Date</th><th>Time</th><th>From</th></tr>';
 		
 	foreach ($donations as $donation) {
-		echo '<tr onclick="retrieve(' . $donation->getDonation_id() . ');">';
-		echo '<td>' . $donation->getType() . '</td>';
+		echo '<tr onclick="retrieve(' . $donation->getId() . ');">';
+		echo '<td>' . $donation->getDonation_Type()->getTitle() . '</td>';
 		echo '<td>' . $donation->getDetails() . '</td>';
 		echo '<td>' . $donation->getValue() . '</td>';
 		echo '<td>' . $donation->getDate() . '</td>';
 		echo '<td>' . $donation->getTime() . '</td>';
 		foreach ($donors as $donor) {
-			if($donation->getDonation_id() == $donor->getDonation_id() )
+			if($donation->getDonation_id() == $donor->getDonation_id()) {
 				$donation->setDonor($donor->getDonatedby());
 		}		
-		echo '<td>' . $donation->getDonor() . '</td>';
-		echo '<td>' . $donation->getEvent() . '</td>';
+		echo '<td>' . $donation->getDonor_id() . '</td>';
+		//echo '<td>' . $donation->getEvent_id() . '</td>';
 		echo '</tr>';
 	}
 	

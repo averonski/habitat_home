@@ -19,8 +19,8 @@
 
 	function countEventGuest($event_id){
 		global $dbio;
-		$eventNumberGuests = $dbio->countEventGuests($event_id);
-		return $eventNumberGuests;	
+		$eventNumberGuests = $dbio->countGuest_list($event_id);
+		return $eventNumberGuests;
 	}
 
 	function searchEvent($event_type_id) {
@@ -29,9 +29,9 @@
 		return $events;
 	}
 	
-	function readCommittees(){
+	function listCommittees(){
 		global $dbio;
-		$committees = $dbio->readAllCommittee();
+		$committees = $dbio->listCommittee();
 		return $committees;
 	}
 
@@ -49,13 +49,13 @@
 
 	function readGuestsByEvent($event_id){
 		global $dbio;
-		$guests= $dbio->readGuestsByEvent($event_id);
+		$guests= $dbio->readGuest_list_by_event($event_id);
 		return $guests;
 	}
 
 	function getEventSchedules($event_id){
 		global $dbio;
-		$eventSchedules= $dbio->readEventSchedule($event_id);
+		$eventSchedules= $dbio->readSchedule_by_event($event_id);
 		return $eventSchedules;
 	}
 
@@ -73,7 +73,7 @@
 	
 	function getEventScheduleSlots($scheduleId) {
 		global $dbio;
-		$eventScheduleSlots= $dbio->readScheduleSlot($scheduleId);
+		$eventScheduleSlots= $dbio->readSchedule($scheduleId);
 		return $eventScheduleSlots;
 	}
 	
@@ -89,13 +89,13 @@
 	
 	function getVolunteers() {
 		global $dbio;
-		$volunteers = $dbio->listPersons();
+		$volunteers = $dbio->listPerson();
 		return $volunteers;
 	}
 	
 	function getInterests() {
 		global $dbio;
-		$interests = $dbio->listInterests();
+		$interests = $dbio->listInterest();
 		return $interests;
 	}
 	
@@ -117,7 +117,7 @@
 	
 	function readInterest($interestId) {
 		global $dbio;
-		$interest = $dbio->readInterests($interestId);
+		$interest = $dbio->readInterest($interestId);
 		return $interest;
 	}
 	

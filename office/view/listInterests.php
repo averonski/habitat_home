@@ -10,7 +10,8 @@
 		// window.location = url;
 	}
 </script>
-<style>#alignment
+<style>
+#alignment
 {
 position:relative;
 float:left;

@@ -27,15 +27,10 @@ width:100%;
 <input name="pid" id="pid" type="hidden" value="0">
 <?php 
 	$persons = $tableinfo;
-        //print_r($persons[1]);
-	//$contacts = $tableinfo[1];
-	//$fohs = $tableinfo[2];
-	//$events = $tableinfo[3];
-
-	echo '<table class="table table-striped table-hover " style="width:100%"><tr><th>Title</th><th>First Name</th><th>Last Name</th><th>DOB</th><th>Phone</th><th>Street 1</th><th>Street 2</th><th>State</th><th>City</th><th>Zip</th><!--<th>Friends From</th>--></tr>';
-		
-		foreach ($persons as $person) {
-			echo '<tr onclick="retrieve(' . $person->getId() . ');">';
+        if ($_GET['searchBy'] == 'name') {
+            echo '<table class="table table-striped table-hover " style="width:100%"><tr><th>Title</th><th>First Name</th><th>Last Name</th><th>DOB</th><th>Phone</th><th>Street 1</th><th>Street 2</th><th>State</th><th>City</th><th>Zip</th><!--<th>Friends From</th>--></tr>';
+                    foreach ($persons as $person) {
+                        echo '<tr onclick="retrieve(' . $person->getId() . ');">';
                             echo '<td>' . $person->getTitle() . '</td>';
                             echo '<td>' . $person->getFirst_name() . '</td>';
                             echo '<td>' . $person->getLast_name() . '</td>';
@@ -46,16 +41,28 @@ width:100%;
                             echo '<td>' . $person->getContact()->getAddress()->getState()->getTitle() . '</td>';
                             echo '<td>' . $person->getContact()->getAddress()->getCity() . '</td>';
                             echo '<td>' . $person->getContact()->getAddress()->getZip() . '</td>';
-//                        $length = count($fohs);
-//                        $i = 0;
-//                        for ($i = 0; $i < $length; $i++) {
-//                                        if($fohs[$i]->getPerson() == $person->getPerson_id()){
-//                                                echo '<td>' . $events[$i]->getTitle() . '</td>';
-//                                        }
-//                      }
-                }
-			echo '</tr>';		
-		echo '</table>';
+                    }
+                            echo '</tr>';		
+                    echo '</table>';
+        } else {
+            echo '<table class="table table-striped table-hover " style="width:100%"><tr><th>Title</th><th>First Name</th><th>Last Name</th><th>DOB</th><th>Phone</th><th>Street 1</th><th>Street 2</th><th>State</th><th>City</th><th>Zip</th><!--<th>Friends From</th>--></tr>';
+                    foreach ($persons as $person) {
+                        echo '<tr onclick="retrieve(' . $person->getId()->getPerson()->getId() . ');">';
+                            echo '<td>' . $person->getId()->getPerson()->getTitle() . '</td>';
+                            echo '<td>' . $person->getId()->getPerson()->getFirst_name() . '</td>';
+                            echo '<td>' . $person->getId()->getPerson()->getLast_name() . '</td>';
+                            echo '<td>' . $person->getId()->getPerson()->getDob() . '</td>';
+                            echo '<td>' . $person->getId()->getPerson()->getContact()->getPhone() . '</td>';
+                            echo '<td>' . $person->getId()->getPerson()->getContact()->getAddress()->getStreet1() . '</td>';
+                            echo '<td>' . $person->getId()->getPerson()->getContact()->getAddress()->getStreet2() . '</td>';
+                            echo '<td>' . $person->getId()->getPerson()->getContact()->getAddress()->getState()->getTitle() . '</td>';
+                            echo '<td>' . $person->getId()->getPerson()->getContact()->getAddress()->getCity() . '</td>';
+                            echo '<td>' . $person->getId()->getPerson()->getContact()->getAddress()->getZip() . '</td>';
+                    }
+                            echo '</tr>';		
+                    echo '</table>';
+        }
+        
 ?>
 </form>
 </div>

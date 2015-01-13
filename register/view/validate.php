@@ -4,7 +4,7 @@
     // AUTHOR: des301
 
     global $dbio;
-
+    //sets variables needed for login session
     $title = isset($_SESSION['title']) ? $_SESSION['title'] : 'null';
     $fname = isset($_SESSION['fname']) ? $_SESSION['fname'] : 'null';
     $lname = isset($_SESSION['lname']) ? $_SESSION['lname'] : 'null';
@@ -48,7 +48,7 @@
 
 ?>
 
-
+<!--this section if for the user to validates their registration settings-->
 <h4>Please validate your info</h4>
 <br/>
 <?php include 'progress.php'; ?>
@@ -89,19 +89,14 @@
         <?php
             $count=1;
             $interestIds='';
-
             foreach ($interests as $i) {
-                
                 If($count==1){
                 $interestIds= $interestIds . $i;
-                }
-
-                else{
+                }else{
                    $interestIds= $interestIds . ',' . $i; 
                 }
-
                 $count++;
-                }
+            }
 
             $selectedInterests = $dbio->getInterestsByIds($interestIds);
             foreach($selectedInterests as $int){

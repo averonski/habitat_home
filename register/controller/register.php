@@ -13,62 +13,38 @@
 
     switch ($act) {
 
-	
+        //confirms all settings then destroys the registration session
 	case 'confirm':
-	    // session_start();
 	    $progress = 6;
 	    include ('view/confirm.php');
 	    session_destroy();
-	    break;
+        break;
 
-	
+	//not sure
 	case 'submit':
-	    // CODE HERE
 	    include ('admin/model/create.php');
-	    //header ('index.php&dir=admin&sub=create&act=confirm&msg=' . $msg);
-	    break;
+        break;
 
-	
+        //validates password and moves to next page or sends back to old page
 	case 'validate':
-	    // session_start();
-	  //   $use=($_GET['userName']);
-	  //   $usernameCheck=$dbio->getUsername($use);
-	  //   if($use==$usernameCheck)
-	  //   {
-	  //   	$act = 'validate';
-	  //   	$progress = 4;
-	  //   	include ('view/password.php');
-	  //   	print '<script type="text/javascript">'; 
-			// print 'alert("The Username '. $use .' is already registered. Please try a different username!")'; 
-			// print '</script>';
-	  //   }
+            $password1=($_GET['pw1']);
+            $password2=($_GET['pw2']);
+	    if($password1 != $password2) {
+                    $act = 'validate';
+                    $progress = 4;
+                    include ('view/password.php');
+	    	} else {
+                    $_SESSION['userName'] = (isset($_GET['userName'])) ? $_GET['userName'] : '';
+                    $_SESSION['password'] = (isset($_GET['pw1'])) ? $_GET['pw1'] : '';
 
-	    
-	    	$password1=($_GET['pw1']);
-	    	$password2=($_GET['pw2']);
-	    if($password1 != $password2)
-	    	{
-	    		$act = 'validate';
-	    		$progress = 4;
-	    		include ('view/password.php');
+                    $progress = 5;
+                    $act = 'confirm';
+                    include ('view/validate.php');
 	    	}
+         break;
 
-	    else
-	    	{
-	    		$_SESSION['userName'] = (isset($_GET['userName'])) ? $_GET['userName'] : '';
-	    		$_SESSION['password'] = (isset($_GET['pw1'])) ? $_GET['pw1'] : '';
-	  
-	    		$progress = 5;
-	    		$act = 'confirm';
-	    		include ('view/validate.php');
-	    	}
-	    
-
-	    
-	    break;
-
+        //sets availability and consent 
 	case 'setPassword':
-	    // session_start();
 	    $_SESSION['church'] = isset($_GET['church']) ? $_GET['church'] : '';
 	    $_SESSION['ambassador'] = isset($_GET['ambassador']) ? $_GET['ambassador'] : '';
 	    $_SESSION['organization'] = isset($_GET['organization']) ? $_GET['organization'] : '';
@@ -90,28 +66,25 @@
 	    $act = 'validate';
 	    $progress = 4;
 	    include ('view/password.php');
-	    break;
+        break;
 	
-	
+	//sets interests
 	case 'getOther':
-	    // session_start();
 	    $items = array();
 
 	    If(!empty($_GET['interest'])){
-			foreach(($_GET['interest']) as $username) {
- 			$items[] = $username;
-			}
-		}
+                foreach(($_GET['interest']) as $username) {
+                $items[] = $username;
+                }
+            }
 		$_SESSION['interest'] = ($items);
-	    
 		$progress = 3;
 	    $act = 'setPassword';
 	    include ('view/other.php');
-	    break;
+        break;
 
-	
+	//sets person, contacts, address, and email
 	case 'getInterests':
-	    // session_start();
 	    $_SESSION['title'] = isset($_GET['title']) ? $_GET['title'] : '';
 	    $_SESSION['fname'] = isset($_GET['fname']) ? $_GET['fname'] : '';
 	    $_SESSION['lname'] = isset($_GET['lname']) ? $_GET['lname'] : '';
@@ -130,8 +103,6 @@
 	    $_SESSION['emergencyphone'] = isset($_GET['emergencyphone']) ? $_GET['emergencyphone'] : '';
 	    $_SESSION['maritial'] = isset($_GET['maritial']) ? $_GET['maritial'] : '';
 
-	    //**************************************************************************************************
-
 	    $email=($_GET['email']);
 	    $usernameCheck=$dbio->getUsername($email);
 	    if($email == $usernameCheck){
@@ -139,45 +110,30 @@
 	    	$progress = 1;
 	    	include ('view/info.php');
 	    	print '<script type="text/javascript">'; 
-			print 'alert("The Email '. $email .' is already registered. Please try a different Email!")'; 
-			print '</script>';
-	    }
-
-	    else{
+                    print 'alert("The Email '. $email .' is already registered. Please try a different Email!")'; 
+                print '</script>';
+	    } else {
 	    	$_SESSION['email'] = isset($_GET['email']) ? $_GET['email'] : '';
 	    	$progress = 2;
 	    	$act = 'getOther';
 	    	include ('view/interests.php');
 	    }
-
-
-
-
-	    //***************************************************************************************************
-
-	    
-
-	    
-	    break;
+        break;
 	
-	
+	//starts registration process
 	case 'getInfo':
-
-		session_destroy();    
+            session_destroy();    
 	    $lifetime = 30 * 60;// 60 seconds * 30 minutes = 1800 seconds
 	    session_set_cookie_params($lifetime, '/');
-	
-	    //if(isset($_COOKIE["PHPSESSID"])) {echo 'session started';}
-	    
 	    $progress = 1;
 	    $act = 'getInterests';
 	    include ('view/info.php');
-	    break;
+        break;
 
-
+        
 	default:
 	    include ('view/register.php');
-	    break;
+        break;
 
     }// end switch
 

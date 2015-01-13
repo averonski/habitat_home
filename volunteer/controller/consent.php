@@ -10,6 +10,7 @@
 
 	switch ($act) {
 
+                //updates a volunteers consent
 		case 'updateConsent':
                     $personid=$_SESSION['personid'];
                     $minor= (isset($_GET['less18'])) ? $_GET['less18'] : '';

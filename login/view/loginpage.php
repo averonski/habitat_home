@@ -12,7 +12,7 @@ global $msg;
 $act='loginCheck';
 
 ?>
-
+ <!--script checks if both username and password have been entered-->
 <script type="text/javascript">
 		//checks if username or password is blank or undefined; if either is it prompts for info enrty; else submits the data
 		function verify()
@@ -36,6 +36,7 @@ $act='loginCheck';
             }
 </script>
 
+<!--login page. has form for username and password, registering, and forgot password-->
 	<div class="body">
 	<img src="img/habitat_logo.jpg" alt="Habitat for Humanity Logo" height="198px" width="600px" />
 
@@ -65,6 +66,3 @@ $act='loginCheck';
             </form>  
         </div>
 </div>
-<!-- Hosting24 Analytics Code -->
-<!--<script type="text/javascript" src="http://stats.hosting24.com/count.php"></script> -->
-<!-- End Of Analytics Code -->

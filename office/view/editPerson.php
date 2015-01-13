@@ -15,26 +15,30 @@
  
  
     $person = $tableinfo[0];
-    $contact = $tableinfo[1];
-    $address = $tableinfo[2];
-    $event = $tableinfo[3];
-    $isVol = $tableinfo[4];
+    $foh = $tableinfo[1];
+    $isVol = $tableinfo[2];
+    
     $title = $person->getTitle();
     $fName = $person->getFirst_name();
     $lName = $person->getLast_name();
-    $street1 = $address->getStreet1();
-    $street2 = $address->getStreet2();
-    $city = $address->getCity();
-    $state = $address->getState();
-    $zip = $address->getZip();
-    $phone = $contact->getPhone();
-    $email = $contact->getEmail();
-    $eventname = $event->getTitle();
-    $workPhone = $contact->getPhone2();
-    $workExt = $contact->getExtension();
-    $employer = $person->getEmployer();
-    $jobTitle = $person->getJobtitle();
-    $maritial = $person->getMarital_status();
+    
+    $street1 = $person->getContact()->getAddress()->getStreet1();
+    $street2 = $person->getContact()->getAddress()->getStreet2();
+    $city = $person->getContact()->getAddress()->getCity();
+    $state = $person->getContact()->getAddress()->getState()->getTitle();
+    $zip = $person->getContact()->getAddress()->getZip();
+    
+    $phone = $person->getContact()->getPhone();
+    $workPhone = $person->getContact()->getPhone2();
+    $email = $person->getContact()->getEmail()->getEmail();
+    
+    $eventname = $foh->getEvent();
+    print_r($eventname);
+    
+    //$workExt = $contact->getExtension();
+    //$employer = $person->getEmployer();
+    //$jobTitle = $person->getJobtitle();
+    $maritial = $person->getMarital_status()->getTitle();
     if($updated)
 		echo '<div class="alert alert-dismissable alert-success"><button type="button" class="close" data-dismiss="alert">×</button><strong>UPDATED</strong> You successfully updated the information.</div>';
 ?>
@@ -62,7 +66,7 @@
 <form id="editpersonform" action="index.php" method="GET" class="form-horizontal">
     <input name="dir" type="hidden" value="<?php echo $dir; ?>" >
     <input name="sub" type="hidden" value="<?php echo $sub; ?>" >
-    <input name="pid" type="hidden" value="<?php echo $person->getPerson_id(); ?>" >
+    <input name="pid" type="hidden" value="<?php echo $_SESSION['personid']; ?>" >
     <input id="act" name="act" type="hidden" value="update" >
     <fieldset>
     <legend>Person Info</legend>
@@ -144,31 +148,31 @@
 		<span class="required">*</span>
       </div>
     </div>
-    <div class="form-group">
+<!--    <div class="form-group">
       <label for="inputemployer" class="col-lg-2 control-label">Employer :</label>
       <div class="col-lg-10">
-       <input name="employer" type="text" placeholder="employer" value="<?php echo $employer; ?>" >
+       <input name="employer" type="text" placeholder="employer" value="<?php// echo $employer; ?>" >
       </div>
-    </div>
-    <div class="form-group">
+    </div>-->
+<!--    <div class="form-group">
       <label for="inputjobtitle" class="col-lg-2 control-label">Job Title :</label>
       <div class="col-lg-10">
-       <input name="jobtitle" type="text" placeholder="job title" value="<?php echo $jobTitle; ?>" >
+       <input name="jobtitle" type="text" placeholder="job title" value="<?php //echo $jobTitle; ?>" >
       </div>
-    </div>
+    </div>-->
     <div class="form-group">
       <label for="inputworkPhone" class="col-lg-2 control-label">Work Phone :</label>
       <div class="col-lg-10">
       	<input name="workPhone" type="text" placeholder="work phone" value="<?php echo $workPhone; ?>" >
       </div>
     </div>
-    <div class="form-group">
+<!--    <div class="form-group">
       <label for="inputworkExt" class="col-lg-2 control-label">Extension :</label>
       <div class="col-lg-10">
-       <input name="workExt" type="text" placeholder="ext" value="<?php echo $workExt; ?>" >
+       <input name="workExt" type="text" placeholder="ext" value="<?php //echo $workExt; ?>" >
 		<span class="required">*</span>
       </div>
-    </div>
+    </div>-->
     <div class="form-group">
      <label for="inputMarriage" class="col-lg-2 control-label">Maritial Status :</label>
     <div class="col-lg-10">

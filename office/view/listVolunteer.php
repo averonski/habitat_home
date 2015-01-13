@@ -41,7 +41,6 @@
 		<table>
 		<?php
                 echo '<table class="table table-striped table-hover " style="width:100%"><tr><th>Title</th><th>First Name</th><th>Last Name</th><th>Phone</th><th>Street 1</th><th>Address 2</th><th>City</th><th>State</th><th>Zip</th><th>Email</th></tr>';
-		    print_r($volunteers[0]);
                    foreach  ($volunteers as $volunteer) {
 
                             $person_id = $volunteer->getPerson()->getId();

@@ -1,4 +1,6 @@
 <?php
+//dont know
+
 global $act;
  global $msg;
 $act = 'getInterests';

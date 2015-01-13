@@ -1,8 +1,8 @@
 <?php
 	
 	// FILE: Registration Interests View
-
 	// AUTHOR: dum5002
+        //user enters their contact preferences and consent info
 
 	global $act;
 	global $msg;
@@ -54,7 +54,7 @@
     }
     </style>-->
 
-
+    <!--checks if the organization you work for is in the database-->
     <script type="text/javascript">
     
        function showTextBox(){
@@ -96,7 +96,7 @@
     // }// end function
     </script>
 
-
+<!--form for entering preferences and consent information-->
 <h4>Other Information</h4>
 <br/>
 <?php include 'progress.php'; ?>
@@ -175,6 +175,7 @@
     </script></td></tr></table><br/>
     <br/>
 
+    <!--verifies that required fields have been entered-->
     <script type="text/javascript">
         function checkSubmit() {
 

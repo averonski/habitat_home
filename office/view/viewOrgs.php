@@ -41,14 +41,14 @@ width:100%;
 		for ($i = 0; $i < $length; $i++) {
 			echo '<tr onclick="retrieve(' . $orgs[$i]->getId() . ');">';
 			echo '<td>' . $orgs[$i]->getName() . '</td>';
-			echo '<td>' . $orgs[$i]->getContact()->getAddress()->getStreet1() . '</td>';
-			echo '<td>' . $orgs[$i]->getContact()->getAddress()->getStreet2() . '</td>';
-			echo '<td>' . $orgs[$i]->getContact()->getAddress()->getCity() . '</td>';
-			echo '<td>' . $orgs[$i]->getContact()->getAddress()->getState()->getTitle() . '</td>';
-			echo '<td>' . $orgs[$i]->getContact()->getAddress()->getZip() . '</td>';
-			echo '<td>' . $orgs[$i]->getContact()->getEmail()->getEmail() . '</td>';
-			echo '<td>' . $orgs[$i]->getContact()->getPhone() . '</td>';
-			echo '<td>' . $orgs[$i]->getContact()->getPhone2() . '</td>';
+			echo '<td>' . $orgs[$i]->getAddress()->getStreet1() . '</td>';
+			echo '<td>' . $orgs[$i]->getAddress()->getStreet2() . '</td>';
+			echo '<td>' . $orgs[$i]->getAddress()->getCity() . '</td>';
+			echo '<td>' . $orgs[$i]->getAddress()->getState()->getTitle() . '</td>';
+			echo '<td>' . $orgs[$i]->getAddress()->getZip() . '</td>';
+			//echo '<td>' . $orgs[$i]->getContact()->getEmail()->getEmail() . '</td>';
+			//echo '<td>' . $orgs[$i]->getContact()->getPhone() . '</td>';
+			//echo '<td>' . $orgs[$i]->getContact()->getPhone2() . '</td>';
 			//echo '<td>' . $contacts[$i]->getExtension() . '</td>';
 			echo '</tr>';		
 		}

@@ -11,13 +11,10 @@
                     $parameter = $_GET['param'];
                     $value1 = $_GET['i1'];
                     $value2 = $_GET['i2'];
-                  
-                    
                     include $dir . '/model/' . $sub . '.php';
                     $employee = listEmployeeBy($value1, $value2);
                     $page = $dir . '/view/list' . ucfirst($sub) . '.php';
- 
-			break;
+                break;
 
 		case 'create':
                     $parameter = $_GET['param'];
@@ -34,32 +31,31 @@
                     
                     include $dir . '/model/' . $sub . '.php';
                     $volunteers = createEmployeeBy($parameter);
-                    $page = $dir . '/view/create' . ucfirst($sub) . '.php';
-                    
-			break;
+                    $page = $dir . '/view/create' . ucfirst($sub) . '.php';     
+                break;
 
 		case 'read':
 			// CODE HERE
-			break;
+                break;
 
 		case 'edit':
-			include $dir . '/model/' . $sub . '.php';
-                        $page = $dir . '/view/edit' . ucfirst($sub) . '.php';
-			break;
+                    include $dir . '/model/' . $sub . '.php';
+                    $page = $dir . '/view/edit' . ucfirst($sub) . '.php';
+                break;
 
 		case 'delete':
 			// CODE HERE
-			break;
+                break;
 
 		case 'list':
                     include $dir . '/model/' . $sub . '.php';
                     $volunteers = listEmployee();
                     $page = $dir . '/view/list' . ucfirst($sub) . '.php';
-			break;
+                break;
 
 		default:
 			$page = $dir . '/view/' . (($sub) ? $sub : $dir) . '.php';
-			break;
+                break;
 
 
 	}// end switch

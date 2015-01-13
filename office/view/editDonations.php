@@ -6,24 +6,27 @@
 
     if($updated)
 		echo '<div class="alert alert-dismissable alert-success"><button type="button" class="close" data-dismiss="alert">×</button><strong>UPDATED</strong> You successfully updated the information.</div>';
-
-    $donation = $donationInfo[0];
-    $donor = $donationInfo[1];
-    $donationtypes = $donationInfo[2];
-    $type = $donation->getType();
+    
+    // donation object for selcted donation
+    $donation = $donationInfo;
+    $type = $donation->getDonation_type();
     $details = $donation->getDetails();
     $value = $donation->getValue();
-    $date = $donation->getDate();
+    $date = $donation->getWhen_entered();
     $time = $donation->getTime();
-    $event = $donation->getEvent();
-    $donor = $donor->getDonatedby();
+    $donor = $donation->getDonor_id();
+    
+    //all donation types
+    $dontationTypes = listDonationTypes();
+    
+    
 ?>
 
 <hr>
 <form action="index.php" method="GET" class="form-horizontal">
     <input name="dir" type="hidden" value="<?php echo $dir; ?>" >
     <input name="sub" type="hidden" value="<?php echo $sub; ?>" >
-    <input name="did" type="hidden" value="<?php echo $donation->getDonation_id() ?>" >
+    <input name="did" type="hidden" value="<?php echo $donation->getId() ?>" >
     <input name="act" type="hidden" value="update" >
     <fieldset>
     <legend>Donation Info</legend>
@@ -32,12 +35,10 @@
   <label for="inputtype" class="col-lg-2 control-label">Type :</label>
       <div class="col-lg-10">
       <select name="types" id="typelist" type="text">
-    <?php 
-    foreach ($donationtypes as $dt) {
-      if($dt->getTypeName() == $type)
-        echo "<option value = '" . $dt->getIdDonationType() . "' name = '" . $dt->getTypeName() . "' selected='selected'>" . $dt->getTypeName() . "</option>";   
-      else
-        echo "<option value = '" . $dt->getIdDonationType() . "' name = '" . $dt->getTypeName() . "'>" . $dt->getTypeName() . "</option>";   
+    <?php
+    echo "<option value = '" . $type->getId() . "' name = '" . $type->getTitle() . "' selected='selected' disabled='disabled'>" . $type->getTitle() . "</option>";
+    foreach ($dontationTypes as $type) {   
+        echo "<option value = '" . $type->getId() . "' name = '" . $type->getTitle() . "'>" . $type->getTitle() . "</option>";   
     }
     ?>
   </select>

@@ -14,18 +14,15 @@
 </div>
 
 <div style="padding-left: 10px;">
-<?php
-	$act = (isset($_GET['act'])) ? $_GET['act'] : '';
-	$msg = (isset($_GET['msg'])) ? $_GET['msg'] : '';
-	require_once('class/item.php');
-	require_once('class/interest.php');
-	require_once ('model/dbio_register.php');
-	require_once('class/organization.php');
-	$dbio= new DBIO();
-
-		
-	include 'controller/register.php';
-
-	
-?>
+    <?php
+            //sets all required files
+            $act = (isset($_GET['act'])) ? $_GET['act'] : '';
+            $msg = (isset($_GET['msg'])) ? $_GET['msg'] : '';
+            require_once('class/item.php');
+            require_once('class/interest.php');
+            require_once ('model/dbio_register.php');
+            require_once('class/organization.php');
+            $dbio= new DBIO();	
+            include 'controller/register.php';
+    ?>
 </div>

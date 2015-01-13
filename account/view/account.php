@@ -33,6 +33,7 @@
 <hr>
 
 <!--list of links-->
+<!--account landing page-->
 <dl>
     <dt class="list"><a href="index.php?dir=account&sub=info">Personal Information</a></dt>
         <dd class="list">Edit/View your personal info in your Habitat account</dd>

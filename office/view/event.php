@@ -64,9 +64,10 @@ height:35px;
 	<select id="eventType" name="eventType" method="get">
 		
 		 <?php
-		 $Event_type= readEvent_Types(); 
+		 $Event_type = readEvent_Types(); 
+                 print_r($Event_type);
 		 foreach ($Event_type as $EventTypeItem){ ?>
-			<option value= <?php echo $EventTypeItem->getType_id(); ?> > <?php echo $EventTypeItem->getTitle() ?> </option>		
+			<option value= <?php echo $EventTypeItem->getId(); ?> > <?php echo $EventTypeItem->getTitle() ?> </option>		
 		<?php }// end foreach ?>
 
 	</select>

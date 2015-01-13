@@ -7,18 +7,19 @@
 
 // gets a person's id from session, and gets the preferential contact preferences
 $pid = $_SESSION['personid'];
-//$email = $person->getPrefEmail();
-//$mail = $person->getPrefMail();
-//$phone = $person->getPrefPhone();
+
+// checkes for update vairable
 if($update)
 	echo '<div class="alert alert-dismissable alert-success"><button type="button" class="close" data-dismiss="alert">×</button><strong>UPDATED</strong> You successfully updated the information.</div>';
 	
 ?>
+<!--html-->
+<!--this info is missing from the database. It may need to be added-->
 <h2>Preferences</h2>
 
 <hr>
 <br>
-<!-- input to view and update contact prefernces -->
+<!-- input to view and update contact preferences -->
 <form action="index.php" method="GET">
 	<input name="dir" type="hidden" value="<?php echo $dir; ?>" >
 	<input name="sub" type="hidden" value="<?php echo $sub; ?>" >

@@ -8,7 +8,7 @@
 	switch ($act) {
 
 		case 'selectEvent':
-			include 'office/model/event.php';
+			include_once 'office/model/event.php';
 			$page = $dir . '/view/selectEvent.php';
 			break;
 

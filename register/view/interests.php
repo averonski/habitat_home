@@ -1,8 +1,8 @@
 <?php
 	
 	// FILE: Registration Interests View
-
 	// AUTHOR: des301
+        //user selects interets out of a list
 
 	global $dir;
 	global $sub;
@@ -10,12 +10,6 @@
 	global $msg;
 	global $total;
 	global $dbio;
-
-//require_once ('C:/wamp/www/habitat_home/class/interest.php');
-//require_once ('C:/wamp/www/habitat_home/model/dbio_des301.php');
-	//$dbio= new DBIO();
-
-	
 	
 ?>
 <style>
@@ -49,6 +43,8 @@
 	}
 
 </style>
+
+<!--scripts for showing or hiding divs based on click-->
 <script>
     function swap(e) {
 	if (e.className === "hide") {
@@ -74,6 +70,8 @@
 	}// end for
     }// end function
 </script>
+
+<!--interest table for user to select interests-->
 <h4>Interests</h4>
 <br/>
 <?php include 'progress.php'; ?>

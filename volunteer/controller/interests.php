@@ -5,7 +5,8 @@
     $personId = $_SESSION['personid'];
     
     switch ($act) {
-	   
+                
+                //updates volunteers interests
 		case 'updateInterests':
 			
 			$act = 'viewInterests';

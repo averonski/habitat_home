@@ -3,6 +3,7 @@
 	// FILE: Registration Review View
 
 	// AUTHOR: des301
+        //not sure what this is for. Looks like nothing
 
 	global $dir;
 	global $sub;
